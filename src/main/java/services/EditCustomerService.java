@@ -6,13 +6,13 @@
 package services;
 
 import model.Customer;
-import services.interfaces.EditingServices;
+import services.interfaces.EntityServices;
 
 /**
  *
  * @author Gemtastic
  */
-public class EditCustomerService implements EditingServices{
+public class EditCustomerService implements EntityServices{
 
     public void edit() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

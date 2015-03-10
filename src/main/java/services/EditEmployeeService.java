@@ -5,13 +5,13 @@
  */
 package services;
 
-import services.interfaces.EditingServices;
+import services.interfaces.EntityServices;
 
 /**
  *
  * @author Gemtastic
  */
-public class EditEmployeeService implements EditingServices{
+public class EditEmployeeService implements EntityServices{
 
     public void edit() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
