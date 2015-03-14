@@ -15,7 +15,7 @@ import javafx.fxml.Initializable;
  *
  * @author Gemtastic
  */
-public class MainWindowController implements Initializable {
+public class ViewController implements Initializable {
 
     /**
      * Initializes the controller class.

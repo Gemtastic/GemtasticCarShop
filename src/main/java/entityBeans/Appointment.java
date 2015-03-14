@@ -1,4 +1,4 @@
-package model;
+package entityBeans;
 
 /**
  * Created by Gemtastic on 2015-03-05.
@@ -6,8 +6,8 @@ package model;
 public class Appointment {
     private int ID;
     private String date;
-    private int employeeIDMechanic;
-    private int employeeIDBooker;
+    private Employee mechanic;
+    private Employee booker;
     private int carID;
     private boolean performed;
     private int typeID;

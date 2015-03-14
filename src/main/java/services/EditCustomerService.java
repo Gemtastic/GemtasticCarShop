@@ -5,7 +5,7 @@
  */
 package services;
 
-import model.Customer;
+import entityBeans.Customer;
 import services.interfaces.EntityServices;
 
 /**

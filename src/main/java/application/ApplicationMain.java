@@ -1,6 +1,6 @@
 package application;
 
-import Controller.MainWindowController;
+import Controller.ViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,8 +19,8 @@ public class ApplicationMain extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         
-        loader.setController(new MainWindowController());
-        loader.setLocation(ApplicationMain.class.getResource("/fxml/MainWindow.fxml"));
+        loader.setController(new ViewController());
+        loader.setLocation(ApplicationMain.class.getResource("/fxml/View.fxml"));
         
         AnchorPane root = loader.load();
         

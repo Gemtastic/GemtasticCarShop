@@ -1,6 +1,6 @@
 package services;
 
-import model.Car;
+import entityBeans.Car;
 import services.interfaces.EntityServices;
 
 /**
