@@ -1,81 +1,81 @@
-CREATE TABLE employees (
-ID SERIAL PRIMARY KEY NOT NULL,
-phone TEXT not null,
-email text not null,
-username text not null,
-password text not null
+create table employees (
+    id serial primary key not null,
+    phone text not null,
+    email text not null,
+    username text not null,
+    password text not null
 );
 
 create table address (
-ID serial primary key not null,
-co text,
-street text not null,
-zip integer not null,
-city text not null
+    id serial primary key not null,
+    co text,
+    street text not null,
+    zip integer not null,
+    city text not null
 );
 
 create table make (
-ID serial primary key not null,
-make text not null
+    id serial primary key not null,
+    make text not null
 );
 
 
 create table car_model (
-ID serial primary key not null,
-fuel_type TEXT not null,
-model_year integer not null,
-model text not null,
-make integer not null references make
+    id serial primary key not null,
+    fuel_type text not null,
+    model_year integer not null,
+    model text not null,
+    make integer not null references make
 );
 
 
 create table car (
-ID serial primary key not null,
-license_plate text not null,
-odometer bigint not null,
-car_model integer not null references car_model
+    id serial primary key not null,
+    license_plate text not null,
+    odometer bigint not null,
+    car_model integer not null references car_model
 );
 
 
 create table customer (
-ID serial primary key not null,
-first_name text not null,
-last_name text not null,
-date_of_birth DATE not null,
-gender text not null,
-phone text,
-email text,
-address integer not null references address
+    id serial primary key not null,
+    first_name text not null,
+    last_name text not null,
+    date_of_birth date not null,
+    gender text not null,
+    phone text,
+    email text,
+    address integer not null references address
 );
 
 create table certification (
-employee integer not null references employees,
-make integer not null references make,
-unique (employee, make)
+    employee integer not null references employees,
+    make integer not null references make,
+    unique (employee, make)
 );
 
 create table appointments (
-ID serial primary key not null,
-scheduled_date timestamp not null,
-performed_date timestamp,
-type text not null,
-comments text not null,
-mechanic integer not null references employees,
-car integer not null references car,
-commissioner integer not null references customer
+    id serial primary key not null,
+    scheduled_date timestamp not null,
+    performed_date timestamp,
+    type text not null,
+    comments text not null,
+    mechanic integer not null references employees,
+    car integer not null references car,
+    commissioner integer not null references customer
 );
 
 create table ownership (
-owner integer not null references customer,
-car integer not null references car,
-unique (owner, car)
+    owner integer not null references customer,
+    car integer not null references car,
+    unique (owner, car)
 );
 
 create table malfunction_reports (
-ID serial primary key not null,
-message text not null,
-report_date date not null,
-car integer not null references car
+    id serial primary key not null,
+    message text not null,
+    report_date date not null,
+    car integer not null references car
 );
 
 

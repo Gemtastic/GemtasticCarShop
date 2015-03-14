@@ -12,7 +12,7 @@
         <dependency>
         <groupId>org.jooq</groupId>
         <artifactId>jooq</artifactId>
-        <version>3.4.1</version>
+        <version>3.5.3</version>
         </dependency>
     </dependencies>
     
@@ -80,7 +80,7 @@
                             <inputSchema>public</inputSchema>
                         </database>
                         <target>
-                            <packageName>org.jooq.util.maven.gemtasticmodels</packageName>
+                            <packageName>com.gemtastic.carshop</packageName>
                             <directory>src/main/java</directory>
                         </target>
                     </generator>
