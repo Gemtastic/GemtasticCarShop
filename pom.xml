@@ -19,6 +19,11 @@
             <artifactId>jbcrypt</artifactId>
             <version>0.3m</version>
         </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901-1.jdbc4</version>
+        </dependency>
     </dependencies>
     
     <build>
@@ -53,15 +58,6 @@
                         </goals>
                     </execution>
                 </executions>
-
-                <!-- Manage the plugin's dependency. In this example, we'll use a PostgreSQL database -->
-                <dependencies>
-                    <dependency>
-                        <groupId>postgresql</groupId>
-                        <artifactId>postgresql</artifactId>
-                        <version>9.1-901-1.jdbc4</version>
-                    </dependency>
-                </dependencies>
 
                 <!-- Specify the plugin configuration.
                 The configuration format is the same as for the standalone code generator -->
