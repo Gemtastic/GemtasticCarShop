@@ -85,7 +85,7 @@
                             <inputSchema>public</inputSchema>
                         </database>
                         <target>
-                            <packageName>com.gemtastic.carshop</packageName>
+                            <packageName>com.gemtastic.carshop.db</packageName>
                             <directory>src/main/java</directory>
                         </target>
                     </generator>
