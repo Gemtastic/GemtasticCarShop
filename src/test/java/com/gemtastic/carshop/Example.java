@@ -2,6 +2,8 @@ package com.gemtastic.carshop;
 
 import com.gemtastic.carshop.db.tables.records.MakeRecord;
 import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.RecordMapper;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
@@ -79,6 +81,22 @@ public final class Example
         jooq.insertInto(MAKE)
             .values(19, "Mercedes")
             .execute();
+
+        /*
+        jooq.selectFrom(MAKE).where(MAKE.MAKE_.eq("BMW"));
+
+        final Date nineteenFifty = new Date();
+
+        final Field<String> ageCategory = DSL.decode()
+            .when(CUSTOMER.DATE_OF_BIRTH.le(nineteenFifty), "OLD")
+            .otherwise("YOUNG")
+            .as("ageCategory");
+
+        jooq.select(ageCategory, DSL.count().as("count"))
+            .from(CUSTOMER)
+            .groupBy(ageCategory)
+            .fetch().map(new ByAgeStatsRecordMapper());
+            */
     }
 
     private static DSLContext getJooq()
@@ -87,5 +105,31 @@ public final class Example
         final Connection connection
             = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
         return DSL.using(connection, SQLDialect.POSTGRES);
+    }
+
+    private static final class ByAgeStats
+    {
+        private final String category;
+        private final int count;
+
+
+        private ByAgeStats(final String category, final int count)
+        {
+            this.category = category;
+            this.count = count;
+        }
+    }
+
+    private static final class ByAgeStatsRecordMapper
+        implements RecordMapper<Record, ByAgeStats>
+    {
+        @Override
+        public ByAgeStats map(final Record record)
+        {
+            return new ByAgeStats(
+                record.getValue("ageCategory", String.class),
+                record.getValue("count", Integer.class)
+            );
+        }
     }
 }
