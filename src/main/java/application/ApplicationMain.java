@@ -1,6 +1,6 @@
 package application;
 
-import Controller.ViewController;
+import Controller.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,17 +16,18 @@ public class ApplicationMain extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         
-        loader.setController(new ViewController());
-        loader.setLocation(ApplicationMain.class.getResource("/fxml/View.fxml"));
+        loader.setController(new LoginController());
+        loader.setLocation(ApplicationMain.class.getResource("/fxml/LogIn.fxml"));
         
         AnchorPane root = loader.load();
         
         Scene scene = new Scene(root);
         
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
     }
 }

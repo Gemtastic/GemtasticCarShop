@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entityBeans;
+package Controller.navigators;
 
 /**
  *
  * @author Gemtastic
  */
-public class MechanicCertification {
+public class CustomerNavigator {
     
 }

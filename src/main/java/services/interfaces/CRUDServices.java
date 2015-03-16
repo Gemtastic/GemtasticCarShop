@@ -3,11 +3,13 @@ package services.interfaces;
 /**
  * Created by Gemtastic on 2015-03-06.
  */
-public interface EntityServices <T> {
+public interface CRUDServices<T> {
     
-    public void edit();
+    public void create();
     
-    public T show();
+    public T read();
     
     public void delete();
+    
+    public void update();
 }

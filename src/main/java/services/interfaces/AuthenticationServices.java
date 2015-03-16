@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entityBeans;
+package services.interfaces;
 
 /**
  *
  * @author Gemtastic
  */
-public class CarMake {
+public interface AuthenticationServices {
     
+    public boolean verify(String password);
+    
+    public String hash(String password);
 }

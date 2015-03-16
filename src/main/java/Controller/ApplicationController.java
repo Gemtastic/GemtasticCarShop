@@ -8,21 +8,32 @@ package Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 
 /**
  * FXML Controller class
  *
  * @author Gemtastic
  */
-public class ViewController implements Initializable {
-
+public class ApplicationController implements Initializable {
+    
+    
+    
+    @FXML
+    private ChoiceBox cb;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        // TODO make an observable list out of the customer table
+        
+//        cb.setItems("Namn", "Efternamn", "Kundnr", "");
     }    
     
 }

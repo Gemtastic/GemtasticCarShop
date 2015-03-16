@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entityBeans;
+package services.interfaces;
 
 /**
  *
  * @author Gemtastic
  */
-public class Position {
+public interface LogInServices {
+    
+    public boolean verify();
+    
+    public boolean hash();
     
 }

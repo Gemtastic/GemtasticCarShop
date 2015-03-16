@@ -10,9 +10,14 @@
     
     <dependencies>
         <dependency>
-        <groupId>org.jooq</groupId>
-        <artifactId>jooq</artifactId>
-        <version>3.5.3</version>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq</artifactId>
+            <version>3.5.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.3m</version>
         </dependency>
     </dependencies>
     
@@ -66,8 +71,8 @@
                     <jdbc>
                         <driver>org.postgresql.Driver</driver>
                         <url>jdbc:postgresql:postgres</url>
-                        <user>postgres</user>
-                        <password>g3mt45t1c</password>
+                        <user>Gemtastic</user>
+                        <password>ps</password>
                     </jdbc>
 
                     <!-- Generator parameters -->

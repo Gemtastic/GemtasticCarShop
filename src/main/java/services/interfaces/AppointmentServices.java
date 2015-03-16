@@ -3,18 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entityBeans;
+package services.interfaces;
 
 /**
  *
  * @author Gemtastic
  */
-public class Adress {
-    // ID
-    private long id;
-    // Street
-    // C/O
-    // Zip
-    // City
-    // FKCustomerID
+public interface AppointmentServices {
+    
 }

@@ -58,8 +58,8 @@
                               </HBox>
                               <GridPane prefHeight="332.0" prefWidth="668.0" style="-fx-background-color: #ffffff;" VBox.vgrow="ALWAYS">
                                 <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="350.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.0" minWidth="10.0" prefWidth="327.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="341.0" minWidth="10.0" prefWidth="340.0" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints maxHeight="107.0" minHeight="7.0" prefHeight="54.0" vgrow="SOMETIMES" />
@@ -68,7 +68,7 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Label prefHeight="20.0" prefWidth="46.0" text="Namn:">
+                                          <Label text="Namn:">
                                              <HBox.margin>
                                                 <Insets left="30.0" />
                                              </HBox.margin>
@@ -76,12 +76,15 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label text="Label" visible="false" />
+                                          <Label text="Label" visible="false">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin></Label>
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                                        <children>
-                                          <Label prefHeight="21.0" prefWidth="55.0" text="Kundnr:">
+                                          <Label text="Kundnr:">
                                              <font>
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
@@ -89,7 +92,10 @@
                                                 <Insets left="30.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <Label text="Label" visible="false" />
+                                          <Label text="Label" visible="false">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin></Label>
                                        </children>
                                        <GridPane.margin>
                                           <Insets />
@@ -150,7 +156,7 @@
                                        <children>
                                           <HBox prefHeight="22.0" prefWidth="334.0">
                                              <children>
-                                                <Label text="Medlem sedan:">
+                                                <Label text="Antal besök:">
                                                    <font>
                                                       <Font name="System Bold" size="12.0" />
                                                    </font>
@@ -165,6 +171,23 @@
                                                 </Label>
                                              </children>
                                           </HBox>
+                                          <HBox alignment="BOTTOM_LEFT" prefHeight="39.0" prefWidth="317.0">
+                                             <children>
+                                                <Label text="Felanmälningar">
+                                                   <HBox.margin>
+                                                      <Insets left="30.0" />
+                                                   </HBox.margin>
+                                                   <font>
+                                                      <Font name="System Bold" size="12.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <ListView prefHeight="104.0" prefWidth="334.0">
+                                             <VBox.margin>
+                                                <Insets left="30.0" right="20.0" />
+                                             </VBox.margin>
+                                          </ListView>
                                        </children>
                                     </VBox>
                                  </children>
