@@ -26,7 +26,7 @@ public class CustomerCRUDService implements CRUDServices{
         
         DatabaseConnection con = new DatabaseConnection();
         
-        DSLContext create = con.connect("jdbc:postgresql:postgres", "postgres", "g3mt45t1c");
+        DSLContext create = con.connect();
         
         CustomerRecord r = create.selectFrom(CUSTOMER).where(CUSTOMER.ID.eq(1)).fetchOne();
         

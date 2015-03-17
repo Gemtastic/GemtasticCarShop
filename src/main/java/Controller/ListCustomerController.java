@@ -5,9 +5,9 @@
  */
 package Controller;
 
-import JavafxUtils;
 import static com.gemtastic.carshop.tables.Customer.CUSTOMER;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
+import com.gemtastic.carshop.util.JavafxUtils;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
@@ -38,7 +38,7 @@ public class ListCustomerController implements Initializable {
     private TableColumn<CustomerRecord, String> lastname;
     
     @FXML
-    private TableColumn<CustomerRecord, String> address;
+    private TableColumn<CustomerRecord, String> email;
     
     @FXML
     private TableColumn<CustomerRecord, String> phone;
@@ -47,21 +47,11 @@ public class ListCustomerController implements Initializable {
     private TableColumn<CustomerRecord, String> customerID;
     
     @FXML
-    private TableColumn<CustomerRecord, Date> dateOfBirth;
+    private TableColumn<CustomerRecord, String> dateOfBirth;
     
-//    public void populateTable(ObservableList<Customer> customer){
-//        customers.setItems(customer);
-//    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        
-        
-        
-        try(Connection con = DriverManager.getConnection("jdbc:postgresql:postgres", "postgres", "g3mt45t1c")){
+    public void populateTable(){
+                try(Connection con = DriverManager.getConnection("jdbc:postgresql:postgres", "postgres", "g3mt45t1c")){
             DSLContext jooq = DSL.using(con, SQLDialect.POSTGRES);
-            
-            JavafxUtils.setColumnValue(firstname, CustomerRecord::getFirstName);
             
             ObservableList<CustomerRecord> l = customers.getItems();
             
@@ -69,13 +59,36 @@ public class ListCustomerController implements Initializable {
                 l.add(r);
             }
             customers.setItems(l);
-            
-            
-            System.out.println(l + "printed l");
-//            customers = l;
 
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        
+        
+        
+//        try(Connection con = DriverManager.getConnection("jdbc:postgresql:postgres", "postgres", "g3mt45t1c")){
+//            DSLContext jooq = DSL.using(con, SQLDialect.POSTGRES);
+//            
+            JavafxUtils.setColumnValue(firstname, CustomerRecord::getFirstName);
+            JavafxUtils.setColumnValue(lastname, CustomerRecord::getFirstName);
+            JavafxUtils.setColumnValue(email, CustomerRecord::getFirstName);
+            JavafxUtils.setColumnValue(phone, CustomerRecord::getFirstName);
+            JavafxUtils.setColumnValue(customerID, CustomerRecord::getFirstName);
+            JavafxUtils.setColumnValue(dateOfBirth, CustomerRecord::getFirstName);
+//            
+//            ObservableList<CustomerRecord> l = customers.getItems();
+//            
+//            for(CustomerRecord r : jooq.fetch(CUSTOMER)){
+//                l.add(r);
+//            }
+//            customers.setItems(l);
+//
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
     }
 }

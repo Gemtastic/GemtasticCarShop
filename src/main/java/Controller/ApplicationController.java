@@ -6,6 +6,7 @@ package Controller;
  * and open the template in the editor.
  */
 
+import Controller.navigators.ApplicationNavigator;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -43,6 +44,10 @@ public class ApplicationController implements Initializable {
         if(customerSearchField.getText().isEmpty()){
             // get all the customers
             System.out.println("Is empty! :O");
+            
+            ApplicationNavigator.loadTabContent(ApplicationNavigator.listCustomers, this.customerContent);
+//            ListCustomerController c = 
+            
         }else{
             // send string and checkbox choice into the read() and deligate the result to the view.
             System.out.println("Searching!");

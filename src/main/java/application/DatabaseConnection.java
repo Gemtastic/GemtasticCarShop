@@ -11,13 +11,13 @@ import org.jooq.impl.DSL;
  * Created by Gemtastic on 2015-03-15.
  */
 public class DatabaseConnection {
-//    private final String dbusername = "Gemtastic";
-//    private final String dbpassword = "ps";
-//    private final String url = "jdbc:postgresql:postgres";
+    private final String dbusername = "postgres";
+    private final String dbpassword = "g3mt45t1c";
+    private final String url = "jdbc:postgresql:postgres";
     
     private DSLContext create;
     
-    public DSLContext connect(String url, String dbusername, String dbpassword)
+    public DSLContext connect()
     {
         try(Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)){
             create = DSL.using(connection, SQLDialect.POSTGRES);
