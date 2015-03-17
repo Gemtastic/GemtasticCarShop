@@ -5,7 +5,7 @@
  */
 package Controller;
 
-import com.gemtastic.carshop.tables.Customer;
+import JavafxUtils;
 import static com.gemtastic.carshop.tables.Customer.CUSTOMER;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
 import java.net.URL;
@@ -13,7 +13,6 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -57,18 +56,22 @@ public class ListCustomerController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
-        ObservableList<CustomerRecord> l = FXCollections.observableArrayList();
+        
+        
         try(Connection con = DriverManager.getConnection("jdbc:postgresql:postgres", "postgres", "g3mt45t1c")){
             DSLContext jooq = DSL.using(con, SQLDialect.POSTGRES);
             
-//            CustomerRecord r = jooq.fetch(CUSTOMER);
+            JavafxUtils.setColumnValue(firstname, CustomerRecord::getFirstName);
+            
+            ObservableList<CustomerRecord> l = customers.getItems();
+            
             for(CustomerRecord r : jooq.fetch(CUSTOMER)){
-                System.out.println(r);
                 l.add(r);
             }
+            customers.setItems(l);
             
-            customers = jooq.fetch(CUSTOMER);
             
+            System.out.println(l + "printed l");
 //            customers = l;
 
         }catch(Exception e){

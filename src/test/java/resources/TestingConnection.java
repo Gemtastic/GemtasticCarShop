@@ -34,7 +34,7 @@ public class TestingConnection {
             
 //            CustomerRecord r = jooq.fetch(CUSTOMER);
             for(CustomerRecord r : jooq.fetch(CUSTOMER)){
-                System.out.println(r);
+                System.out.println(r + "record");
                 l.add(r);
             }
             
