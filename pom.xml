@@ -19,6 +19,11 @@
             <artifactId>jbcrypt</artifactId>
             <version>0.3m</version>
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.4-1201-jdbc41</version>
+        </dependency>
     </dependencies>
     
     <build>
@@ -71,8 +76,8 @@
                     <jdbc>
                         <driver>org.postgresql.Driver</driver>
                         <url>jdbc:postgresql:postgres</url>
-                        <user>Gemtastic</user>
-                        <password>ps</password>
+                        <user>postgres</user>
+                        <password>g3mt45t1c</password>
                     </jdbc>
 
                     <!-- Generator parameters -->

@@ -25,6 +25,7 @@ import javafx.scene.layout.BorderPane;
  */
 public class ApplicationController implements Initializable {
     
+    // Customer tab methods and data
     @FXML
     public BorderPane customerContent;
     
@@ -50,6 +51,8 @@ public class ApplicationController implements Initializable {
         System.out.println(customerContent.getCenter().toString());
         Node node = customerContent.getCenter();
         System.out.println(node);
+        
+        
         
 //        TableView searchresult = new TableView();
 //        customerContent.setCenter(searchresult);
