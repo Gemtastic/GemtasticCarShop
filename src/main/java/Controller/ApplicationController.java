@@ -8,10 +8,15 @@ package Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 
 /**
  * FXML Controller class
@@ -20,10 +25,50 @@ import javafx.scene.control.ChoiceBox;
  */
 public class ApplicationController implements Initializable {
     
-    
+    @FXML
+    public BorderPane customerContent;
     
     @FXML
-    private ChoiceBox cb;
+    private Button customerSearch;
+    
+    @FXML
+    private TextField customerSearchField;
+    
+    @FXML
+    private ChoiceBox customerCb;
+    
+    @FXML
+    private void searchCustomer(){
+        if(customerSearchField.getText().isEmpty()){
+            // get all the customers
+            System.out.println("Is empty! :O");
+        }else{
+            // send string and checkbox choice into the read() and deligate the result to the view.
+            System.out.println("Searching!");
+        }
+        
+        System.out.println(customerContent.getCenter().toString());
+        Node node = customerContent.getCenter();
+        System.out.println(node);
+        
+//        TableView searchresult = new TableView();
+//        customerContent.setCenter(searchresult);
+    }
+    
+    public void setTabScreen(Node screen, Node tab){
+        String setTab = tab.getId();
+        System.out.println(setTab);
+        
+        switch(setTab){
+            case "customerContent":
+                customerContent.setCenter(screen);
+                break;
+            default:
+                System.out.println("Oops this borked!");
+        }
+        
+        
+    }
     
     /**
      * Initializes the controller class.
@@ -33,7 +78,7 @@ public class ApplicationController implements Initializable {
         
         // TODO make an observable list out of the customer table
         
-//        cb.setItems("Namn", "Efternamn", "Kundnr", "");
+        customerCb.setItems(FXCollections.observableArrayList("Namn", "Efternamn", "Email", "Telefon", "Kundnr", "Födelseår"));
     }    
     
 }

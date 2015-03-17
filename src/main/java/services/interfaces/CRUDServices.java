@@ -7,7 +7,7 @@ public interface CRUDServices<T> {
     
     public void create();
     
-    public T read();
+    public T read(String t);
     
     public void delete();
     
