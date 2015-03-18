@@ -50,7 +50,7 @@ public class ListCustomerController implements Initializable {
     private TableColumn<CustomerRecord, String> dateOfBirth;
     
     public void populateTable(){
-                try(Connection con = DriverManager.getConnection("jdbc:postgresql:postgres", "postgres", "g3mt45t1c")){
+            try(Connection con = DriverManager.getConnection("jdbc:postgresql:postgres", "postgres", "g3mt45t1c")){
             DSLContext jooq = DSL.using(con, SQLDialect.POSTGRES);
             
             ObservableList<CustomerRecord> l = customers.getItems();

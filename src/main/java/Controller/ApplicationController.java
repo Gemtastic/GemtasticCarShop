@@ -6,7 +6,8 @@ package Controller;
  * and open the template in the editor.
  */
 
-import Controller.navigators.ApplicationNavigator;
+import com.gemtastic.carshop.tables.records.CustomerRecord;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -15,9 +16,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import org.jooq.Result;
+import services.CustomerCRUDService;
 
 /**
  * FXML Controller class
@@ -25,6 +27,8 @@ import javafx.scene.layout.BorderPane;
  * @author Gemtastic
  */
 public class ApplicationController implements Initializable {
+    
+    ListCustomerController customersView;
     
     // Customer tab methods and data
     @FXML
@@ -40,13 +44,12 @@ public class ApplicationController implements Initializable {
     private ChoiceBox customerCb;
     
     @FXML
-    private void searchCustomer(){
+    private void searchCustomer() throws IOException{
         if(customerSearchField.getText().isEmpty()){
-            // get all the customers
-            System.out.println("Is empty! :O");
+            CustomerCRUDService service = new CustomerCRUDService();
+            Result<CustomerRecord> customers = service.getAll();
             
-            ApplicationNavigator.loadTabContent(ApplicationNavigator.listCustomers, this.customerContent);
-//            ListCustomerController c = 
+            // TODO get the result into the tableView.
             
         }else{
             // send string and checkbox choice into the read() and deligate the result to the view.
@@ -56,11 +59,6 @@ public class ApplicationController implements Initializable {
         System.out.println(customerContent.getCenter().toString());
         Node node = customerContent.getCenter();
         System.out.println(node);
-        
-        
-        
-//        TableView searchresult = new TableView();
-//        customerContent.setCenter(searchresult);
     }
     
     public void setTabScreen(Node screen, Node tab){
@@ -78,13 +76,12 @@ public class ApplicationController implements Initializable {
         
     }
     
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        // TODO make an observable list out of the customer table
         
         customerCb.setItems(FXCollections.observableArrayList("Namn", "Efternamn", "Email", "Telefon", "Kundnr", "Födelseår"));
     }    

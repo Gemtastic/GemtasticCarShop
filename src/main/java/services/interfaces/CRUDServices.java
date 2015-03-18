@@ -5,11 +5,13 @@ package services.interfaces;
  */
 public interface CRUDServices<T> {
     
+    public T getAll();
+    
     public void create();
     
-    public T read(String t);
+    public T read(int t);
     
-    public void delete();
+    public void delete(int id);
     
     public void update();
 }

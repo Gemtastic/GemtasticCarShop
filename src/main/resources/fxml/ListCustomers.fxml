@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<TableView fx:id="customers" prefHeight="317.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ListCustomerController">
+<TableView fx:id="customers" prefHeight="317.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <columns>
       <TableColumn fx:id="firstname" prefWidth="69.0" text="Namn" />
       <TableColumn fx:id="lastname" prefWidth="83.0" text="Efternamn" />
