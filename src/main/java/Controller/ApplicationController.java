@@ -6,6 +6,7 @@ package Controller;
  * and open the template in the editor.
  */
 
+import Controller.navigators.ApplicationNavigator;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
 import java.io.IOException;
 import java.net.URL;
@@ -49,18 +50,22 @@ public class ApplicationController implements Initializable {
             CustomerCRUDService service = new CustomerCRUDService();
             Result<CustomerRecord> customers = service.getAll();
             
-            // TODO get the result into the tableView.
+            ApplicationNavigator.populateTable(customers);
             
         }else{
             // send string and checkbox choice into the read() and deligate the result to the view.
             System.out.println("Searching!");
         }
-        
-        System.out.println(customerContent.getCenter().toString());
-        Node node = customerContent.getCenter();
-        System.out.println(node);
     }
     
+    /**
+     * This method is called by the Navigator to set the content of the 
+     * BorderPane. It's the function allowing for multiple nodes in the
+     * same tab.
+     * 
+     * @param screen
+     * @param tab 
+     */
     public void setTabScreen(Node screen, Node tab){
         String setTab = tab.getId();
         System.out.println(setTab);
@@ -82,7 +87,6 @@ public class ApplicationController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
         customerCb.setItems(FXCollections.observableArrayList("Namn", "Efternamn", "Email", "Telefon", "Kundnr", "Födelseår"));
     }    
     

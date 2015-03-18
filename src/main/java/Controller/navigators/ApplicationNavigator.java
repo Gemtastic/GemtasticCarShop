@@ -8,9 +8,11 @@ package Controller.navigators;
 import Controller.ApplicationController;
 import Controller.DisplayCustomerController;
 import Controller.ListCustomerController;
+import com.gemtastic.carshop.tables.records.CustomerRecord;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import org.jooq.Result;
 
 /**
  *
@@ -33,7 +35,16 @@ public class ApplicationNavigator {
         ApplicationNavigator.controller = controller;
         ApplicationNavigator.listCustomersController = new ListCustomerController();
     }
-
+    
+    public static void populateTable(Result<CustomerRecord> result){
+        listCustomersController.populateTable(result);
+    }
+    
+    /**
+     * This method is in charge of 
+     * @param fxml
+     * @param tab 
+     */
     public static void loadTabContent(String fxml, Node tab) {
 
         try {
@@ -42,9 +53,8 @@ public class ApplicationNavigator {
             loader.setLocation(ApplicationNavigator.class.getResource(ApplicationNavigator.listCustomers));
             Node node = loader.load();
             
-            
-            
             controller.setTabScreen(node, tab);
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
