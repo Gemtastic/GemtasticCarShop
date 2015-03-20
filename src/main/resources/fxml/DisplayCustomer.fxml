@@ -100,7 +100,7 @@
             </ListView>
             <HBox prefHeight="39.0" prefWidth="328.0">
                <children>
-                  <Button mnemonicParsing="false" text="Visa fordon">
+                  <Button fx:id="showCar" mnemonicParsing="false" onAction="#displayCar" text="Visa fordon">
                      <HBox.margin>
                         <Insets left="30.0" top="6.0" />
                      </HBox.margin>

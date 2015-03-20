@@ -28,6 +28,11 @@ public class ApplicationNavigator {
     public static String editCustomers = "/fxml/EditCustomer.fxml";
     public static String addCustomers = "/fxml/AddCustomers.fxml";
     
+    public static String vehicle = "";
+    public static String listVehicles = "";
+    public static String editVehicles = "";
+    public static String vehicles = "";
+    
     // Attempting to store the controllers for mediating use
     public static ListCustomerController listCustomersController;
     public static DisplayCustomerController displayCustomersController;

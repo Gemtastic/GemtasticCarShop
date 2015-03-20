@@ -6,7 +6,7 @@ package services.interfaces;
  */
 public interface CRUDServices<T> {
     
-    public void create(T t);
+    public boolean create(T t);
     
     public T read(int t);
     

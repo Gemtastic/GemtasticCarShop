@@ -51,8 +51,8 @@ public class EditCustomerController implements Initializable{
 
     public void loadCustomer(CustomerRecord customer){
         this.customer = customer;
-        AddressSearchService service = new AddressSearchService();
-        this.address = service.getAllWhere("id", String.valueOf(customer.getId()));
+        AddressCRUDService service = new AddressCRUDService();
+        this.address = service.read(customer.getAddress());
         
         this.firstName.setText(customer.getFirstName());
         this.lastName.setText(customer.getLastName());
@@ -70,8 +70,6 @@ public class EditCustomerController implements Initializable{
     @FXML
     private void saveEdit(){
         
-        System.out.println("Before edit:\n" + customer);
-        
         customer.setFirstName(firstName.getText());
         customer.setLastName(lastName.getText());
         customer.setPhone(phone.getText());
@@ -83,8 +81,6 @@ public class EditCustomerController implements Initializable{
         if(this.co.getText() != null){
             address.setCo(this.co.getText());
         }
-        
-        System.out.println("After edit:\n" + customer);
         
         CustomerCRUDService customerService = new CustomerCRUDService();
         AddressCRUDService addressService = new AddressCRUDService();
@@ -104,7 +100,10 @@ public class EditCustomerController implements Initializable{
     
     @FXML
     private void cancelEdit(){
-        
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.customer,
+                                                ApplicationNavigator.controller.customerContent,
+                                                ApplicationNavigator.displayCustomersController);
+        ApplicationNavigator.displayCustomersController.loadCustomer(customer);
     }
     
     @Override

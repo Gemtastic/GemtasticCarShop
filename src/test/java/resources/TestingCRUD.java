@@ -5,10 +5,9 @@
  */
 package resources;
 
-import application.DatabaseConnection;
-import static com.gemtastic.carshop.tables.Customer.CUSTOMER;
+import com.gemtastic.carshop.tables.records.AddressRecord;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
-import org.jooq.DSLContext;
+import services.AddressCRUDService;
 import services.CustomerCRUDService;
 
 /**
@@ -19,11 +18,12 @@ public class TestingCRUD {
     
     public static void main(String[] args){
         CustomerCRUDService c = new CustomerCRUDService();
+        AddressCRUDService a = new AddressCRUDService();
         
         
-        
-        CustomerRecord r = c.read(1);
-        System.out.println(r);
+        CustomerRecord cr = c.read(4);
+        AddressRecord ar = a.read(cr.getAddress());
+        System.out.println(cr + "\n" + ar);
     }
     
     

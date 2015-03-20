@@ -53,7 +53,6 @@ public class ApplicationController implements Initializable {
 
     @FXML
     private void searchCustomer() throws IOException {
-
         showCustomerbtn.setDisable(false);
 
         ApplicationNavigator.loadTabContent(ApplicationNavigator.listCustomers, customerContent,
@@ -93,6 +92,8 @@ public class ApplicationController implements Initializable {
             }
             ApplicationNavigator.populateTable(customers);
         }
+        
+        customerCb.setValue(null);
     }
 
     @FXML
