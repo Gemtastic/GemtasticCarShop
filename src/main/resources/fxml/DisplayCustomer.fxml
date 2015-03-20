@@ -6,14 +6,50 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane prefHeight="332.0" prefWidth="668.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane prefHeight="332.0" prefWidth="668.0" style="-fx-background-color: #ffffff;">
+      <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="328.0">
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+            <Label text="Namn:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="name" text="Label" visible="false">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+         <children>
+            <Label text="Kundnr:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </Label>
+            <Label fx:id="customerId" text="Label" visible="false">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+      </HBox>
+      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <HBox prefHeight="22.0" prefWidth="334.0">
                <children>
-                  <Label text="Namn:">
+                  <Label text="Antal besök:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -21,16 +57,16 @@
                         <Insets left="30.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="Label" visible="false">
+                  <Label fx:id="appointmentCount" text="Label" visible="false">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <HBox alignment="BOTTOM_LEFT" prefHeight="39.0" prefWidth="317.0">
                <children>
-                  <Label text="Kundnr:">
+                  <Label text="Felanmälningar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -38,114 +74,202 @@
                         <Insets left="30.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="Label" visible="false">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Label>
                </children>
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
             </HBox>
-            <VBox prefHeight="250.0" prefWidth="334.0" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+            <ListView fx:id="malfunctions" prefHeight="104.0" prefWidth="334.0">
+               <VBox.margin>
+                  <Insets left="30.0" right="20.0" />
+               </VBox.margin>
+            </ListView>
+         </children>
+      </VBox>
+      <VBox prefHeight="250.0" prefWidth="334.0" GridPane.rowIndex="2">
+         <children>
+            <Label text="Fordon">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="30.0" />
+               </VBox.margin>
+            </Label>
+            <ListView fx:id="vehicles" prefHeight="104.0" prefWidth="334.0">
+               <VBox.margin>
+                  <Insets left="30.0" />
+               </VBox.margin>
+            </ListView>
+            <HBox prefHeight="39.0" prefWidth="328.0">
                <children>
-                  <HBox prefHeight="22.0" prefWidth="334.0">
-                     <children>
-                        <Label text="Ålder:">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="30.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label text="Label" visible="false">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="21.0" prefWidth="334.0">
-                     <children>
-                        <Label text="Kön:">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="30.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label text="Label" visible="false">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <Label text="Fordon">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="30.0" />
-                     </VBox.margin>
-                  </Label>
-                  <ListView prefHeight="104.0" prefWidth="334.0">
-                     <VBox.margin>
-                        <Insets left="30.0" />
-                     </VBox.margin>
-                  </ListView>
+                  <Button mnemonicParsing="false" text="Visa fordon">
+                     <HBox.margin>
+                        <Insets left="30.0" top="6.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" text="Lägg till/ta bort fordon">
+                     <HBox.margin>
+                        <Insets left="20.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
-            </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            </HBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="131.0" prefWidth="328.0" GridPane.rowIndex="1">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <HBox prefHeight="22.0" prefWidth="334.0">
+                  <VBox prefHeight="102.0" prefWidth="268.0">
                      <children>
-                        <Label text="Antal besök:">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
+                        <HBox prefHeight="21.0" prefWidth="328.0">
+                           <children>
+                              <Label text="Ålder:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="30.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="age" text="Label" visible="false">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label text="Kön:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="30.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="gender" text="Label" visible="false">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="51.0" prefWidth="223.0">
+                           <children>
+                              <VBox prefHeight="21.0" prefWidth="96.0">
+                                 <children>
+                                    <Label text="Adress:">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="30.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                    <Label text="C/O">
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="30.0" />
+                                       </VBox.margin>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="51.0" prefWidth="132.0">
+                                 <children>
+                                    <Label fx:id="street" text="Label" visible="false" />
+                                    <Label fx:id="co" text="Label" visible="false" />
+                                    <HBox prefHeight="26.0" prefWidth="233.0">
+                                       <children>
+                                          <Label fx:id="city" text="Label" visible="false" />
+                                          <Label fx:id="zip" text="Label" visible="false">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="26.0" prefWidth="328.0">
+                           <children>
+                              <Label text="Telefon:">
+                                 <HBox.margin>
+                                    <Insets left="30.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="phone" text="Label" visible="false">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="25.0" prefWidth="328.0">
+                           <children>
+                              <Label text="Email:">
+                                 <HBox.margin>
+                                    <Insets left="30.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="email" text="Label" visible="false">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="102.0" prefWidth="87.0">
+                     <children>
+                        <Button fx:id="editCustomerbtn" mnemonicParsing="false" onAction="#editCustomer" text="Ändra" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="134.0" prefWidth="182.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox prefHeight="42.0" prefWidth="340.0">
+                     <children>
+                        <Button mnemonicParsing="false" text="Visa felanmälan">
                            <HBox.margin>
-                              <Insets left="30.0" />
+                              <Insets left="30.0" top="5.0" />
                            </HBox.margin>
-                        </Label>
-                        <Label text="Label" visible="false">
+                        </Button>
+                        <Button mnemonicParsing="false" text="Ny felanmälan">
                            <HBox.margin>
-                              <Insets left="10.0" />
+                              <Insets left="20.0" top="5.0" />
                            </HBox.margin>
-                        </Label>
+                        </Button>
                      </children>
                   </HBox>
-                  <HBox alignment="BOTTOM_LEFT" prefHeight="39.0" prefWidth="317.0">
-                     <children>
-                        <Label text="Felanmälningar">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="30.0" />
-                           </HBox.margin>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <ListView prefHeight="104.0" prefWidth="334.0">
+                  <Button mnemonicParsing="false" text="Lägg till/ta bort bokning">
                      <VBox.margin>
-                        <Insets left="30.0" right="20.0" />
+                        <Insets left="30.0" top="20.0" />
                      </VBox.margin>
-                  </ListView>
+                  </Button>
                </children>
             </VBox>
          </children>
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.0" minWidth="10.0" prefWidth="327.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="341.0" minWidth="10.0" prefWidth="340.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints maxHeight="107.0" minHeight="7.0" prefHeight="54.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="282.0" minHeight="10.0" prefHeight="276.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-      </GridPane>
+      </HBox>
    </children>
-</VBox>
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.0" minWidth="10.0" prefWidth="327.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="341.0" minWidth="10.0" prefWidth="340.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="107.0" minHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="282.0" minHeight="10.0" prefHeight="140.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="282.0" minHeight="10.0" prefHeight="163.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+</GridPane>

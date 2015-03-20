@@ -37,7 +37,9 @@ public class LoginController implements Initializable {
         
         ApplicationController applicationController = loader.getController();
         ApplicationNavigator.setController(applicationController);
-        ApplicationNavigator.loadTabContent(ApplicationNavigator.listCustomers, applicationController.customerContent);
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listCustomers, 
+                                            applicationController.customerContent,
+                                            ApplicationNavigator.listCustomersController);
         
         Scene scene = new Scene(root);
         

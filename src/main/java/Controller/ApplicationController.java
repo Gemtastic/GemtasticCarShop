@@ -5,7 +5,7 @@ package Controller;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+import Controller.customers.ListCustomerController;
 import Controller.navigators.ApplicationNavigator;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
 import java.io.IOException;
@@ -17,10 +17,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import org.jooq.Result;
-import services.CustomerCRUDService;
+import services.CustomerSearchService;
 
 /**
  * FXML Controller class
@@ -28,66 +29,112 @@ import services.CustomerCRUDService;
  * @author Gemtastic
  */
 public class ApplicationController implements Initializable {
-    
+
     ListCustomerController customersView;
-    
+
     // Customer tab methods and data
     @FXML
     public BorderPane customerContent;
-    
+
     @FXML
     private Button customerSearch;
-    
+
     @FXML
     private TextField customerSearchField;
-    
+
     @FXML
     private ChoiceBox customerCb;
-    
+
     @FXML
-    private void searchCustomer() throws IOException{
-        if(customerSearchField.getText().isEmpty()){
-            CustomerCRUDService service = new CustomerCRUDService();
-            Result<CustomerRecord> customers = service.getAll();
-            
+    private Label errorSearchCustomer;
+
+    @FXML
+    private Button showCustomerbtn;
+
+    @FXML
+    private void searchCustomer() throws IOException {
+
+        showCustomerbtn.setDisable(false);
+
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listCustomers, customerContent,
+                ApplicationNavigator.listCustomersController);
+
+        CustomerSearchService service = new CustomerSearchService();
+        Result<CustomerRecord> customers = null;
+        String search = customerSearchField.getText();
+
+        // Ugly fix; customerCb returns an object and adding the toString() 
+        // method didn't work, but this does
+        Object cb = customerCb.getSelectionModel().getSelectedItem();
+        String column = null;
+        if (cb != null) {
+            column = cb.toString();
+        }
+
+        // Search and display result or error message
+        if (customerSearchField.getText().isEmpty() && column == null) {
+            customers = service.getAll();
+            errorSearchCustomer.setVisible(false);
             ApplicationNavigator.populateTable(customers);
-            
-        }else{
-            // send string and checkbox choice into the read() and deligate the result to the view.
-            System.out.println("Searching!");
+        } else if (!customerSearchField.getText().isEmpty() && column == null) {
+            errorSearchCustomer.setVisible(true);
+            ApplicationNavigator.populateTable(customers);
+        } else if (customerSearchField.getText().isEmpty() && column != null) {
+            errorSearchCustomer.setVisible(true);
+            ApplicationNavigator.populateTable(customers);
+        } else {
+            customers = service.getAllWhere(column, search);
+
+            if (customers == null) {
+                errorSearchCustomer.setVisible(true);
+            } else {
+                errorSearchCustomer.setVisible(false);
+
+            }
+            ApplicationNavigator.populateTable(customers);
         }
     }
-    
+
+    @FXML
+    private void showCustomer() {
+        CustomerRecord customer = ApplicationNavigator.getSelectedCustomer();
+        if (customer != null) {
+            ApplicationNavigator.loadTabContent(ApplicationNavigator.customer, customerContent, 
+                                                ApplicationNavigator.displayCustomersController);
+            ApplicationNavigator.displayCustomersController.loadCustomer(customer);
+
+            showCustomerbtn.setDisable(true);
+        }
+    }
+
     /**
-     * This method is called by the Navigator to set the content of the 
-     * BorderPane. It's the function allowing for multiple nodes in the
-     * same tab.
-     * 
+     * This method is called by the Navigator to set the content of the
+     * BorderPane. It's the function allowing for multiple nodes in the same
+     * tab.
+     *
      * @param screen
-     * @param tab 
+     * @param tab
      */
-    public void setTabScreen(Node screen, Node tab){
+    public void setTabScreen(Node screen, Node tab) {
         String setTab = tab.getId();
-        System.out.println(setTab);
-        
-        switch(setTab){
+        System.out.println(setTab + "Is the tab being modified!");
+
+        switch (setTab) {
             case "customerContent":
                 customerContent.setCenter(screen);
                 break;
             default:
                 System.out.println("Oops this borked!");
         }
-        
-        
+
     }
-    
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        customerCb.setItems(FXCollections.observableArrayList("Namn", "Efternamn", "Email", "Telefon", "Kundnr", "Födelseår"));
-    }    
-    
+        customerCb.setItems(FXCollections.observableArrayList("Namn", "Efternamn", "Email", "Telefon", "Kundnr"));
+    }
+
 }

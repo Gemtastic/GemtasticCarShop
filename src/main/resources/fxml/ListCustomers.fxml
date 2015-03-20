@@ -8,11 +8,11 @@
 
 <TableView fx:id="customers" prefHeight="317.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <columns>
+      <TableColumn fx:id="customerID" prefWidth="84.0" text="Kundnr" />
       <TableColumn fx:id="firstname" prefWidth="69.0" text="Namn" />
       <TableColumn fx:id="lastname" prefWidth="83.0" text="Efternamn" />
       <TableColumn fx:id="email" prefWidth="152.0" text="Email" />
       <TableColumn fx:id="phone" minWidth="0.0" prefWidth="101.0" text="Telefon" />
-      <TableColumn fx:id="customerID" prefWidth="84.0" text="Kundnr" />
       <TableColumn fx:id="dateOfBirth" prefWidth="78.0" text="Födelseår" />
    </columns>
 </TableView>

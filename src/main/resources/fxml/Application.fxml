@@ -59,11 +59,36 @@
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </Button>
+                                          <Label fx:id="errorSearchCustomer" text="Inga matchande resultat" textFill="#a80000" visible="false">
+                                             <HBox.margin>
+                                                <Insets left="20.0" />
+                                             </HBox.margin>
+                                          </Label>
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
                            </top>
+                           <bottom>
+                              <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button fx:id="showCustomerbtn" mnemonicParsing="false" onAction="#showCustomer" text="Visa vald kund">
+                                       <HBox.margin>
+                                          <Insets left="30.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Button fx:id="addCustomer" mnemonicParsing="false" text="Skapa ny kund">
+                                             <HBox.margin>
+                                                <Insets right="30.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </bottom>
                         </BorderPane>
                      </content>
                   </Tab>
@@ -90,11 +115,92 @@
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </Button>
+                                          <Label fx:id="errorSearchBooking" text="Inga matchande resultat" textFill="#a80000" visible="false">
+                                             <HBox.margin>
+                                                <Insets left="20.0" />
+                                             </HBox.margin>
+                                          </Label>
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
                            </top>
+                           <bottom>
+                              <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Visa vald bokning">
+                                       <HBox.margin>
+                                          <Insets left="30.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Button mnemonicParsing="false" text="Skapa ny bokning">
+                                             <HBox.margin>
+                                                <Insets right="30.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </bottom>
+                        </BorderPane>
+                     </content>
+                  </Tab>
+                  <Tab closable="false" text="Servicetillfällen">
+                     <content>
+                        <BorderPane fx:id="appointmentContent">
+                           <top>
+                              <VBox prefHeight="36.0" prefWidth="667.0" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <TextField fx:id="customerSearchField1" prefHeight="25.0" prefWidth="208.0">
+                                             <HBox.margin>
+                                                <Insets left="20.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                          <ChoiceBox fx:id="customerCb1" prefWidth="150.0">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </ChoiceBox>
+                                          <Button fx:id="customerSearch1" mnemonicParsing="false" onAction="#searchCustomer" text="Sök">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Label fx:id="errorSearchAppointment" text="Inga matchande resultat" textFill="#a80000" visible="false">
+                                             <HBox.margin>
+                                                <Insets left="20.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </top>
+                           <bottom>
+                              <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Visa valt tillfälle">
+                                       <HBox.margin>
+                                          <Insets left="30.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Button mnemonicParsing="false" text="Skapa nytt servicetillfälle">
+                                             <HBox.margin>
+                                                <Insets right="30.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </bottom>
                         </BorderPane>
                      </content>
                   </Tab>
@@ -121,19 +227,44 @@
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </Button>
+                                          <Label fx:id="errorSearchVehicle" text="Inga matchande resultat" textFill="#a80000" visible="false">
+                                             <HBox.margin>
+                                                <Insets left="20.0" />
+                                             </HBox.margin>
+                                          </Label>
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
                            </top>
-                           <center>
-                              <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                 <columns>
-                                    <TableColumn prefWidth="75.0" text="C1" />
-                                    <TableColumn prefWidth="75.0" text="C2" />
-                                 </columns>
-                              </TableView>
-                           </center>
+                           <bottom>
+                              <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Visa valt fordon">
+                                       <HBox.margin>
+                                          <Insets left="30.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Button mnemonicParsing="false" text="Lägg till/ta bort ägare">
+                                             <HBox.margin>
+                                                <Insets right="20.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button mnemonicParsing="false" text="Lägg till fordon">
+                                             <HBox.margin>
+                                                <Insets right="30.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </bottom>
                         </BorderPane>
                      </content>
                   </Tab>
@@ -160,11 +291,36 @@
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </Button>
+                                          <Label fx:id="errorSearchMalfunction" text="Inga matchande resultat" textFill="#a80000" visible="false">
+                                             <HBox.margin>
+                                                <Insets left="20.0" />
+                                             </HBox.margin>
+                                          </Label>
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
                            </top>
+                           <bottom>
+                              <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Visa vald felanmälan">
+                                       <HBox.margin>
+                                          <Insets left="30.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Button mnemonicParsing="false" text="Skapa ny felanmälan">
+                                             <HBox.margin>
+                                                <Insets right="30.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </bottom>
                         </BorderPane>
                      </content>
                   </Tab>
@@ -191,11 +347,36 @@
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </Button>
+                                          <Label fx:id="errorSearchEmployee" text="Inga matchande resultat" textFill="#a80000" visible="false">
+                                             <HBox.margin>
+                                                <Insets left="20.0" />
+                                             </HBox.margin>
+                                          </Label>
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
                            </top>
+                           <bottom>
+                              <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Visa vald anställd">
+                                       <HBox.margin>
+                                          <Insets left="30.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Button mnemonicParsing="false" text="Skapa ny anställd">
+                                             <HBox.margin>
+                                                <Insets right="30.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </bottom>
                         </BorderPane>
                      </content>
                   </Tab>
@@ -222,6 +403,11 @@
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </Button>
+                                          <Label fx:id="errorMessageStatistics" text="Inga matchande resultat" textFill="#a80000" visible="false">
+                                             <HBox.margin>
+                                                <Insets left="20.0" />
+                                             </HBox.margin>
+                                          </Label>
                                        </children>
                                     </HBox>
                                  </children>

@@ -6,11 +6,14 @@
 package Controller.navigators;
 
 import Controller.ApplicationController;
-import Controller.DisplayCustomerController;
-import Controller.ListCustomerController;
+import Controller.customers.AddCustomerController;
+import Controller.customers.DisplayCustomerController;
+import Controller.customers.EditCustomerController;
+import Controller.customers.ListCustomerController;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import org.jooq.Result;
 
@@ -22,18 +25,26 @@ public class ApplicationNavigator {
 
     public static String customer = "/fxml/DisplayCustomer.fxml";
     public static String listCustomers = "/fxml/ListCustomers.fxml";
+    public static String editCustomers = "/fxml/EditCustomer.fxml";
+    public static String addCustomers = "/fxml/AddCustomers.fxml";
     
     // Attempting to store the controllers for mediating use
-    private static ListCustomerController listCustomersController;
-    private static DisplayCustomerController displayCustomersCOntroller;
+    public static ListCustomerController listCustomersController;
+    public static DisplayCustomerController displayCustomersController;
+    public static EditCustomerController editCustomersController;
+    public static AddCustomerController addCustomersController;
     
-    private static ApplicationController controller;
+    
+    public static ApplicationController controller;
 
 //    private static 
     
     public static void setController(ApplicationController controller) {
         ApplicationNavigator.controller = controller;
         ApplicationNavigator.listCustomersController = new ListCustomerController();
+        ApplicationNavigator.displayCustomersController = new DisplayCustomerController();
+        ApplicationNavigator.editCustomersController = new EditCustomerController();
+        ApplicationNavigator.addCustomersController = new AddCustomerController();
     }
     
     public static void populateTable(Result<CustomerRecord> result){
@@ -44,13 +55,14 @@ public class ApplicationNavigator {
      * This method is in charge of 
      * @param fxml
      * @param tab 
+     * @param i 
      */
-    public static void loadTabContent(String fxml, Node tab) {
+    public static void loadTabContent(String fxml, Node tab, Initializable i) {
 
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setController(listCustomersController);
-            loader.setLocation(ApplicationNavigator.class.getResource(ApplicationNavigator.listCustomers));
+            loader.setController(i);
+            loader.setLocation(ApplicationNavigator.class.getResource(fxml));
             Node node = loader.load();
             
             controller.setTabScreen(node, tab);
@@ -58,6 +70,11 @@ public class ApplicationNavigator {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+    }
+    
+    public static CustomerRecord getSelectedCustomer(){
+        CustomerRecord record = listCustomersController.getSelected();
+        
+        return record;
     }
 }
