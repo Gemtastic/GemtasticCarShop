@@ -4,6 +4,9 @@ import Controller.navigators.ApplicationNavigator;
 import application.ApplicationMain;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import application.DatabaseContextProvider;
+import application.CachedPostgresContextProvider;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,14 +32,16 @@ public class LoginController implements Initializable {
         Stage stage = new Stage();
         
         FXMLLoader loader = new FXMLLoader();
-        
+
+        final DatabaseContextProvider provider = new CachedPostgresContextProvider();
+
         loader.setController(new ApplicationController());
         loader.setLocation(ApplicationMain.class.getResource("/fxml/Application.fxml"));
         
         AnchorPane root = loader.load();
         
         ApplicationController applicationController = loader.getController();
-        ApplicationNavigator.setController(applicationController);
+        ApplicationNavigator.setController(applicationController, provider);
         ApplicationNavigator.loadTabContent(ApplicationNavigator.listCustomers, 
                                             applicationController.customerContent,
                                             ApplicationNavigator.listCustomersController);

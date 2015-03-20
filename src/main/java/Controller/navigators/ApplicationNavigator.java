@@ -10,12 +10,17 @@ import Controller.customers.AddCustomerController;
 import Controller.customers.DisplayCustomerController;
 import Controller.customers.EditCustomerController;
 import Controller.customers.ListCustomerController;
+import application.DatabaseContextProvider;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import org.jooq.DSLContext;
 import org.jooq.Result;
+import services.CustomerCRUDService;
 
 /**
  *
@@ -43,8 +48,12 @@ public class ApplicationNavigator {
     public static ApplicationController controller;
 
 //    private static 
-    
-    public static void setController(ApplicationController controller) {
+    public static void setController(ApplicationController controller, DatabaseContextProvider provider) throws SQLException {
+
+        final DSLContext create = provider.getDslContext("jdbc:postgres:postgres", "postgres", "g3mt45t1c");
+
+        // Todo: Instantiate services **HERE**. Pass the DSLContext above to those who need it.
+
         ApplicationNavigator.controller = controller;
         ApplicationNavigator.listCustomersController = new ListCustomerController();
         ApplicationNavigator.displayCustomersController = new DisplayCustomerController();
