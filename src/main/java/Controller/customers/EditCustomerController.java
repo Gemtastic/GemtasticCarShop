@@ -49,10 +49,17 @@ public class EditCustomerController implements Initializable{
     @FXML
     private TextField zip;
 
+    private AddressCRUDService addressService;
+    private CustomerCRUDService customerService;
+
+    public EditCustomerController(AddressCRUDService addressService, CustomerCRUDService customerService) {
+        this.addressService = addressService;
+        this.customerService = customerService;
+    }
+
     public void loadCustomer(CustomerRecord customer){
         this.customer = customer;
-        AddressCRUDService service = new AddressCRUDService();
-        this.address = service.read(customer.getAddress());
+        this.address = addressService.read(customer.getAddress());
         
         this.firstName.setText(customer.getFirstName());
         this.lastName.setText(customer.getLastName());
@@ -81,9 +88,6 @@ public class EditCustomerController implements Initializable{
         if(this.co.getText() != null){
             address.setCo(this.co.getText());
         }
-        
-        CustomerCRUDService customerService = new CustomerCRUDService();
-        AddressCRUDService addressService = new AddressCRUDService();
         
         boolean successCustomer = customerService.update(customer);
         boolean successAddress = addressService.update(address);
