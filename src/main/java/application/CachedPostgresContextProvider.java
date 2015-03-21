@@ -20,11 +20,10 @@ public class CachedPostgresContextProvider implements DatabaseContextProvider {
         if (cachedContext != null) {
             return cachedContext;
         }
-        try (final Connection connection = DriverManager.getConnection(dsn, user, password)) {
-            final DSLContext create = DSL.using(connection);
-            connections.put(user + "@" + dsn, create);
-            return create;
-        }
+        final Connection connection = DriverManager.getConnection(dsn, user, password);
+        final DSLContext create = DSL.using(connection);
+        connections.put(user + "@" + dsn, create);
+        return create;
     }
 
 }
