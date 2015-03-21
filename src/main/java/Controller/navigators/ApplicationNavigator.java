@@ -53,7 +53,7 @@ public class ApplicationNavigator {
 //    private static 
     public static ApplicationController initiateControllers(DatabaseContextProvider provider) throws SQLException {
 
-        final DSLContext create = provider.getDslContext("jdbc:postgresql:gemtastic", "Gemtastic", "se");
+        final DSLContext create = provider.getDslContext("jdbc:postgres:postgres", "postgres", "g3mt45t1c");
 
         final AddressCRUDService addressCRUDService = new AddressCRUDService(create);
         final CustomerCRUDService customerCRUDService = new CustomerCRUDService(create);
