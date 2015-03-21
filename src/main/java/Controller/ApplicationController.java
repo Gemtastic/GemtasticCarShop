@@ -51,6 +51,12 @@ public class ApplicationController implements Initializable {
     @FXML
     private Button showCustomerbtn;
 
+    private CustomerSearchService customerSearchService;
+
+    public ApplicationController(CustomerSearchService customerSearchService) {
+        this.customerSearchService = customerSearchService;
+    }
+
     @FXML
     private void searchCustomer() throws IOException {
         showCustomerbtn.setDisable(false);
@@ -58,7 +64,6 @@ public class ApplicationController implements Initializable {
         ApplicationNavigator.loadTabContent(ApplicationNavigator.listCustomers, customerContent,
                 ApplicationNavigator.listCustomersController);
 
-        CustomerSearchService service = new CustomerSearchService();
         Result<CustomerRecord> customers = null;
         String search = customerSearchField.getText();
 
@@ -72,7 +77,7 @@ public class ApplicationController implements Initializable {
 
         // Search and display result or error message
         if (customerSearchField.getText().isEmpty() && column == null) {
-            customers = service.getAll();
+            customers = customerSearchService.getAll();
             errorSearchCustomer.setVisible(false);
             ApplicationNavigator.populateTable(customers);
         } else if (!customerSearchField.getText().isEmpty() && column == null) {
@@ -82,7 +87,7 @@ public class ApplicationController implements Initializable {
             errorSearchCustomer.setVisible(true);
             ApplicationNavigator.populateTable(customers);
         } else {
-            customers = service.getAllWhere(column, search);
+            customers = customerSearchService.getAllWhere(column, search);
 
             if (customers == null) {
                 errorSearchCustomer.setVisible(true);

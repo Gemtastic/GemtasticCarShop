@@ -10,12 +10,20 @@ import Controller.customers.AddCustomerController;
 import Controller.customers.DisplayCustomerController;
 import Controller.customers.EditCustomerController;
 import Controller.customers.ListCustomerController;
+import application.DatabaseContextProvider;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import org.jooq.DSLContext;
 import org.jooq.Result;
+import services.AddressCRUDService;
+import services.CustomerCRUDService;
+import services.CustomerSearchService;
+import sun.java2d.loops.CustomComponent;
 
 /**
  *
@@ -43,13 +51,23 @@ public class ApplicationNavigator {
     public static ApplicationController controller;
 
 //    private static 
-    
-    public static void setController(ApplicationController controller) {
-        ApplicationNavigator.controller = controller;
+    public static ApplicationController initiateControllers(DatabaseContextProvider provider) throws SQLException {
+
+        final DSLContext create = provider.getDslContext("jdbc:postgres:postgres", "postgres", "g3mt45t1c");
+
+        final AddressCRUDService addressCRUDService = new AddressCRUDService(create);
+        final CustomerCRUDService customerCRUDService = new CustomerCRUDService(create);
+        final CustomerSearchService customerSearchService = new CustomerSearchService(create);
+
+        // Todo: Instantiate services **HERE**. Pass the DSLContext above to those who need it.
+
+        ApplicationNavigator.controller = new ApplicationController(customerSearchService);
         ApplicationNavigator.listCustomersController = new ListCustomerController();
-        ApplicationNavigator.displayCustomersController = new DisplayCustomerController();
-        ApplicationNavigator.editCustomersController = new EditCustomerController();
+        ApplicationNavigator.displayCustomersController = new DisplayCustomerController(addressCRUDService);
+        ApplicationNavigator.editCustomersController = new EditCustomerController(addressCRUDService, customerCRUDService);
         ApplicationNavigator.addCustomersController = new AddCustomerController();
+
+        return controller;
     }
     
     public static void populateTable(Result<CustomerRecord> result){

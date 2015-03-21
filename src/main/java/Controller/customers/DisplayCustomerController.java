@@ -1,6 +1,7 @@
 package Controller.customers;
 
 import Controller.navigators.ApplicationNavigator;
+import com.gemtastic.carshop.tables.Address;
 import com.gemtastic.carshop.tables.records.AddressRecord;
 import com.gemtastic.carshop.tables.records.CarModelRecord;
 import com.gemtastic.carshop.tables.records.CarRecord;
@@ -69,6 +70,12 @@ public class DisplayCustomerController implements Initializable {
     @FXML
     private Button showCar;
 
+    private AddressCRUDService addressService;
+
+    public DisplayCustomerController(AddressCRUDService addressCRUDService) {
+        this.addressService = addressCRUDService;
+    }
+
     public void cleanSlate() {
         this.name.setVisible(false);
         this.age.setVisible(false);
@@ -85,8 +92,7 @@ public class DisplayCustomerController implements Initializable {
     public void loadCustomer(CustomerRecord customer) {
         this.customer = customer;
 
-        AddressCRUDService service = new AddressCRUDService();
-        AddressRecord address = service.read(customer.getAddress());
+        AddressRecord address = addressService.read(customer.getAddress());
 
         this.name.setText(customer.getFirstName() + " " + customer.getLastName());
         this.phone.setText(customer.getPhone());
