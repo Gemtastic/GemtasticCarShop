@@ -5,10 +5,15 @@
  */
 package resources;
 
+import application.CachedPostgresContextProvider;
+import application.DatabaseContextProvider;
 import com.gemtastic.carshop.tables.records.AddressRecord;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
+import org.jooq.DSLContext;
 import services.AddressCRUDService;
 import services.CustomerCRUDService;
+
+import java.sql.SQLException;
 
 /**
  *
@@ -16,9 +21,11 @@ import services.CustomerCRUDService;
  */
 public class TestingCRUD {
     
-    public static void main(String[] args){
-        CustomerCRUDService c = new CustomerCRUDService();
-        AddressCRUDService a = new AddressCRUDService();
+    public static void main(String[] args) throws SQLException {
+        final DatabaseContextProvider provider = new CachedPostgresContextProvider();
+        DSLContext create = provider.getDslContext("jdbc:postgres:postgres", "postgres", "g3mt45t1c");
+        CustomerCRUDService c = new CustomerCRUDService(create);
+        AddressCRUDService a = new AddressCRUDService(create);
         
         
         CustomerRecord cr = c.read(4);
