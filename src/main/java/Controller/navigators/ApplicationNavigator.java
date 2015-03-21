@@ -20,7 +20,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import org.jooq.DSLContext;
 import org.jooq.Result;
+import services.AddressCRUDService;
 import services.CustomerCRUDService;
+import services.CustomerSearchService;
+import sun.java2d.loops.CustomComponent;
 
 /**
  *
@@ -48,17 +51,23 @@ public class ApplicationNavigator {
     public static ApplicationController controller;
 
 //    private static 
-    public static void setController(ApplicationController controller, DatabaseContextProvider provider) throws SQLException {
+    public static ApplicationController initiateControllers(DatabaseContextProvider provider) throws SQLException {
 
-        final DSLContext create = provider.getDslContext("jdbc:postgres:postgres", "postgres", "g3mt45t1c");
+        final DSLContext create = provider.getDslContext("jdbc:postgresql:gemtastic", "Gemtastic", "se");
+
+        final AddressCRUDService addressCRUDService = new AddressCRUDService(create);
+        final CustomerCRUDService customerCRUDService = new CustomerCRUDService(create);
+        final CustomerSearchService customerSearchService = new CustomerSearchService(create);
 
         // Todo: Instantiate services **HERE**. Pass the DSLContext above to those who need it.
 
-        ApplicationNavigator.controller = controller;
+        ApplicationNavigator.controller = new ApplicationController(customerSearchService);
         ApplicationNavigator.listCustomersController = new ListCustomerController();
-        ApplicationNavigator.displayCustomersController = new DisplayCustomerController();
-        ApplicationNavigator.editCustomersController = new EditCustomerController();
+        ApplicationNavigator.displayCustomersController = new DisplayCustomerController(addressCRUDService);
+        ApplicationNavigator.editCustomersController = new EditCustomerController(addressCRUDService, customerCRUDService);
         ApplicationNavigator.addCustomersController = new AddCustomerController();
+
+        return controller;
     }
     
     public static void populateTable(Result<CustomerRecord> result){

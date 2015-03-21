@@ -35,14 +35,13 @@ public class LoginController implements Initializable {
 
         final DatabaseContextProvider provider = new CachedPostgresContextProvider();
 
-        loader.setController(new ApplicationController());
+        ApplicationController applicationController = ApplicationNavigator.initiateControllers(provider);
+        loader.setController(applicationController);
         loader.setLocation(ApplicationMain.class.getResource("/fxml/Application.fxml"));
-        
+
         AnchorPane root = loader.load();
-        
-        ApplicationController applicationController = loader.getController();
-        ApplicationNavigator.setController(applicationController, provider);
-        ApplicationNavigator.loadTabContent(ApplicationNavigator.listCustomers, 
+
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listCustomers,
                                             applicationController.customerContent,
                                             ApplicationNavigator.listCustomersController);
         
