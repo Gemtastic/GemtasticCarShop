@@ -23,22 +23,16 @@ import services.interfaces.SearchServices;
  */
 public class CustomerSearchService implements SearchServices {
 
-    private final String dbusername = "postgres";
-    private final String dbpassword = "g3mt45t1c";
-    private final String url = "jdbc:postgresql:postgres";
+
+    private final DSLContext create;
+
+    public CustomerSearchService(DSLContext create) {
+        this.create = create;
+    }
 
     @Override
     public Result<CustomerRecord> getAll() {
-        Result<CustomerRecord> customers = null;
-
-        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
-            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
-            customers = create.fetch(CUSTOMER);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return customers;
+        return create.fetch(CUSTOMER);
     }
 
     @Override
@@ -47,31 +41,25 @@ public class CustomerSearchService implements SearchServices {
         String column = selected.toLowerCase();
 
         if (column != null && constraint != null) {
-            try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
-                DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
-                
-                switch(column){
-                    case "namn":
-                        customers = create.selectFrom(CUSTOMER).where(CUSTOMER.FIRST_NAME.eq(constraint)).fetch();
-                        break;
-                    case "efternamn":
-                        customers = create.selectFrom(CUSTOMER).where(CUSTOMER.LAST_NAME.eq(constraint)).fetch();
-                        break;
-                    case "email":
-                        customers = create.selectFrom(CUSTOMER).where(CUSTOMER.EMAIL.eq(constraint)).fetch();
-                        break;
-                    case "telefon":
-                        customers = create.selectFrom(CUSTOMER).where(CUSTOMER.PHONE.eq(constraint)).fetch();
-                        break;
-                    case "kundnr":
-                        int id = Integer.parseInt(constraint);
-                        customers = create.selectFrom(CUSTOMER).where(CUSTOMER.ID.eq(id)).fetch();
-                        break;
-                    default:
-                        System.out.println("Something borked with the column!");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            switch(column){
+                case "namn":
+                    customers = create.selectFrom(CUSTOMER).where(CUSTOMER.FIRST_NAME.eq(constraint)).fetch();
+                    break;
+                case "efternamn":
+                    customers = create.selectFrom(CUSTOMER).where(CUSTOMER.LAST_NAME.eq(constraint)).fetch();
+                    break;
+                case "email":
+                    customers = create.selectFrom(CUSTOMER).where(CUSTOMER.EMAIL.eq(constraint)).fetch();
+                    break;
+                case "telefon":
+                    customers = create.selectFrom(CUSTOMER).where(CUSTOMER.PHONE.eq(constraint)).fetch();
+                    break;
+                case "kundnr":
+                    int id = Integer.parseInt(constraint);
+                    customers = create.selectFrom(CUSTOMER).where(CUSTOMER.ID.eq(id)).fetch();
+                    break;
+                default:
+                    System.out.println("Something borked with the column!");
             }
         }else{
             System.out.println("Invalid search!");
