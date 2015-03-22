@@ -105,11 +105,6 @@
                         <Insets left="30.0" top="6.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="Lägg till/ta bort fordon">
-                     <HBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </HBox.margin>
-                  </Button>
                </children>
             </HBox>
          </children>
@@ -241,19 +236,19 @@
                <children>
                   <HBox prefHeight="42.0" prefWidth="340.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Visa felanmälan">
+                        <Button fx:id="showMalfunction" mnemonicParsing="false" onAction="#displayMalfunctions" text="Visa felanmälan">
                            <HBox.margin>
                               <Insets left="30.0" top="5.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Ny felanmälan">
+                        <Button fx:id="newMalfunction" mnemonicParsing="false" onAction="#addMalfunction" text="Ny felanmälan">
                            <HBox.margin>
                               <Insets left="20.0" top="5.0" />
                            </HBox.margin>
                         </Button>
                      </children>
                   </HBox>
-                  <Button mnemonicParsing="false" text="Lägg till/ta bort bokning">
+                  <Button fx:id="addRemove" mnemonicParsing="false" onAction="#loadCustomerBookings" text="Lägg till/ta bort bokning">
                      <VBox.margin>
                         <Insets left="30.0" top="20.0" />
                      </VBox.margin>

@@ -6,13 +6,13 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<TableView fx:id="customers" prefHeight="317.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<TableView fx:id="appointment" prefHeight="317.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <columns>
-      <TableColumn fx:id="customerID" prefWidth="72.0" text="MötesID" />
-      <TableColumn fx:id="firstname" prefWidth="88.0" text="Datum" />
-      <TableColumn fx:id="lastname" minWidth="9.0" prefWidth="70.0" text="Typ" />
-      <TableColumn fx:id="email1" prefWidth="97.0" text="Fordon" />
-      <TableColumn fx:id="email2" prefWidth="97.0" text="Kund" />
-      <TableColumn fx:id="email" prefWidth="97.0" text="Mekaniker" />
+      <TableColumn fx:id="appointmentId" prefWidth="72.0" text="MötesID" />
+      <TableColumn fx:id="date" prefWidth="88.0" text="Datum" />
+      <TableColumn fx:id="type" minWidth="9.0" prefWidth="70.0" text="Typ" />
+      <TableColumn fx:id="appointedVehicle" prefWidth="97.0" text="Fordon" />
+      <TableColumn fx:id="payingCustomer" prefWidth="97.0" text="Kund" />
+      <TableColumn fx:id="mechanic" prefWidth="97.0" text="Mekaniker" />
    </columns>
 </TableView>

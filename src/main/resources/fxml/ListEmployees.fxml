@@ -6,12 +6,12 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<TableView fx:id="customers" prefHeight="317.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<TableView fx:id="employees" prefHeight="317.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <columns>
-      <TableColumn fx:id="customerID" prefWidth="88.0" text="Anställningsid" />
-      <TableColumn fx:id="firstname" prefWidth="84.0" text="Telefon" />
-      <TableColumn fx:id="lastname" minWidth="9.0" prefWidth="141.0" text="Email" />
-      <TableColumn fx:id="email" prefWidth="102.0" text="Användarnamn" />
-      <TableColumn fx:id="phone" minWidth="0.0" prefWidth="102.0" text="Lösenord" />
+      <TableColumn fx:id="employeeId" prefWidth="88.0" text="Anställningsid" />
+      <TableColumn fx:id="phone" prefWidth="84.0" text="Telefon" />
+      <TableColumn fx:id="email" minWidth="9.0" prefWidth="141.0" text="Email" />
+      <TableColumn fx:id="username" prefWidth="102.0" text="Användarnamn" />
+      <TableColumn fx:id="password" minWidth="0.0" prefWidth="102.0" text="Lösenord" />
    </columns>
 </TableView>

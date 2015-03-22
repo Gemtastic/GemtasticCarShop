@@ -7,8 +7,8 @@ package resources;
 
 import com.gemtastic.carshop.tables.records.AddressRecord;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
-import services.AddressCRUDService;
-import services.CustomerCRUDService;
+import services.CRUD.AddressCRUDService;
+import services.CRUD.CustomerCRUDService;
 
 /**
  *

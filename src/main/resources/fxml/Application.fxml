@@ -34,9 +34,9 @@
                   </ImageView>
                </children>
             </GridPane>
-            <TabPane prefHeight="406.0" prefWidth="667.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+            <TabPane fx:id="tabPane" prefHeight="406.0" prefWidth="667.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
               <tabs>
-                <Tab closable="false" text="Kund">
+                <Tab fx:id="customerTab" closable="false" text="Kund">
                      <content>
                         <BorderPane fx:id="customerContent">
                            <top>
@@ -77,6 +77,11 @@
                                           <Insets left="30.0" />
                                        </HBox.margin>
                                     </Button>
+                                    <Button fx:id="removeCustomerBtn" mnemonicParsing="false" onAction="#removeCustomer" text="Tabort vald kund">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
                                     <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Button fx:id="addCustomer" mnemonicParsing="false" text="Skapa ny kund">
@@ -92,7 +97,7 @@
                         </BorderPane>
                      </content>
                   </Tab>
-                  <Tab text="Bokningar">
+                  <Tab fx:id="bookingTab" text="Bokningar">
                      <content>
                         <BorderPane fx:id="bookingContent" prefHeight="200.0" prefWidth="200.0">
                            <top>
@@ -100,17 +105,17 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <TextField prefHeight="25.0" prefWidth="208.0">
+                                          <TextField fx:id="bookingSearchField" onAction="#searchBookings" prefHeight="25.0" prefWidth="208.0">
                                              <HBox.margin>
                                                 <Insets left="20.0" />
                                              </HBox.margin>
                                           </TextField>
-                                          <ChoiceBox prefWidth="150.0">
+                                          <ChoiceBox fx:id="bookingCb" prefWidth="150.0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </ChoiceBox>
-                                          <Button mnemonicParsing="false" text="Sök">
+                                          <Button fx:id="bookingSearchBtn" mnemonicParsing="false" onAction="#searchBookings" text="Sök">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
@@ -128,14 +133,19 @@
                            <bottom>
                               <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Visa vald bokning">
+                                    <Button fx:id="showBookingBtn" mnemonicParsing="false" onAction="#displayBooking" text="Visa vald bokning">
                                        <HBox.margin>
                                           <Insets left="30.0" />
                                        </HBox.margin>
                                     </Button>
+                                    <Button fx:id="deleteBookingBtn" mnemonicParsing="false" onAction="#deleteBooking" text="Tabort vald bokning">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
                                     <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Skapa ny bokning">
+                                          <Button fx:id="newBookingBtn" mnemonicParsing="false" onAction="#newAppointment" text="Skapa ny bokning">
                                              <HBox.margin>
                                                 <Insets right="30.0" />
                                              </HBox.margin>
@@ -148,7 +158,7 @@
                         </BorderPane>
                      </content>
                   </Tab>
-                  <Tab closable="false" text="Servicetillfällen">
+                  <Tab fx:id="appointmentTab" closable="false" text="Servicetillfällen">
                      <content>
                         <BorderPane fx:id="appointmentContent">
                            <top>
@@ -156,17 +166,17 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <TextField fx:id="customerSearchField1" prefHeight="25.0" prefWidth="208.0">
+                                          <TextField fx:id="appointmentSearchField" onAction="#searchAppointment" prefHeight="25.0" prefWidth="208.0">
                                              <HBox.margin>
                                                 <Insets left="20.0" />
                                              </HBox.margin>
                                           </TextField>
-                                          <ChoiceBox fx:id="customerCb1" prefWidth="150.0">
+                                          <ChoiceBox fx:id="appointmentCb" prefWidth="150.0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </ChoiceBox>
-                                          <Button fx:id="customerSearch1" mnemonicParsing="false" onAction="#searchCustomer" text="Sök">
+                                          <Button fx:id="appointmentSearchBtn" mnemonicParsing="false" onAction="#searchAppointment" text="Sök">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
@@ -184,14 +194,19 @@
                            <bottom>
                               <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Visa valt tillfälle">
+                                    <Button fx:id="showAppointmentBtn" mnemonicParsing="false" onAction="#displayAppointment" text="Visa valt tillfälle">
                                        <HBox.margin>
                                           <Insets left="30.0" />
                                        </HBox.margin>
                                     </Button>
+                                    <Button fx:id="deleteAppointmentBtn" mnemonicParsing="false" onAction="#deleteAppointment" text="Tabort valt tillfälle">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
                                     <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Skapa nytt servicetillfälle">
+                                          <Button fx:id="newAppointmentBtn" mnemonicParsing="false" onAction="#newAppointment" text="Skapa nytt servicetillfälle">
                                              <HBox.margin>
                                                 <Insets right="30.0" />
                                              </HBox.margin>
@@ -204,7 +219,7 @@
                         </BorderPane>
                      </content>
                   </Tab>
-                  <Tab text="Fordon">
+                  <Tab fx:id="vehicleTab" text="Fordon">
                      <content>
                         <BorderPane fx:id="vehicleContent" prefHeight="365.0" prefWidth="667.0">
                            <top>
@@ -212,17 +227,17 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <TextField prefHeight="25.0" prefWidth="208.0">
+                                          <TextField fx:id="vehicleSearchField" onAction="#searchVehicle" prefHeight="25.0" prefWidth="208.0">
                                              <HBox.margin>
                                                 <Insets left="20.0" />
                                              </HBox.margin>
                                           </TextField>
-                                          <ChoiceBox prefWidth="150.0">
+                                          <ChoiceBox fx:id="vehicleCb" prefWidth="150.0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </ChoiceBox>
-                                          <Button mnemonicParsing="false" text="Sök">
+                                          <Button fx:id="vehicleSearchBtn" mnemonicParsing="false" onAction="#searchVehicle" text="Sök">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
@@ -240,19 +255,19 @@
                            <bottom>
                               <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Visa valt fordon">
+                                    <Button fx:id="showCarBtn" mnemonicParsing="false" onAction="#displayVehicle" text="Visa valt fordon">
                                        <HBox.margin>
                                           <Insets left="30.0" />
                                        </HBox.margin>
                                     </Button>
+                                    <Button fx:id="deleteVehicleBtn" mnemonicParsing="false" onAction="#deleteVehicle" text="Tabort valt fordon">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
                                     <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Lägg till/ta bort ägare">
-                                             <HBox.margin>
-                                                <Insets right="20.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                          <Button mnemonicParsing="false" text="Lägg till fordon">
+                                          <Button fx:id="newVehicleBtn" mnemonicParsing="false" onAction="#newVehicle" text="Lägg till fordon">
                                              <HBox.margin>
                                                 <Insets right="30.0" />
                                              </HBox.margin>
@@ -268,7 +283,7 @@
                         </BorderPane>
                      </content>
                   </Tab>
-                  <Tab text="Felanmälan">
+                  <Tab fx:id="malfunctionTab" text="Felanmälan">
                      <content>
                         <BorderPane fx:id="malfunctionsContent" prefHeight="200.0" prefWidth="200.0">
                            <top>
@@ -276,17 +291,17 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <TextField prefHeight="25.0" prefWidth="208.0">
+                                          <TextField fx:id="malfunctionSearchField" onAction="#searchMalfunction" prefHeight="25.0" prefWidth="208.0">
                                              <HBox.margin>
                                                 <Insets left="20.0" />
                                              </HBox.margin>
                                           </TextField>
-                                          <ChoiceBox prefWidth="150.0">
+                                          <ChoiceBox fx:id="malfunctionCb" prefWidth="150.0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </ChoiceBox>
-                                          <Button mnemonicParsing="false" text="Sök">
+                                          <Button fx:id="malfunctionSeachBtn" mnemonicParsing="false" onAction="#searchMalfunction" text="Sök">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
@@ -304,14 +319,19 @@
                            <bottom>
                               <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Visa vald felanmälan">
+                                    <Button fx:id="showMalfunctionBtn" mnemonicParsing="false" onAction="#displayMalfunction" text="Visa vald felanmälan">
                                        <HBox.margin>
                                           <Insets left="30.0" />
                                        </HBox.margin>
                                     </Button>
+                                    <Button fx:id="deleteMalfunctionBtn" mnemonicParsing="false" onAction="#deleteMalfunction" text="Tabort vald felanmälan">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
                                     <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Skapa ny felanmälan">
+                                          <Button fx:id="newMalfunctionBtn" mnemonicParsing="false" onAction="#newMalfunction" text="Skapa ny felanmälan">
                                              <HBox.margin>
                                                 <Insets right="30.0" />
                                              </HBox.margin>
@@ -324,7 +344,7 @@
                         </BorderPane>
                      </content>
                   </Tab>
-                  <Tab text="Anställda">
+                  <Tab fx:id="employeeTab" text="Anställda">
                      <content>
                         <BorderPane fx:id="employeeContent" prefHeight="200.0" prefWidth="200.0">
                            <top>
@@ -332,17 +352,17 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <TextField prefHeight="25.0" prefWidth="208.0">
+                                          <TextField fx:id="employeeSearchField" onAction="#searchEmployee" prefHeight="25.0" prefWidth="208.0">
                                              <HBox.margin>
                                                 <Insets left="20.0" />
                                              </HBox.margin>
                                           </TextField>
-                                          <ChoiceBox prefWidth="150.0">
+                                          <ChoiceBox fx:id="employeeCb" prefWidth="150.0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </ChoiceBox>
-                                          <Button mnemonicParsing="false" text="Sök">
+                                          <Button fx:id="employeeSearchBtn" mnemonicParsing="false" onAction="#searchEmployee" text="Sök">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
@@ -360,14 +380,19 @@
                            <bottom>
                               <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button mnemonicParsing="false" text="Visa vald anställd">
+                                    <Button fx:id="showEmployeeBtn" mnemonicParsing="false" onAction="#displayEmployee" text="Visa vald anställd">
                                        <HBox.margin>
                                           <Insets left="30.0" />
                                        </HBox.margin>
                                     </Button>
+                                    <Button fx:id="deleteEmployeeBtn" mnemonicParsing="false" onAction="#deleteEmployee" text="Tabort vald anställd">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
                                     <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Skapa ny anställd">
+                                          <Button fx:id="newEmployeeBtn" mnemonicParsing="false" onAction="#newEmployee" text="Skapa ny anställd">
                                              <HBox.margin>
                                                 <Insets right="30.0" />
                                              </HBox.margin>
@@ -380,7 +405,7 @@
                         </BorderPane>
                      </content>
                   </Tab>
-                <Tab text="Statistik">
+                <Tab fx:id="statisticTab" text="Statistik">
                      <content>
                         <BorderPane fx:id="statisticsContent" prefHeight="200.0" prefWidth="200.0">
                            <top>

@@ -19,10 +19,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import org.jooq.Record;
-import services.AddressCRUDService;
+import services.CRUD.AddressCRUDService;
 import services.CarSearchService;
-import services.MakeCRUDService;
-import services.ModelCRUDService;
+import services.CRUD.MakeCRUDService;
+import services.CRUD.ModelCRUDService;
 
 /**
  *
@@ -65,9 +65,24 @@ public class DisplayCustomerController implements Initializable {
 
     @FXML
     private ListView vehicles;
+    
+    @FXML
+    private ListView malfunctions;
+    
+    @FXML
+    private Button showMalfunction;
+    
+    @FXML
+    private Button newMalfunction;
+    
+    @FXML
+    private Button addRemove;
 
     @FXML
     private Button showCar;
+    
+//    @FXML
+//    private Button showAppointments;
 
     public void cleanSlate() {
         this.name.setVisible(false);
@@ -137,8 +152,9 @@ public class DisplayCustomerController implements Initializable {
         ModelCRUDService modelService = new ModelCRUDService();
 
         List<CarRecord> record = carService.getAllCarsByOwner(customer.getId());
+        System.out.println(record);
 
-        if (record != null) {
+        if (!record.isEmpty()) {
             for (CarRecord r : record) {
                 CarModelRecord model = modelService.read(r.getCarModel());
                 MakeRecord make = makeService.read(model.getMake());
@@ -154,7 +170,7 @@ public class DisplayCustomerController implements Initializable {
             }
             showCar.setDisable(false);
         } else {
-            String message = "No cars avalible";
+            String message = "Denna kund äger inga bilar.";
             carInfo.add(message);
             showCar.setDisable(true);
         }
@@ -162,19 +178,36 @@ public class DisplayCustomerController implements Initializable {
     }
 
     @FXML
-    private void DisplayCar() {
+    private void displayCar() {
 
-            CarRecord r = null;
-            Object selected = vehicles.getSelectionModel().getSelectedItem();
-            String info = selected.toString();
+        CarRecord r = null;
+        Object selected = vehicles.getSelectionModel().getSelectedItem();
+        String info = selected.toString();
 
-            for (String s : cars.keySet()) {
-                if(s.equals(info)){
-                    r = cars.get(s);
-                    break;
-                }
+        for (String s : cars.keySet()) {
+            if (s.equals(info)) {
+                r = cars.get(s);
+                break;
             }
+        }
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.vehicle,
+                ApplicationNavigator.controller.vehicleContent,
+                ApplicationNavigator.displayCarController);
+        ApplicationNavigator.displayCarController.loadCar(r);
+        
+        ApplicationNavigator.setActiveTab(ApplicationNavigator.controller.vehicleTab);
     }
+    
+    @FXML
+    private void displayMalfunctions(){
+        
+    }
+    
+    @FXML
+    private void addMalfunction(){
+        
+    }
+    
 
     @FXML
     private void editCustomer() {
@@ -183,6 +216,11 @@ public class DisplayCustomerController implements Initializable {
                 ApplicationNavigator.editCustomersController);
         ApplicationNavigator.editCustomersController.loadCustomer(customer);
 
+    }
+    
+    @FXML
+    private void loadCustomerBookings(){
+        
     }
 
     @Override

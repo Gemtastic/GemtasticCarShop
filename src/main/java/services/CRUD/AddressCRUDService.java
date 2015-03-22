@@ -1,4 +1,4 @@
-package services;
+package services.CRUD;
 
 import static com.gemtastic.carshop.tables.Address.ADDRESS;
 import static com.gemtastic.carshop.tables.Customer.CUSTOMER;

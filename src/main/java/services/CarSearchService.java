@@ -1,18 +1,22 @@
 package services;
 
+import services.CRUD.CarCRUDService;
 import static com.gemtastic.carshop.tables.Car.CAR;
 import static com.gemtastic.carshop.tables.Ownership.OWNERSHIP;
 import com.gemtastic.carshop.tables.records.CarRecord;
+import com.gemtastic.carshop.tables.records.CustomerRecord;
 import com.gemtastic.carshop.tables.records.OwnershipRecord;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
+import services.CRUD.CustomerCRUDService;
 import services.interfaces.SearchServices;
 
 /**
@@ -95,5 +99,29 @@ public class CarSearchService implements SearchServices {
             e.printStackTrace();
         }
         return cars;
+    }
+    
+    public List<CustomerRecord> getOwnersByCar(int carId){
+        List<CustomerRecord> owners = FXCollections.observableArrayList();
+        CustomerCRUDService service = new CustomerCRUDService();
+        
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+            Result<OwnershipRecord> id = create.selectFrom(OWNERSHIP).where(OWNERSHIP.CAR.eq(carId)).fetch();
+            
+            for (OwnershipRecord r : id) {
+                CustomerRecord car = service.read(r.getOwner());
+                try{
+                    owners.add(car);
+                }catch(NullPointerException e){
+                    e.printStackTrace();
+                }
+                
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return owners;
     }
 }

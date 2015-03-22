@@ -1,4 +1,4 @@
-package services;
+package services.CRUD;
 
 import static Controller.navigators.ApplicationNavigator.customer;
 import static com.gemtastic.carshop.tables.Customer.CUSTOMER;

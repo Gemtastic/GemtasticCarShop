@@ -6,11 +6,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<TableView fx:id="customers" prefHeight="317.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<TableView fx:id="malfunction" prefHeight="317.0" prefWidth="576.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <columns>
-      <TableColumn fx:id="customerID" prefWidth="72.0" text="RapportId" />
-      <TableColumn fx:id="firstname" prefWidth="106.0" text="Datum" />
-      <TableColumn fx:id="lastname" minWidth="9.0" prefWidth="71.0" text="Fordon" />
-      <TableColumn fx:id="email" prefWidth="255.0" text="Meddelande" />
+      <TableColumn fx:id="malfunctionId" prefWidth="72.0" text="RapportId" />
+      <TableColumn fx:id="date" prefWidth="106.0" text="Datum" />
+      <TableColumn fx:id="malfunctioningCar" minWidth="9.0" prefWidth="71.0" text="Fordon" />
+      <TableColumn fx:id="message" prefWidth="255.0" text="Meddelande" />
    </columns>
 </TableView>

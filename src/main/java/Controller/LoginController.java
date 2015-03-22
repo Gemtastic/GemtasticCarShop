@@ -45,6 +45,23 @@ public class LoginController implements Initializable {
         
         stage.setScene(scene);
         stage.show();
+        
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listBookings, 
+                                            ApplicationNavigator.controller.bookingContent,
+                                            ApplicationNavigator.listBookingController);
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listAppointments, 
+                                            ApplicationNavigator.controller.appointmentContent,
+                                            ApplicationNavigator.listAppointmentController);
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listVehicles, 
+                                            ApplicationNavigator.controller.vehicleContent,
+                                            ApplicationNavigator.listCustomersController);
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listEmployees, 
+                                            ApplicationNavigator.controller.employeeContent,
+                                            ApplicationNavigator.listEmployeesController);
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listMalfunctions, 
+                                            ApplicationNavigator.controller.malfunctionsContent,
+                                            ApplicationNavigator.listMalfunctionController);
+        
         Stage oldStage = (Stage)loginbtn.getScene().getWindow();
         oldStage.close();
         
