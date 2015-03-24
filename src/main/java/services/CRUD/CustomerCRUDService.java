@@ -41,7 +41,6 @@ public class CustomerCRUDService implements CRUDServices<CustomerRecord> {
             
             // Get the (possibly) auto-generated ID from the record
             Integer id = r.getId();
-            System.out.println("ID = " + id);
             r.setId(id);
             r.store();
             

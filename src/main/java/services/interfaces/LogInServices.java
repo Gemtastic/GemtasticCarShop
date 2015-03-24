@@ -11,8 +11,8 @@ package services.interfaces;
  */
 public interface LogInServices {
     
-    public boolean verify();
+    public boolean verify(String username, String password);
     
-    public boolean hash();
+    public String hash(String password);
     
 }

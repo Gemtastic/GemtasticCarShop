@@ -84,7 +84,7 @@
                                     </Button>
                                     <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Button fx:id="addCustomer" mnemonicParsing="false" text="Skapa ny kund">
+                                          <Button fx:id="addCustomerBtn" mnemonicParsing="false" onAction="#addCustomer" text="Skapa ny kund">
                                              <HBox.margin>
                                                 <Insets right="30.0" />
                                              </HBox.margin>

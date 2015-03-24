@@ -1,12 +1,10 @@
 package Controller;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import Controller.appointments.AppointmentSearchService;
 import Controller.customers.ListCustomerController;
 import Controller.navigators.ApplicationNavigator;
+import com.gemtastic.carshop.tables.records.AppointmentsRecord;
+import com.gemtastic.carshop.tables.records.CarRecord;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
 import java.io.IOException;
 import java.net.URL;
@@ -24,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import org.jooq.Result;
 import services.CRUD.CustomerCRUDService;
+import services.CarSearchService;
 import services.CustomerSearchService;
 
 /**
@@ -75,6 +74,9 @@ public class ApplicationController implements Initializable {
     @FXML
     private Button removeCustomerBtn;
     
+    @FXML
+    private Button addCustomerBtn;
+    
     
     // Vehicle tab, methods and data
     @FXML
@@ -97,6 +99,9 @@ public class ApplicationController implements Initializable {
     
     @FXML
     private ChoiceBox vehicleCb;
+    
+    @FXML
+    private Label errorSearchVehicle;
     
     
     // Appointment tab, methods and data
@@ -121,6 +126,9 @@ public class ApplicationController implements Initializable {
     @FXML
     private ChoiceBox appointmentCb;
     
+    @FXML
+    private Label errorSearchAppointment;
+    
     
     // Bookings tab, methods and data
     @FXML
@@ -143,6 +151,9 @@ public class ApplicationController implements Initializable {
     
     @FXML
     private ChoiceBox bookingCb;
+    
+    @FXML
+    private Label errorSearchBooking;
     
     
     // Employee tab, methods and data
@@ -167,6 +178,9 @@ public class ApplicationController implements Initializable {
     @FXML
     private ChoiceBox employeeCb;
     
+    @FXML
+    private Label errorSearchEmployee;
+    
     
     // Malfunction tab, methods and data
     @FXML
@@ -189,6 +203,9 @@ public class ApplicationController implements Initializable {
     
     @FXML
     private ChoiceBox malfunctionCb;
+    
+    @FXML
+    private Label errorSearchMalfunction;
     
     
     // Statistics tab, methods and data
@@ -216,13 +233,13 @@ public class ApplicationController implements Initializable {
         if (customerSearchField.getText().isEmpty() && column == null) {
             customers = service.getAll();
             errorSearchCustomer.setVisible(false);
-            ApplicationNavigator.populateTable(customers);
+            ApplicationNavigator.listCustomersController.populateTable(customers);
         } else if (!customerSearchField.getText().isEmpty() && column == null) {
             errorSearchCustomer.setVisible(true);
-            ApplicationNavigator.populateTable(customers);
+            ApplicationNavigator.listCustomersController.populateTable(customers);
         } else if (customerSearchField.getText().isEmpty() && column != null) {
             errorSearchCustomer.setVisible(true);
-            ApplicationNavigator.populateTable(customers);
+            ApplicationNavigator.listCustomersController.populateTable(customers);
         } else {
             customers = service.getAllWhere(column, search);
 
@@ -232,7 +249,7 @@ public class ApplicationController implements Initializable {
                 errorSearchCustomer.setVisible(false);
 
             }
-            ApplicationNavigator.populateTable(customers);
+            ApplicationNavigator.listCustomersController.populateTable(customers);
         }
         
         customerCb.setValue(null);
@@ -261,68 +278,82 @@ public class ApplicationController implements Initializable {
         }
     }
     
+    @FXML
+    private void addCustomer(){
+        
+    }
     
+    
+    // Booking methods
     @FXML
     private void searchBookings(){
         showBookingBtn.setDisable(false);
 
-        ApplicationNavigator.loadTabContent(ApplicationNavigator.listCustomers, customerContent,
-                ApplicationNavigator.listCustomersController);
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listBookings, bookingContent,
+                ApplicationNavigator.listBookingController);
 
-        CustomerSearchService service = new CustomerSearchService();
-        Result<CustomerRecord> customers = null;
-        String search = customerSearchField.getText();
+        AppointmentSearchService service = new AppointmentSearchService();
+        CarSearchService carService = new CarSearchService();
+        
+        Result<AppointmentsRecord> appointments = null;
+        String search = bookingSearchField.getText();
 
         // Ugly fix; customerCb returns an object and adding the toString() 
         // method didn't work, but this does
-        Object cb = customerCb.getSelectionModel().getSelectedItem();
+        Object cb = bookingCb.getSelectionModel().getSelectedItem();
         String column = null;
         if (cb != null) {
             column = cb.toString();
         }
 
         // Search and display result or error message
-        if (customerSearchField.getText().isEmpty() && column == null) {
-            customers = service.getAll();
-            errorSearchCustomer.setVisible(false);
-            ApplicationNavigator.populateTable(customers);
+        if (appointmentSearchField.getText().isEmpty() && column == null) {
+            appointments = service.getAll();
+            errorSearchAppointment.setVisible(false);
+            ApplicationNavigator.listAppointmentController.populateTable(appointments);
         } else if (!customerSearchField.getText().isEmpty() && column == null) {
             errorSearchCustomer.setVisible(true);
-            ApplicationNavigator.populateTable(customers);
+            ApplicationNavigator.listAppointmentController.populateTable(appointments);
         } else if (customerSearchField.getText().isEmpty() && column != null) {
             errorSearchCustomer.setVisible(true);
-            ApplicationNavigator.populateTable(customers);
+            ApplicationNavigator.listAppointmentController.populateTable(appointments);
         } else {
-            customers = service.getAllWhere(column, search);
+            
+            CarRecord car = carService.getByPlate(search);
+            String id = String.valueOf(car.getId());
+            appointments = service.getAllWhere(column, id);
 
-            if (customers == null) {
+            if (appointments == null) {
                 errorSearchCustomer.setVisible(true);
             } else {
                 errorSearchCustomer.setVisible(false);
 
             }
-            ApplicationNavigator.populateTable(customers);
+            
+            Result<AppointmentsRecord> bookings = service.getAllWhere("booking", column);
+            
+            ApplicationNavigator.listAppointmentController.populateTable(bookings);
         }
         
-        customerCb.setValue(null);
+        bookingCb.setValue(null);
     }
     
     @FXML
     private void displayBooking(){
         
     }
-    
-    @FXML
-    private void newAppointment(){
-        
-    }
-    
     @FXML
     private void deleteBooking(){
         
     }
     
+    // Appointments and Bookings are the same in the DB
+    @FXML
+    private void newAppointment(){
+        
+    }
     
+    // Appointment methods
     @FXML
     private void searchAppointment(){
         
@@ -339,6 +370,7 @@ public class ApplicationController implements Initializable {
     }
     
     
+    // Employee methods
     @FXML
     private void searchEmployee(){
         
@@ -360,6 +392,7 @@ public class ApplicationController implements Initializable {
     }
     
     
+    // Vehicle Methods
     @FXML
     private void searchVehicle(){
         
@@ -381,6 +414,7 @@ public class ApplicationController implements Initializable {
     }
     
     
+    // Malfunction methods
     @FXML
     private void searchMalfunction(){
         
@@ -446,8 +480,8 @@ public class ApplicationController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         customerCb.setItems(FXCollections.observableArrayList("Namn", "Efternamn", "Email", "Telefon", "Kundnr"));
         vehicleCb.setItems(FXCollections.observableArrayList("Nummerplåt", "Kundnr", "Märke", "Modell"));
-        appointmentCb.setItems(FXCollections.observableArrayList("Datum", "Kundnr", "Nummerplåt"));
-        bookingCb.setItems(FXCollections.observableArrayList("Datum", "Kundnr", "Nummerplåt"));
+        appointmentCb.setItems(FXCollections.observableArrayList("Kundnr", "Nummerplåt"));
+        bookingCb.setItems(FXCollections.observableArrayList("Kundnr", "Nummerplåt"));
         employeeCb.setItems(FXCollections.observableArrayList("Användarnamn", "Anställningsnr", "Telefon"));
         malfunctionCb.setItems(FXCollections.observableArrayList("Datum", "Kundnr", "Nummerplåt"));
     }

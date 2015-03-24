@@ -25,6 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
+import org.jooq.Record;
 import org.jooq.Result;
 
 /**
@@ -36,7 +37,7 @@ public class ApplicationNavigator implements Initializable{
     public static String customer = "/fxml/DisplayCustomer.fxml";
     public static String listCustomers = "/fxml/ListCustomers.fxml";
     public static String editCustomers = "/fxml/EditCustomer.fxml";
-    public static String addCustomers = "/fxml/AddCustomers.fxml";
+    public static String addCustomers = "/fxml/AddCustomer.fxml";
 
     public static String vehicle = "/fxml/DisplayVehicle.fxml";
     public static String listVehicles = "/fxml/ListVehicles.fxml";
@@ -102,10 +103,6 @@ public class ApplicationNavigator implements Initializable{
         ApplicationNavigator.listMalfunctionController = new ListMalfunctionController();
     }
 
-    public static void populateTable(Result<CustomerRecord> result) {
-        listCustomersController.populateTable(result);
-    }
-
     /**
      * This method is in charge of setting the content of a node and sending it
      * to the controller which will set the panes.
@@ -129,6 +126,11 @@ public class ApplicationNavigator implements Initializable{
         }
     }
 
+    /**
+     * This method moves to the new tab where things are happening.
+     * 
+     * @param tab 
+     */
     public static void setActiveTab(Tab tab) {
 
         System.out.println("tab: " + tab);

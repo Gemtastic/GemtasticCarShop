@@ -6,7 +6,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <HBox prefHeight="288.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox maxWidth="-Infinity" prefHeight="288.0" prefWidth="286.0">
@@ -26,7 +25,7 @@
                         <Insets left="30.0" />
                      </HBox.margin>
                   </Label>
-                  <ChoiceBox prefHeight="22.0" prefWidth="88.0">
+                  <ChoiceBox fx:id="gender" prefHeight="22.0" prefWidth="88.0">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -41,7 +40,7 @@
                   <Insets left="30.0" />
                </VBox.margin>
             </Label>
-            <DatePicker prefHeight="25.0" prefWidth="147.0">
+            <DatePicker fx:id="dateOfBirth" prefHeight="25.0" prefWidth="147.0">
                <VBox.margin>
                   <Insets left="30.0" />
                </VBox.margin>
@@ -132,12 +131,12 @@
             </TextField>
             <HBox alignment="TOP_RIGHT" maxWidth="-Infinity" prefHeight="49.0" prefWidth="232.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#saveEdit" text="Spara" HBox.hgrow="ALWAYS">
+                  <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#addCustomer" text="Lägg till" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="30.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#cancelEdit" text="Avbryt" HBox.hgrow="ALWAYS">
+                  <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#cancelAdd" text="Avbryt" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="10.0" top="10.0" />
                      </HBox.margin>

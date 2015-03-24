@@ -124,4 +124,17 @@ public class CarSearchService implements SearchServices {
         
         return owners;
     }
+    
+    public CarRecord getByPlate(String plate){
+        CarRecord car = null;
+
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+            car = create.selectFrom(CAR).where(CAR.LICENSE_PLATE.eq(plate)).fetchOne();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return car;
+    }
 }

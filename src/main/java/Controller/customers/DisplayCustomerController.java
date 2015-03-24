@@ -1,5 +1,6 @@
 package Controller.customers;
 
+import Controller.appointments.AppointmentSearchService;
 import Controller.navigators.ApplicationNavigator;
 import com.gemtastic.carshop.tables.records.AddressRecord;
 import com.gemtastic.carshop.tables.records.CarModelRecord;
@@ -18,7 +19,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import org.jooq.Record;
 import services.CRUD.AddressCRUDService;
 import services.CarSearchService;
 import services.CRUD.MakeCRUDService;
@@ -62,6 +62,9 @@ public class DisplayCustomerController implements Initializable {
 
     @FXML
     private Label zip;
+    
+    @FXML
+    private Label appointmentCount;
 
     @FXML
     private ListView vehicles;
@@ -100,8 +103,9 @@ public class DisplayCustomerController implements Initializable {
     public void loadCustomer(CustomerRecord customer) {
         this.customer = customer;
 
-        AddressCRUDService service = new AddressCRUDService();
-        AddressRecord address = service.read(customer.getAddress());
+        AddressCRUDService addressService = new AddressCRUDService();
+        AddressRecord address = addressService.read(customer.getAddress());
+        AppointmentSearchService appointmentService = new AppointmentSearchService();
 
         this.name.setText(customer.getFirstName() + " " + customer.getLastName());
         this.phone.setText(customer.getPhone());

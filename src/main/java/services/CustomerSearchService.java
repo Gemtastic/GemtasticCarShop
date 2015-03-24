@@ -10,7 +10,6 @@ import com.gemtastic.carshop.tables.records.CustomerRecord;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Date;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.SQLDialect;

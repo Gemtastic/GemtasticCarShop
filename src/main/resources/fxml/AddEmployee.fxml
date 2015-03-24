@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="321.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox prefHeight="47.0" prefWidth="600.0">
+         <children>
+            <Label text="Ny anställd">
+               <HBox.margin>
+                  <Insets left="30.0" top="10.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <VBox prefHeight="234.0" prefWidth="570.0">
+         <children>
+            <Label text="Användarnamn" />
+            <HBox prefHeight="28.0" prefWidth="570.0">
+               <children>
+                  <TextField fx:id="username" maxWidth="-Infinity" onAction="#addUser" prefWidth="200.0" />
+               </children>
+            </HBox>
+            <Label text="Epost">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Label>
+            <HBox prefHeight="30.0" prefWidth="570.0">
+               <children>
+                  <TextField fx:id="email" maxWidth="-Infinity" onAction="#addUser" prefWidth="200.0" />
+               </children>
+            </HBox>
+            <Label text="Telefon">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Label>
+            <HBox prefHeight="28.0" prefWidth="570.0">
+               <children>
+                  <TextField fx:id="phone" maxWidth="-Infinity" onAction="#addUser" prefWidth="200.0" />
+               </children>
+            </HBox>
+            <Label text="Lösenord">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Label>
+            <HBox prefHeight="36.0" prefWidth="570.0">
+               <children>
+                  <PasswordField fx:id="password" maxWidth="-Infinity" onAction="#addUser" prefWidth="200.0" />
+               </children>
+            </HBox>
+            <Label text="Upprepa lösenord" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <PasswordField fx:id="repeatPassword" maxWidth="-Infinity" onAction="#addUser" prefWidth="200.0" />
+                  <Label fx:id="passwordErrorMessage" text="Lösenorden matchar ej" textFill="#bf0000" visible="false">
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+         <VBox.margin>
+            <Insets left="30.0" />
+         </VBox.margin>
+      </VBox>
+      <HBox alignment="TOP_RIGHT" maxWidth="-Infinity" prefHeight="43.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="addUserBtn" mnemonicParsing="false" onAction="#addUser" text="Lägg till ny anställd" />
+            <Button fx:id="cancelUserBtn" mnemonicParsing="false" onAction="#cancelUser" text="Avbryt">
+               <HBox.margin>
+                  <Insets left="20.0" right="30.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>

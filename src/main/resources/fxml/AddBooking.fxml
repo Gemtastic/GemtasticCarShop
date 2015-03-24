@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="BOTTOM_LEFT" maxWidth="-Infinity" prefHeight="50.0" prefWidth="600.0">
+         <children>
+            <Label text="Ny bokning">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="30.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox maxWidth="-Infinity" prefHeight="100.0" prefWidth="600.0">
+         <children>
+            <VBox maxWidth="-Infinity" prefHeight="126.0" prefWidth="270.0">
+               <children>
+                  <Label text="Kund" />
+                  <TextField fx:id="customer" maxWidth="-Infinity" prefWidth="200.0" />
+                  <Label text="Typ">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="type" maxWidth="-Infinity" prefWidth="200.0" />
+                  <Label text="Datum:">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <DatePicker fx:id="scheduledDate" />
+               </children>
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox maxWidth="-Infinity" prefHeight="200.0" prefWidth="300.0">
+               <children>
+                  <Label text="Registreringsnr" />
+                  <TextField fx:id="plates" maxWidth="-Infinity" prefWidth="200.0" />
+                  <Label text="Kommentarer">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextArea fx:id="comments" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" maxWidth="-Infinity" prefHeight="74.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="createBooking" mnemonicParsing="false" text="Skapa bokning">
+               <HBox.margin>
+                  <Insets right="40.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="cancelBooking" mnemonicParsing="false" text="Avbryt">
+               <HBox.margin>
+                  <Insets right="40.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>

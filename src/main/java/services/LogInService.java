@@ -1,5 +1,7 @@
 package services;
 
+import com.gemtastic.carshop.tables.records.EmployeesRecord;
+import org.mindrot.jbcrypt.BCrypt;
 import services.interfaces.LogInServices;
 
 /**
@@ -9,13 +11,26 @@ import services.interfaces.LogInServices;
 public class LogInService implements LogInServices {
 
     @Override
-    public boolean verify() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean verify(String username, String password) {
+        boolean success = false;
+        
+        EmployeeSearchService service = new EmployeeSearchService();
+        
+        EmployeesRecord employee = new EmployeesRecord();
+        
+        // TODO this
+        
+        
+        return success;
     }
 
     @Override
-    public boolean hash() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String hash(String password) {
+        
+        String salt = BCrypt.gensalt();
+        String hashed = BCrypt.hashpw(password, salt);
+        
+        return hashed;
     }
     
 }
