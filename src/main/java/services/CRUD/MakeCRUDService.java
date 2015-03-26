@@ -23,7 +23,7 @@ public class MakeCRUDService implements CRUDServices<MakeRecord>{
     private final String url = "jdbc:postgresql:postgres";
 
     @Override
-    public boolean create(MakeRecord t) {
+    public MakeRecord create(MakeRecord t) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -23,10 +23,26 @@ public class AddressCRUDService implements CRUDServices<AddressRecord>{
     private final String url = "jdbc:postgresql:postgres";
 
     @Override
-    public boolean create(AddressRecord t) {
-        boolean success = false;
+    public AddressRecord create(AddressRecord t) {
+        AddressRecord r = null;
         
-        return success;
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+            
+            r = create.newRecord(ADDRESS);
+            System.out.println(r);
+            
+            r.setCity(t.getCity());
+            r.setCo(t.getCo());
+            r.setStreet(t.getStreet());
+            r.setZip(t.getZip());
+            r.store();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return r;
     }
 
     @Override
@@ -45,7 +61,14 @@ public class AddressCRUDService implements CRUDServices<AddressRecord>{
 
     @Override
     public void delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+
+            create.delete(ADDRESS).where(ADDRESS.ID.eq(id)).execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -21,7 +21,7 @@ public class CarCRUDService implements CRUDServices<CarRecord>{
     private final String url = "jdbc:postgresql:postgres";
 
     @Override
-    public boolean create(CarRecord t) {
+    public CarRecord create(CarRecord t) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

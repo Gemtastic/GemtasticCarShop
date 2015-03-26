@@ -1,6 +1,7 @@
 package services;
 
 import com.gemtastic.carshop.tables.records.EmployeesRecord;
+import org.jooq.Result;
 import org.mindrot.jbcrypt.BCrypt;
 import services.interfaces.LogInServices;
 
@@ -9,18 +10,21 @@ import services.interfaces.LogInServices;
  * @author Gemtastic
  */
 public class LogInService implements LogInServices {
-
+    
     @Override
-    public boolean verify(String username, String password) {
+    public boolean verify(String enteredun, String enteredpw) {
         boolean success = false;
         
-        EmployeeSearchService service = new EmployeeSearchService();
+        EmployeeSearchService search = new EmployeeSearchService();
         
-        EmployeesRecord employee = new EmployeesRecord();
+        Result<EmployeesRecord> employee1 = search.getAllWhere("username", enteredun);
         
-        // TODO this
+        EmployeesRecord r = employee1.get(0);
         
-        
+        if(r != null){
+            String password = r.getPassword();
+            success = BCrypt.checkpw(enteredpw, password);
+        }
         return success;
     }
 

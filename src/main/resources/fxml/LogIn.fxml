@@ -25,7 +25,7 @@
                               <Font name="Arial Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label text="Fel användarnamn eller lösenord." textFill="#ee0f0f" visible="false">
+                        <Label fx:id="error" text="Fel användarnamn eller lösenord." textFill="#ee0f0f" visible="false">
                            <VBox.margin>
                               <Insets left="30.0" />
                            </VBox.margin>
@@ -49,7 +49,7 @@
                         <Insets left="30.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField maxWidth="-Infinity" onAction="#loginAttempt" prefWidth="200.0">
+                  <TextField fx:id="username" maxWidth="-Infinity" onAction="#loginAttempt" prefWidth="200.0">
                      <VBox.margin>
                         <Insets left="30.0" />
                      </VBox.margin>
@@ -59,11 +59,11 @@
                         <Insets left="30.0" top="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField maxWidth="-Infinity" onAction="#loginAttempt" prefWidth="200.0">
+                  <PasswordField fx:id="password" maxWidth="-Infinity" onAction="#loginAttempt" prefWidth="200.0">
                      <VBox.margin>
                         <Insets left="30.0" />
                      </VBox.margin>
-                  </TextField>
+                  </PasswordField>
                </children>
             </VBox>
             <HBox prefHeight="100.0" prefWidth="200.0">

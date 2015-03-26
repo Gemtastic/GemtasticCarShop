@@ -1,7 +1,5 @@
 package services;
 
-import static Controller.navigators.ApplicationNavigator.customer;
-import static com.gemtastic.carshop.tables.Customer.CUSTOMER;
 import static com.gemtastic.carshop.tables.Employees.EMPLOYEES;
 import com.gemtastic.carshop.tables.records.EmployeesRecord;
 import java.sql.Connection;
@@ -25,20 +23,48 @@ public class EmployeeSearchService implements SearchServices<Result<EmployeesRec
     
     @Override
     public Result<EmployeesRecord> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Result<EmployeesRecord> employees = null;
+
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+            employees = create.fetch(EMPLOYEES);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return employees;
     }
 
     @Override
-    public Result<EmployeesRecord> getAllWhere(String column, String constraint) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public EmployeesRecord getByUsername(String username) {
-        EmployeesRecord employee = null;
+    public Result<EmployeesRecord> getAllWhere(String selected, String constraint) {
+        
+        String column = selected.toLowerCase();
+        
+        Result<EmployeesRecord> employee = null;
         
         try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
             DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
-            employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.USERNAME.eq(username)).fetchOne();
+            
+            switch(column){
+                case "anställningsnr":
+                    employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.ID.eq(Integer.parseInt(constraint))).fetch();
+                    break;
+                case "telefon":
+                    employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.PHONE.eq(constraint)).fetch();
+                    break;
+                case "epost":
+                    employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.EMAIL.eq(constraint)).fetch();
+                    break;
+                case "username":
+                    employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.USERNAME.eq(constraint)).fetch();
+                    break;
+                case "password":
+                    employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.PASSWORD.eq(constraint)).fetch();
+                    break;
+                default:
+                    System.out.println("Illegal search!");
+                    break;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

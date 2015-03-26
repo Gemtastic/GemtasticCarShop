@@ -6,6 +6,7 @@ import Controller.navigators.ApplicationNavigator;
 import com.gemtastic.carshop.tables.records.AppointmentsRecord;
 import com.gemtastic.carshop.tables.records.CarRecord;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
+import com.gemtastic.carshop.tables.records.EmployeesRecord;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,9 +22,11 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import org.jooq.Result;
+import services.CRUD.AddressCRUDService;
 import services.CRUD.CustomerCRUDService;
 import services.CarSearchService;
 import services.CustomerSearchService;
+import services.EmployeeSearchService;
 
 /**
  * FXML Controller class
@@ -268,10 +271,12 @@ public class ApplicationController implements Initializable {
     
     @FXML
     private void removeCustomer(){
-        CustomerCRUDService service = new CustomerCRUDService();
+        CustomerCRUDService customerService = new CustomerCRUDService();
+        AddressCRUDService addressService = new AddressCRUDService();
         CustomerRecord customer = ApplicationNavigator.getSelectedCustomer();
         if (customer != null) {
-            service.delete(customer.getId());
+            customerService.delete(customer.getId());
+            addressService.delete(customer.getAddress());
             
             ApplicationNavigator.loadTabContent(ApplicationNavigator.listCustomers, customerContent, 
                                                 ApplicationNavigator.listCustomersController);
@@ -280,7 +285,8 @@ public class ApplicationController implements Initializable {
     
     @FXML
     private void addCustomer(){
-        
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.addCustomers, customerContent, 
+                                                ApplicationNavigator.addCustomersController);
     }
     
     
@@ -373,16 +379,59 @@ public class ApplicationController implements Initializable {
     // Employee methods
     @FXML
     private void searchEmployee(){
+        showEmployeeBtn.setDisable(false);
+
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listEmployees, employeeContent,
+                ApplicationNavigator.listEmployeesController);
+
+        EmployeeSearchService service = new EmployeeSearchService();
+        Result<EmployeesRecord> employees = null;
+        String search = employeeSearchField.getText();
+
+        // Ugly fix; customerCb returns an object and adding the toString() 
+        // method didn't work, but this does
+        Object cb = employeeCb.getSelectionModel().getSelectedItem();
+        String column = null;
+        if (cb != null) {
+            column = cb.toString();
+        }
+
+        // Search and display result or error message
+        if (employeeSearchField.getText().isEmpty() && column == null) {
+            employees = service.getAll();
+            errorSearchEmployee.setVisible(false);
+            ApplicationNavigator.listEmployeesController.populateTable(employees);
+        } else if (!customerSearchField.getText().isEmpty() && column == null) {
+            errorSearchEmployee.setVisible(true);
+            ApplicationNavigator.listEmployeesController.populateTable(employees);
+        } else if (customerSearchField.getText().isEmpty() && column != null) {
+            errorSearchEmployee.setVisible(true);
+            ApplicationNavigator.listEmployeesController.populateTable(employees);
+        } else {
+            employees = service.getAllWhere(column, search);
+
+            if (employees == null) {
+                errorSearchEmployee.setVisible(true);
+            } else {
+                errorSearchEmployee.setVisible(false);
+
+            }
+            ApplicationNavigator.listEmployeesController.populateTable(employees);
+        }
         
+        employeeCb.setValue(null);
     }
     
     @FXML
     private void displayEmployee(){
-        
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.employee, employeeContent, 
+                                                ApplicationNavigator.displayEmployeeController);
     }
     
     @FXML
     private void newEmployee(){
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.addEmployees, employeeContent, 
+                                            ApplicationNavigator.addEmployeeController);
         
     }
     
@@ -482,7 +531,7 @@ public class ApplicationController implements Initializable {
         vehicleCb.setItems(FXCollections.observableArrayList("Nummerplåt", "Kundnr", "Märke", "Modell"));
         appointmentCb.setItems(FXCollections.observableArrayList("Kundnr", "Nummerplåt"));
         bookingCb.setItems(FXCollections.observableArrayList("Kundnr", "Nummerplåt"));
-        employeeCb.setItems(FXCollections.observableArrayList("Användarnamn", "Anställningsnr", "Telefon"));
+        employeeCb.setItems(FXCollections.observableArrayList("Anställningsnr", "Telefon"));
         malfunctionCb.setItems(FXCollections.observableArrayList("Datum", "Kundnr", "Nummerplåt"));
     }
 

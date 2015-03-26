@@ -8,8 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="321.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="223.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox prefHeight="47.0" prefWidth="600.0">
          <children>
@@ -23,66 +22,46 @@
             </Label>
          </children>
       </HBox>
-      <VBox prefHeight="234.0" prefWidth="570.0">
+      <HBox maxWidth="-Infinity" prefHeight="100.0" prefWidth="600.0">
          <children>
-            <Label text="Användarnamn" />
-            <HBox prefHeight="28.0" prefWidth="570.0">
+            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
+                  <Label text="Användarnamn" />
                   <TextField fx:id="username" maxWidth="-Infinity" onAction="#addUser" prefWidth="200.0" />
-               </children>
-            </HBox>
-            <Label text="Epost">
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Label>
-            <HBox prefHeight="30.0" prefWidth="570.0">
-               <children>
+                  <Label text="Telefon" />
+                  <TextField fx:id="phone" maxWidth="-Infinity" onAction="#addUser" prefWidth="200.0" />
+                  <Label text="Epost" />
                   <TextField fx:id="email" maxWidth="-Infinity" onAction="#addUser" prefWidth="200.0" />
                </children>
-            </HBox>
-            <Label text="Telefon">
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Label>
-            <HBox prefHeight="28.0" prefWidth="570.0">
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <TextField fx:id="phone" maxWidth="-Infinity" onAction="#addUser" prefWidth="200.0" />
-               </children>
-            </HBox>
-            <Label text="Lösenord">
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </Label>
-            <HBox prefHeight="36.0" prefWidth="570.0">
-               <children>
+                  <Label text="Lösenord" />
                   <PasswordField fx:id="password" maxWidth="-Infinity" onAction="#addUser" prefWidth="200.0" />
-               </children>
-            </HBox>
-            <Label text="Upprepa lösenord" />
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
+                  <Label text="Upprepa lösenord" />
                   <PasswordField fx:id="repeatPassword" maxWidth="-Infinity" onAction="#addUser" prefWidth="200.0" />
-                  <Label fx:id="passwordErrorMessage" text="Lösenorden matchar ej" textFill="#bf0000" visible="false">
-                     <HBox.margin>
-                        <Insets left="10.0" top="5.0" />
-                     </HBox.margin>
-                  </Label>
+                  <Label fx:id="passwordErrorMessage" text="Lösenorden matchar ej!" textFill="#d30000" />
                </children>
-            </HBox>
+            </VBox>
          </children>
-         <VBox.margin>
-            <Insets left="30.0" />
-         </VBox.margin>
-      </VBox>
+      </HBox>
       <HBox alignment="TOP_RIGHT" maxWidth="-Infinity" prefHeight="43.0" prefWidth="600.0">
          <children>
-            <Button fx:id="addUserBtn" mnemonicParsing="false" onAction="#addUser" text="Lägg till ny anställd" />
+            <Label fx:id="error" text="Fel! Se över alla fälten" textFill="#d30000">
+               <HBox.margin>
+                  <Insets right="30.0" top="15.0" />
+               </HBox.margin>
+            </Label>
+            <Button fx:id="addUserBtn" mnemonicParsing="false" onAction="#addUser" text="Lägg till ny anställd">
+               <HBox.margin>
+                  <Insets right="20.0" top="10.0" />
+               </HBox.margin></Button>
             <Button fx:id="cancelUserBtn" mnemonicParsing="false" onAction="#cancelUser" text="Avbryt">
                <HBox.margin>
-                  <Insets left="20.0" right="30.0" />
+                  <Insets right="20.0" top="10.0" />
                </HBox.margin>
             </Button>
          </children>

@@ -3,6 +3,7 @@ package services.CRUD;
 import static com.gemtastic.carshop.tables.CarModel.CAR_MODEL;
 import static com.gemtastic.carshop.tables.Make.MAKE;
 import com.gemtastic.carshop.tables.records.CarModelRecord;
+import com.gemtastic.carshop.tables.records.MakeRecord;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ public class ModelCRUDService implements CRUDServices<CarModelRecord>{
     private final String url = "jdbc:postgresql:postgres";
     
     @Override
-    public boolean create(CarModelRecord t) {
+    public CarModelRecord create(CarModelRecord t) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

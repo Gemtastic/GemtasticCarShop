@@ -15,6 +15,9 @@ import Controller.customers.AddCustomerController;
 import Controller.customers.DisplayCustomerController;
 import Controller.customers.EditCustomerController;
 import Controller.customers.ListCustomerController;
+import Controller.employees.AddEmployeeController;
+import Controller.employees.DisplayEmployeeController;
+import Controller.employees.EditEmployeeController;
 import Controller.employees.ListEmployeesController;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
 import java.io.IOException;
@@ -25,8 +28,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
-import org.jooq.Record;
-import org.jooq.Result;
 
 /**
  *
@@ -44,10 +45,10 @@ public class ApplicationNavigator implements Initializable{
     public static String editVehicles = "";
     public static String addVehicles = "";
 
-    public static String employee = "";
+    public static String employee = "/fxml/DisplayEmployee.fxml";
     public static String listEmployees = "/fxml/ListEmployees.fxml";
-    public static String editEmployees = "";
-    public static String addEmployees = "";
+    public static String editEmployees = "/fxml/EditEmployee.fxml";
+    public static String addEmployees = "/fxml/AddEmployee.fxml";
 
     public static String malfunction = "";
     public static String listMalfunctions = "/fxml/ListMalfunctions.fxml";
@@ -78,6 +79,9 @@ public class ApplicationNavigator implements Initializable{
     public static ListBookingController listBookingController;
 
     public static ListEmployeesController listEmployeesController;
+    public static AddEmployeeController addEmployeeController;
+    public static DisplayEmployeeController displayEmployeeController;
+    public static EditEmployeeController editEmployeeController;
 
     public static ListMalfunctionController listMalfunctionController;
 
@@ -99,6 +103,9 @@ public class ApplicationNavigator implements Initializable{
         ApplicationNavigator.listBookingController = new ListBookingController();
 
         ApplicationNavigator.listEmployeesController = new ListEmployeesController();
+        ApplicationNavigator.addEmployeeController = new AddEmployeeController();
+        ApplicationNavigator.displayEmployeeController = new DisplayEmployeeController();
+        ApplicationNavigator.editEmployeeController = new EditEmployeeController();
 
         ApplicationNavigator.listMalfunctionController = new ListMalfunctionController();
     }
@@ -133,8 +140,6 @@ public class ApplicationNavigator implements Initializable{
      */
     public static void setActiveTab(Tab tab) {
 
-        System.out.println("tab: " + tab);
-
         try {
             controller.tabPane.getTabs().add(controller.appointmentTab);
             controller.tabPane.getTabs().add(controller.bookingTab);
@@ -145,8 +150,6 @@ public class ApplicationNavigator implements Initializable{
             controller.tabPane.getTabs().add(controller.vehicleTab);
 
             SingleSelectionModel<Tab> selectionModel = controller.tabPane.getSelectionModel();
-
-            System.out.println(selectionModel);
 
             selectionModel.select(tab);
         } catch (NullPointerException e) {

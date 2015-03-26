@@ -1,7 +1,9 @@
 package services.CRUD;
 
 import static Controller.navigators.ApplicationNavigator.customer;
+import static com.gemtastic.carshop.tables.Customer.CUSTOMER;
 import static com.gemtastic.carshop.tables.Employees.EMPLOYEES;
+import com.gemtastic.carshop.tables.records.CarRecord;
 import com.gemtastic.carshop.tables.records.EmployeesRecord;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,13 +24,13 @@ public class EmployeeCRUDService implements CRUDServices<EmployeesRecord>{
     private final String url = "jdbc:postgresql:postgres";
     
     @Override
-    public boolean create(EmployeesRecord t) {
-        boolean success = false;
+    public EmployeesRecord create(EmployeesRecord t) {
+        EmployeesRecord r = null;
         
         try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
             DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
 
-            EmployeesRecord r = create.newRecord(EMPLOYEES);
+            r = create.newRecord(EMPLOYEES);
             r.setEmail(t.getEmail());
             r.setPassword(t.getPassword());
             r.setUsername(t.getUsername());
@@ -40,12 +42,10 @@ public class EmployeeCRUDService implements CRUDServices<EmployeesRecord>{
             r.setId(id);
             r.store();
             
-            success = true;
-            
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return success;
+        return r;
     }
 
     @Override
@@ -64,12 +64,36 @@ public class EmployeeCRUDService implements CRUDServices<EmployeesRecord>{
 
     @Override
     public void delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+
+            create.delete(EMPLOYEES).where(EMPLOYEES.ID.eq(id)).execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public boolean update(EmployeesRecord t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean success = false;
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+
+            create.update(EMPLOYEES)
+                    .set(EMPLOYEES.EMAIL, t.getEmail())
+                    .set(EMPLOYEES.PASSWORD, t.getPassword())
+                    .set(EMPLOYEES.PHONE, t.getPhone())
+                    .set(EMPLOYEES.USERNAME, t.getUsername())
+                    .where(EMPLOYEES.ID.equal(t.getId()))
+                    .execute();
+
+            success = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return success;
     }
     
 }

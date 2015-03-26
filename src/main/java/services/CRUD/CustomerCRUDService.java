@@ -23,13 +23,13 @@ public class CustomerCRUDService implements CRUDServices<CustomerRecord> {
     private final String url = "jdbc:postgresql:postgres";
 
     @Override
-    public boolean create(CustomerRecord customer) {
-        boolean success = false;
+    public CustomerRecord create(CustomerRecord customer) {
+        CustomerRecord r = null;
 
         try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
             DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
 
-            CustomerRecord r = create.newRecord(CUSTOMER);
+            r = create.newRecord(CUSTOMER);
             r.setAddress(customer.getAddress());
             r.setDateOfBirth(customer.getDateOfBirth());
             r.setEmail(customer.getEmail());
@@ -39,20 +39,11 @@ public class CustomerCRUDService implements CRUDServices<CustomerRecord> {
             r.setPhone(customer.getPhone());
             r.store();
             
-            // Get the (possibly) auto-generated ID from the record
-            Integer id = r.getId();
-            r.setId(id);
-            r.store();
-            
-            System.out.println(id);
-            if(id != null){
-                success = true;
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         
-        return success;
+        return r;
     }
 
     @Override
@@ -80,6 +71,7 @@ public class CustomerCRUDService implements CRUDServices<CustomerRecord> {
         }
     }
 
+    @Override
     public boolean update(CustomerRecord customerUpdate) {
 
         boolean success = false;
