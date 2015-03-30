@@ -8,7 +8,9 @@ package Controller.navigators;
 import Controller.ApplicationController;
 import Controller.malfunctions.ListMalfunctionController;
 import Controller.appointments.ListAppointmentController;
+import Controller.bookings.AddBookingController;
 import Controller.bookings.ListBookingController;
+import Controller.cars.AddCarController;
 import Controller.cars.DisplayCarController;
 import Controller.cars.ListCarController;
 import Controller.customers.AddCustomerController;
@@ -43,7 +45,7 @@ public class ApplicationNavigator implements Initializable{
     public static String vehicle = "/fxml/DisplayVehicle.fxml";
     public static String listVehicles = "/fxml/ListVehicles.fxml";
     public static String editVehicles = "";
-    public static String addVehicles = "";
+    public static String addVehicles = "/fxml/AddCar.fxml";
 
     public static String employee = "/fxml/DisplayEmployee.fxml";
     public static String listEmployees = "/fxml/ListEmployees.fxml";
@@ -63,7 +65,7 @@ public class ApplicationNavigator implements Initializable{
     public static String bookings = "";
     public static String listBookings = "/fxml/ListBookings.fxml";
     public static String editBookings = "";
-    public static String addBookings = "";
+    public static String addBookings = "/fxml/AddBooking.fxml";
 
     // Attempting to store the controllers for mediating use
     public static ListCustomerController listCustomersController;
@@ -73,10 +75,12 @@ public class ApplicationNavigator implements Initializable{
 
     public static DisplayCarController displayCarController;
     public static ListCarController listCarController;
+    public static AddCarController addCarController;
 
     public static ListAppointmentController listAppointmentController;
 
     public static ListBookingController listBookingController;
+    public static AddBookingController addBookingController;
 
     public static ListEmployeesController listEmployeesController;
     public static AddEmployeeController addEmployeeController;
@@ -97,10 +101,12 @@ public class ApplicationNavigator implements Initializable{
 
         ApplicationNavigator.displayCarController = new DisplayCarController();
         ApplicationNavigator.listCarController = new ListCarController();
+        ApplicationNavigator.addCarController = new AddCarController();
 
         ApplicationNavigator.listAppointmentController = new ListAppointmentController();
 
         ApplicationNavigator.listBookingController = new ListBookingController();
+        ApplicationNavigator.addBookingController = new AddBookingController();
 
         ApplicationNavigator.listEmployeesController = new ListEmployeesController();
         ApplicationNavigator.addEmployeeController = new AddEmployeeController();

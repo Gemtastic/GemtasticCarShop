@@ -9,12 +9,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="312.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="293.0" prefWidth="659.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="600.0">
+      <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="31.0" prefWidth="600.0">
          <children>
-            <Label text="Visa Anställd">
+            <Label text="Ändra Anställd">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -27,7 +26,7 @@
             <Insets />
          </VBox.margin>
       </HBox>
-      <HBox prefHeight="118.0" prefWidth="600.0">
+      <HBox maxWidth="-Infinity" prefHeight="118.0" prefWidth="639.0">
          <children>
             <VBox maxWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
                <children>
@@ -87,26 +86,50 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+            <VBox prefHeight="118.0" prefWidth="172.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Auktoriserad för">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <ListView fx:id="auctorisationList" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="150.0" />
+                  <ListView fx:id="auctorisationList" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="160.0" />
                   <Button fx:id="deleteMakeBtn" mnemonicParsing="false" onAction="#deleteMake" text="Ta bort">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
                   </Button>
                </children>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox prefHeight="118.0" prefWidth="205.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Lägg till auktoriserade märken">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <ListView fx:id="makeList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="160.0" />
+                  <Button fx:id="addMakeBtn" mnemonicParsing="false" onAction="#addMake" text="Lägg till">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
             </VBox>
          </children>
       </HBox>
-      <HBox prefHeight="139.0" prefWidth="600.0">
+      <HBox maxWidth="-Infinity" prefHeight="107.0" prefWidth="600.0">
          <children>
-            <VBox prefHeight="100.0" prefWidth="300.0" HBox.hgrow="ALWAYS">
+            <VBox prefHeight="107.0" prefWidth="570.0" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets left="30.0" />
                </HBox.margin>
@@ -134,27 +157,9 @@
                   <Label fx:id="missmatchError" text="Lösenorden matacher ej!" textFill="#d30000" />
                </children>
             </VBox>
-            <VBox prefHeight="117.0" prefWidth="334.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <Label text="Lägg till auktoriserade märken">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </Label>
-                  <ListView fx:id="makeList" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="70.0" prefWidth="150.0" />
-                  <Button fx:id="addMakeBtn" mnemonicParsing="false" onAction="#addMake" text="Lägg till">
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin>
-                  </Button>
-               </children>
-            </VBox>
          </children>
       </HBox>
-      <HBox alignment="TOP_RIGHT" prefHeight="47.0" prefWidth="600.0">
+      <HBox alignment="TOP_RIGHT" maxWidth="-Infinity" prefHeight="29.0" prefWidth="600.0">
          <children>
             <Label fx:id="errorMsg" text="Något gick fel! Kontrollera fälten!" textFill="#d30000">
                <HBox.margin>

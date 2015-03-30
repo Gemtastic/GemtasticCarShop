@@ -34,9 +34,6 @@ public class ListEmployeesController  implements Initializable{
     @FXML
     public TableColumn<EmployeesRecord, String> username;
     
-    @FXML
-    public TableColumn<EmployeesRecord, String> password; // remove this
-    
     public void populateTable(Result<EmployeesRecord> record){
         if (record == null) {
             ObservableList<EmployeesRecord> list = FXCollections.observableArrayList();
@@ -46,7 +43,6 @@ public class ListEmployeesController  implements Initializable{
             JavafxUtils.setColumnValue(email, EmployeesRecord::getEmail);
             JavafxUtils.setColumnValue(phone, EmployeesRecord::getPhone);
             JavafxUtils.setColumnValue(employeeId, EmployeesRecord::getId);
-            JavafxUtils.setColumnValue(password, EmployeesRecord::getPassword);
 
             ObservableList<EmployeesRecord> list = FXCollections.observableArrayList();
 
@@ -55,6 +51,12 @@ public class ListEmployeesController  implements Initializable{
             }
             employees.setItems(list);
         }
+    }
+    
+    public EmployeesRecord getSelected(){
+        EmployeesRecord employee = employees.getSelectionModel().getSelectedItem();
+        
+        return employee;
     }
 
     @Override

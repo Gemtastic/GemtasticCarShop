@@ -17,14 +17,17 @@ public class LogInService implements LogInServices {
         
         EmployeeSearchService search = new EmployeeSearchService();
         
-        Result<EmployeesRecord> employee1 = search.getAllWhere("username", enteredun);
+        Result<EmployeesRecord> employee = search.getAllWhere("username", enteredun);
         
-        EmployeesRecord r = employee1.get(0);
-        
-        if(r != null){
+        if(employee.isNotEmpty()){
+            EmployeesRecord r = employee.get(0);
+            
+            if(r != null){
             String password = r.getPassword();
             success = BCrypt.checkpw(enteredpw, password);
+            }
         }
+        
         return success;
     }
 

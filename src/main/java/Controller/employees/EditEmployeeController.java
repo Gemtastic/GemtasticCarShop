@@ -1,5 +1,6 @@
 package Controller.employees;
 
+import Controller.navigators.ApplicationNavigator;
 import com.gemtastic.carshop.tables.records.EmployeesRecord;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -10,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import services.CRUD.EmployeeCRUDService;
 
 /**
  *
@@ -60,12 +62,38 @@ public class EditEmployeeController implements Initializable{
     
     @FXML
     private void save(){
+        missmatchError.setVisible(false);
+        errorMsg.setVisible(false);
         
+        if(password.getText().equals(repeatPassword.getText()) && password.getText() != null){
+            EmployeeCRUDService update = new EmployeeCRUDService();
+        
+            employee.setEmail(email.getText());
+            employee.setPhone(phone.getText());
+            employee.setUsername(username.getText());
+            employee.setPassword(password.getText());
+
+            boolean success = update.update(employee);
+
+            if(success){
+                ApplicationNavigator.loadTabContent(ApplicationNavigator.employee,
+                                                    ApplicationNavigator.controller.employeeContent,
+                                                    ApplicationNavigator.displayCustomersController);
+                ApplicationNavigator.displayEmployeeController.loadEmployee(employee);
+            }else{
+                errorMsg.setVisible(true);
+            }
+        }else{
+            missmatchError.setVisible(true);
+        }
     }
     
     @FXML
     private void cancel(){
-        
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.employee,
+                                            ApplicationNavigator.controller.employeeContent,
+                                            ApplicationNavigator.displayCustomersController);
+        ApplicationNavigator.displayEmployeeController.loadEmployee(employee);
     }
     
     @FXML
@@ -91,7 +119,8 @@ public class EditEmployeeController implements Initializable{
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        errorMsg.setVisible(false);
+        missmatchError.setVisible(false);
     }
     
 }

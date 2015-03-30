@@ -65,6 +65,11 @@ public class ListBookingController implements Initializable{
         }
     }
     
+    public AppointmentsRecord getSelected(){
+        AppointmentsRecord r = bookings.getSelectionModel().getSelectedItem();
+        return r;
+    }
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         

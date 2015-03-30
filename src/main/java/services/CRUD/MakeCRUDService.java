@@ -24,7 +24,27 @@ public class MakeCRUDService implements CRUDServices<MakeRecord>{
 
     @Override
     public MakeRecord create(MakeRecord t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MakeRecord r = null;
+        
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+            
+            MakeRecord existing = create.selectFrom(MAKE).where(MAKE.MAKE_.eq(t.getMake())).fetchOne();
+            
+            if(existing == null){
+                r = create.newRecord(MAKE);
+                r.setMake(t.getMake());
+                r.store();
+                
+                return r;
+            }else{
+                return existing;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return r;
     }
 
     @Override
@@ -43,12 +63,31 @@ public class MakeCRUDService implements CRUDServices<MakeRecord>{
 
     @Override
     public void delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+            create.delete(MAKE).where(MAKE.ID.eq(id));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public boolean update(MakeRecord t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean success = false;
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+
+            create.update(MAKE)
+                    .set(MAKE.MAKE_, t.getMake())
+                    .where(MAKE.ID.equal(t.getId()))
+                    .execute();
+
+            success = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return success;
     }
     
 }

@@ -77,7 +77,7 @@
                                           <Insets left="30.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="removeCustomerBtn" mnemonicParsing="false" onAction="#removeCustomer" text="Tabort vald kund">
+                                    <Button fx:id="removeCustomerBtn" mnemonicParsing="false" onAction="#removeCustomer" text="Ta bort vald kund">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
@@ -133,16 +133,21 @@
                            <bottom>
                               <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button fx:id="showBookingBtn" mnemonicParsing="false" onAction="#displayBooking" text="Visa vald bokning">
+                                    <Button fx:id="confirmBtn" mnemonicParsing="false" onAction="#setAppointmentDate" text="Bekräfta besök">
                                        <HBox.margin>
                                           <Insets left="30.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="deleteBookingBtn" mnemonicParsing="false" onAction="#deleteBooking" text="Tabort vald bokning">
+                                    <Button fx:id="deleteBookingBtn" mnemonicParsing="false" onAction="#deleteBooking" text="Ta bort vald bokning">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
                                     </Button>
+                                    <Label fx:id="errorupdate" text="Besöket bekräftades ej!" textFill="#d30000" visible="false">
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Label>
                                     <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Button fx:id="newBookingBtn" mnemonicParsing="false" onAction="#newAppointment" text="Skapa ny bokning">
@@ -194,12 +199,7 @@
                            <bottom>
                               <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button fx:id="showAppointmentBtn" mnemonicParsing="false" onAction="#displayAppointment" text="Visa valt tillfälle">
-                                       <HBox.margin>
-                                          <Insets left="30.0" />
-                                       </HBox.margin>
-                                    </Button>
-                                    <Button fx:id="deleteAppointmentBtn" mnemonicParsing="false" onAction="#deleteAppointment" text="Tabort valt tillfälle">
+                                    <Button fx:id="deleteAppointmentBtn" mnemonicParsing="false" onAction="#deleteAppointment" text="Ta bort valt tillfälle">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
@@ -260,7 +260,7 @@
                                           <Insets left="30.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="deleteVehicleBtn" mnemonicParsing="false" onAction="#deleteVehicle" text="Tabort valt fordon">
+                                    <Button fx:id="deleteVehicleBtn" mnemonicParsing="false" onAction="#deleteVehicle" text="Ta bort valt fordon">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
@@ -324,7 +324,7 @@
                                           <Insets left="30.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="deleteMalfunctionBtn" mnemonicParsing="false" onAction="#deleteMalfunction" text="Tabort vald felanmälan">
+                                    <Button fx:id="deleteMalfunctionBtn" mnemonicParsing="false" onAction="#deleteMalfunction" text="Ta bort vald felanmälan">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>
@@ -385,7 +385,7 @@
                                           <Insets left="30.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="deleteEmployeeBtn" mnemonicParsing="false" onAction="#deleteEmployee" text="Tabort vald anställd">
+                                    <Button fx:id="deleteEmployeeBtn" mnemonicParsing="false" onAction="#deleteEmployee" text="Ta bort vald anställd">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>

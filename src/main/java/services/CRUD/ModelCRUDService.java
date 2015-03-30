@@ -1,7 +1,6 @@
 package services.CRUD;
 
 import static com.gemtastic.carshop.tables.CarModel.CAR_MODEL;
-import static com.gemtastic.carshop.tables.Make.MAKE;
 import com.gemtastic.carshop.tables.records.CarModelRecord;
 import com.gemtastic.carshop.tables.records.MakeRecord;
 import java.sql.Connection;
@@ -24,7 +23,32 @@ public class ModelCRUDService implements CRUDServices<CarModelRecord>{
     
     @Override
     public CarModelRecord create(CarModelRecord t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        CarModelRecord r = null;
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+            
+            CarModelRecord exist = create.selectFrom(CAR_MODEL)
+                                         .where(CAR_MODEL.MAKE.equal(t.getMake()), 
+                                                CAR_MODEL.FUEL_TYPE.equal(t.getFuelType()),
+                                                CAR_MODEL.MAKE.equal(t.getMake()),
+                                                CAR_MODEL.MODEL_YEAR.equal(t.getModelYear()))
+                                         .fetchOne();
+            if(exist == null){
+                r = create.newRecord(CAR_MODEL);
+                r.setFuelType(t.getFuelType());
+                r.setMake(t.getMake());
+                r.setModel(t.getModel());
+                r.setModelYear(t.getModelYear());
+                r.store();
+                
+                return r;
+            }else{
+                return exist;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return r;
     }
 
     @Override
@@ -43,12 +67,35 @@ public class ModelCRUDService implements CRUDServices<CarModelRecord>{
 
     @Override
     public void delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+            create.selectFrom(CAR_MODEL).where(CAR_MODEL.ID.eq(id)).fetchOne();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public boolean update(CarModelRecord t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean success = false;
+        
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+
+            create.update(CAR_MODEL)
+                    .set(CAR_MODEL.FUEL_TYPE, t.getFuelType())
+                    .set(CAR_MODEL.MAKE, t.getMake())
+                    .set(CAR_MODEL.MODEL, t.getModel())
+                    .set(CAR_MODEL.MODEL_YEAR, t.getModelYear())
+                    .where(CAR_MODEL.ID.equal(t.getId()))
+                    .execute();
+
+            success = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return success;
     }
     
 }

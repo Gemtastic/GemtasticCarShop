@@ -102,7 +102,6 @@ public class AddCustomerController implements Initializable{
             
             if(address.getZip() != null){
                 AddressRecord a = addressService.create(address);
-                System.out.println(a);
                 customer.setAddress(a.getId());
                 Date date = Date.valueOf(dateOfBirth.getValue());
                 customer.setDateOfBirth(date);

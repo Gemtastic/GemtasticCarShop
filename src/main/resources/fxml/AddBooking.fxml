@@ -8,8 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="267.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox alignment="BOTTOM_LEFT" maxWidth="-Infinity" prefHeight="50.0" prefWidth="600.0">
          <children>
@@ -27,7 +26,7 @@
          <children>
             <VBox maxWidth="-Infinity" prefHeight="126.0" prefWidth="270.0">
                <children>
-                  <Label text="Kund" />
+                  <Label text="Kundnummer" />
                   <TextField fx:id="customer" maxWidth="-Infinity" prefWidth="200.0" />
                   <Label text="Typ">
                      <VBox.margin>
@@ -41,6 +40,22 @@
                      </VBox.margin>
                   </Label>
                   <DatePicker fx:id="scheduledDate" />
+                  <Label text="Tid:">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TextField fx:id="hour" maxWidth="-Infinity" prefHeight="25.0" prefWidth="30.0" />
+                        <Label text=":">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="min" maxWidth="-Infinity" prefWidth="30.0" />
+                     </children>
+                  </HBox>
                </children>
                <HBox.margin>
                   <Insets left="30.0" />
@@ -56,20 +71,27 @@
                      </VBox.margin>
                   </Label>
                   <TextArea fx:id="comments" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" />
+                  <Label text="Mekaniker:" />
+                  <ChoiceBox fx:id="mechanic" prefWidth="150.0" />
                </children>
             </VBox>
          </children>
       </HBox>
-      <HBox alignment="TOP_RIGHT" maxWidth="-Infinity" prefHeight="74.0" prefWidth="600.0">
+      <HBox alignment="TOP_RIGHT" maxWidth="-Infinity" prefHeight="61.0" prefWidth="600.0">
          <children>
-            <Button fx:id="createBooking" mnemonicParsing="false" text="Skapa bokning">
+            <Label fx:id="errorMessage" text="Något gick fel, kontrollera fälten!" textFill="#d30000" visible="false">
                <HBox.margin>
-                  <Insets right="40.0" top="15.0" />
+                  <Insets right="10.0" top="15.0" />
+               </HBox.margin>
+            </Label>
+            <Button fx:id="createBookingBtn" mnemonicParsing="false" onAction="#create" text="Skapa bokning">
+               <HBox.margin>
+                  <Insets right="40.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="cancelBooking" mnemonicParsing="false" text="Avbryt">
+            <Button fx:id="cancelBookingBtn" mnemonicParsing="false" onAction="#cancel" text="Avbryt">
                <HBox.margin>
-                  <Insets right="40.0" top="15.0" />
+                  <Insets right="30.0" top="10.0" />
                </HBox.margin>
             </Button>
          </children>

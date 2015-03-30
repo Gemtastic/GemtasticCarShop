@@ -9,6 +9,10 @@ import com.gemtastic.carshop.tables.records.CustomerRecord;
 import com.gemtastic.carshop.tables.records.EmployeesRecord;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -23,7 +27,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import org.jooq.Result;
 import services.CRUD.AddressCRUDService;
+import services.CRUD.AppointmentCRUDService;
 import services.CRUD.CustomerCRUDService;
+import services.CRUD.EmployeeCRUDService;
 import services.CarSearchService;
 import services.CustomerSearchService;
 import services.EmployeeSearchService;
@@ -121,9 +127,6 @@ public class ApplicationController implements Initializable {
     private Button deleteAppointmentBtn;
     
     @FXML
-    private Button showAppointmentBtn;
-    
-    @FXML
     private TextField appointmentSearchField;
     
     @FXML
@@ -144,10 +147,10 @@ public class ApplicationController implements Initializable {
     private Button newBookingBtn;
     
     @FXML
-    private Button deleteBookingBtn;
+    private Button confirmBtn;
     
     @FXML
-    private Button showBookingBtn;
+    private Button deleteBookingBtn;
     
     @FXML
     private TextField bookingSearchField;
@@ -157,6 +160,9 @@ public class ApplicationController implements Initializable {
     
     @FXML
     private Label errorSearchBooking;
+    
+    @FXML
+    private Label errorupdate;
     
     
     // Employee tab, methods and data
@@ -286,14 +292,13 @@ public class ApplicationController implements Initializable {
     @FXML
     private void addCustomer(){
         ApplicationNavigator.loadTabContent(ApplicationNavigator.addCustomers, customerContent, 
-                                                ApplicationNavigator.addCustomersController);
+                                            ApplicationNavigator.addCustomersController);
     }
     
     
     // Booking methods
     @FXML
     private void searchBookings(){
-        showBookingBtn.setDisable(false);
 
         ApplicationNavigator.loadTabContent(ApplicationNavigator.listBookings, bookingContent,
                 ApplicationNavigator.listBookingController);
@@ -345,28 +350,35 @@ public class ApplicationController implements Initializable {
     }
     
     @FXML
-    private void displayBooking(){
-        
-    }
-    @FXML
     private void deleteBooking(){
         
+    }
+    
+    @FXML
+    private void setAppointmentDate(){
+        errorupdate.setVisible(false);
+        
+        AppointmentCRUDService service = new AppointmentCRUDService();
+        
+        AppointmentsRecord r = ApplicationNavigator.listBookingController.getSelected();
+        r.setPerformedDate(Timestamp.valueOf(LocalDateTime.now()));
+        boolean updated = service.update(r);
+        
+        if(!updated){
+            errorupdate.setVisible(true);
+        }
     }
     
     // Appointments and Bookings are the same in the DB
     @FXML
     private void newAppointment(){
-        
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.addBookings, bookingContent,
+                                            ApplicationNavigator.addBookingController);
     }
     
     // Appointment methods
     @FXML
     private void searchAppointment(){
-        
-    }
-    
-    @FXML
-    private void displayAppointment(){
         
     }
     
@@ -426,6 +438,8 @@ public class ApplicationController implements Initializable {
     private void displayEmployee(){
         ApplicationNavigator.loadTabContent(ApplicationNavigator.employee, employeeContent, 
                                                 ApplicationNavigator.displayEmployeeController);
+        EmployeesRecord employee = ApplicationNavigator.listEmployeesController.getSelected();
+        ApplicationNavigator.displayEmployeeController.loadEmployee(employee);
     }
     
     @FXML
@@ -437,7 +451,10 @@ public class ApplicationController implements Initializable {
     
     @FXML
     private void deleteEmployee(){
+        EmployeeCRUDService delete = new EmployeeCRUDService();
         
+        EmployeesRecord employee = ApplicationNavigator.listEmployeesController.getSelected();
+        delete.delete(employee.getId());
     }
     
     
@@ -454,7 +471,8 @@ public class ApplicationController implements Initializable {
     
     @FXML
     private void newVehicle(){
-        
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.addVehicles, vehicleContent,
+                                            ApplicationNavigator.addCarController);
     }
     
     @FXML
@@ -520,7 +538,6 @@ public class ApplicationController implements Initializable {
         }
 
     }
-    
 
     /**
      * Initializes the controller class.
@@ -533,6 +550,8 @@ public class ApplicationController implements Initializable {
         bookingCb.setItems(FXCollections.observableArrayList("Kundnr", "Nummerplåt"));
         employeeCb.setItems(FXCollections.observableArrayList("Anställningsnr", "Telefon"));
         malfunctionCb.setItems(FXCollections.observableArrayList("Datum", "Kundnr", "Nummerplåt"));
+        
+        errorupdate.setVisible(false);
     }
 
 }

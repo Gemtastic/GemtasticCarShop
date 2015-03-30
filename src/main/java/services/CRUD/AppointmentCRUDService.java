@@ -1,7 +1,8 @@
 package services.CRUD;
 
+import static com.gemtastic.carshop.tables.Appointments.APPOINTMENTS;
 import static com.gemtastic.carshop.tables.Customer.CUSTOMER;
-import com.gemtastic.carshop.tables.records.CustomerRecord;
+import com.gemtastic.carshop.tables.records.AppointmentsRecord;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -14,27 +15,27 @@ import services.interfaces.CRUDServices;
  *
  * @author Gemtastic
  */
-public class CustomerCRUDService implements CRUDServices<CustomerRecord> {
-
+public class AppointmentCRUDService implements CRUDServices<AppointmentsRecord>{
+    
     private final String dbusername = "postgres";
     private final String dbpassword = "g3mt45t1c";
     private final String url = "jdbc:postgresql:postgres";
 
     @Override
-    public CustomerRecord create(CustomerRecord customer) {
-        CustomerRecord r = null;
+    public AppointmentsRecord create(AppointmentsRecord appointment) {
+        AppointmentsRecord r = null;
 
         try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
             DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
 
-            r = create.newRecord(CUSTOMER);
-            r.setAddress(customer.getAddress());
-            r.setDateOfBirth(customer.getDateOfBirth());
-            r.setEmail(customer.getEmail());
-            r.setFirstName(customer.getFirstName());
-            r.setGender(customer.getGender());
-            r.setLastName(customer.getLastName());
-            r.setPhone(customer.getPhone());
+            r = create.newRecord(APPOINTMENTS);
+            r.setCar(appointment.getCar());
+            r.setComments(appointment.getComments());
+            r.setCommissioner(appointment.getCommissioner());
+            r.setMechanic(appointment.getMechanic());
+            r.setPerformedDate(appointment.getPerformedDate());
+            r.setScheduledDate(appointment.getScheduledDate());
+            r.setType(appointment.getType());
             r.store();
             
         } catch (SQLException e) {
@@ -45,16 +46,16 @@ public class CustomerCRUDService implements CRUDServices<CustomerRecord> {
     }
 
     @Override
-    public CustomerRecord read(int customer) {
-        CustomerRecord c = null;
+    public AppointmentsRecord read(int id) {
+        AppointmentsRecord a = null;
 
         try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
             DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
-            c = create.selectFrom(CUSTOMER).where(CUSTOMER.ID.eq(customer)).fetchOne();
+            a = create.selectFrom(APPOINTMENTS).where(APPOINTMENTS.ID.eq(id)).fetchOne();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return c;
+        return a;
     }
 
     @Override
@@ -62,7 +63,7 @@ public class CustomerCRUDService implements CRUDServices<CustomerRecord> {
         try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
             DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
 
-            create.delete(CUSTOMER).where(CUSTOMER.ID.eq(id)).execute();
+            create.delete(APPOINTMENTS).where(APPOINTMENTS.ID.eq(id)).execute();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,20 +71,20 @@ public class CustomerCRUDService implements CRUDServices<CustomerRecord> {
     }
 
     @Override
-    public boolean update(CustomerRecord customerUpdate) {
+    public boolean update(AppointmentsRecord appointment) {
         boolean success = false;
-        
         try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
             DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
 
-            create.update(CUSTOMER)
-                    .set(CUSTOMER.FIRST_NAME, customerUpdate.getFirstName())
-                    .set(CUSTOMER.LAST_NAME, customerUpdate.getLastName())
-                    .set(CUSTOMER.GENDER, customerUpdate.getGender())
-                    .set(CUSTOMER.EMAIL, customerUpdate.getEmail())
-                    .set(CUSTOMER.DATE_OF_BIRTH, customerUpdate.getDateOfBirth())
-                    .set(CUSTOMER.PHONE, customerUpdate.getPhone())
-                    .where(CUSTOMER.ID.equal(customerUpdate.getId()))
+            create.update(APPOINTMENTS)
+                    .set(APPOINTMENTS.CAR, appointment.getCar())
+                    .set(APPOINTMENTS.COMMENTS, appointment.getComments())
+                    .set(APPOINTMENTS.COMMISSIONER, appointment.getCommissioner())
+                    .set(APPOINTMENTS.MECHANIC, appointment.getMechanic())
+                    .set(APPOINTMENTS.PERFORMED_DATE, appointment.getPerformedDate())
+                    .set(APPOINTMENTS.SCHEDULED_DATE, appointment.getScheduledDate())
+                    .set(APPOINTMENTS.TYPE, appointment.getType())
+                    .where(APPOINTMENTS.ID.equal(appointment.getId()))
                     .execute();
 
             success = true;
@@ -93,4 +94,5 @@ public class CustomerCRUDService implements CRUDServices<CustomerRecord> {
 
         return success;
     }
+    
 }

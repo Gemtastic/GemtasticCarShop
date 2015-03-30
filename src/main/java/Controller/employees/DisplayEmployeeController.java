@@ -38,14 +38,18 @@ public class DisplayEmployeeController implements Initializable {
     
     public void loadEmployee(EmployeesRecord employee){
         this.employee = employee;
-        
+        username.setText(employee.getUsername());
+        id.setText(String.valueOf(employee.getId()));
+        phone.setText(employee.getPhone());
+        email.setText(employee.getEmail());
     }
     
     @FXML
     public void editEmployee(){
-        ApplicationNavigator.loadTabContent(ApplicationNavigator.listEmployees, 
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.editEmployees, 
                                             ApplicationNavigator.controller.employeeContent, 
                                             ApplicationNavigator.editEmployeeController);
+        ApplicationNavigator.editEmployeeController.loadEmployee(employee);
     }
 
     @Override
