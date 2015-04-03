@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="BOTTOM_LEFT" prefHeight="40.0" prefWidth="600.0">
+         <children>
+            <Label text="Statistik">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="30.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox prefHeight="174.0" prefWidth="600.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox prefHeight="12.0" prefWidth="285.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <children>
+                        <Label text="Antal anställda:" />
+                        <Label fx:id="employeeCount" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="16.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Antal mekaniker:" />
+                        <Label fx:id="mechanicCount" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="28.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Antal märken:" />
+                        <Label fx:id="makeCount" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="19.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Yngsta kund:" />
+                        <Label fx:id="youngestCustomer" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="28.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Äldsta kund:" />
+                        <Label fx:id="oldestCustomer" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="12.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Besök senaste året:" />
+                        <Label fx:id="appLastYear" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="12.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Snittbesök detta år:" />
+                        <Label fx:id="averageAppThisYear" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="12.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Snittbesök förra året:" />
+                        <Label fx:id="averageAppLastYear" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="12.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Snittbesök denna månad:" />
+                        <Label fx:id="averageAppThisMonth" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox prefHeight="16.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Antal kunder:" />
+                        <Label fx:id="customerCount" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="12.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Antal män:" />
+                        <Label fx:id="maleCount" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="12.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Antal kvinnor:" />
+                        <Label fx:id="femaleCount" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="12.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Antal besök kvinnor:" />
+                        <Label fx:id="femaleAppCount" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="12.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Antal besök män:" />
+                        <Label fx:id="maleAppCount" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="12.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Antal bokningar:" />
+                        <Label fx:id="bookingsCount" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="16.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Utförda servicetillfällen:" />
+                        <Label fx:id="appCount" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="12.0" prefWidth="285.0">
+                     <children>
+                        <Label text="Antal felanmälningar:" />
+                        <Label fx:id="malfunctionCount" text="Label">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>

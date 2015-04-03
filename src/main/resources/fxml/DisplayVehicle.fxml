@@ -107,6 +107,11 @@
                               <Insets top="5.0" />
                            </HBox.margin>
                         </Button>
+                        <Button fx:id="addOwnerBtn" mnemonicParsing="false" onAction="#addOwner" text="Ändra ägare">
+                           <HBox.margin>
+                              <Insets left="10.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
                   </HBox>
                </children>
@@ -127,6 +132,11 @@
                         <Button fx:id="showMalfunction" mnemonicParsing="false" onAction="#displayMalfunction" text="Visa Felanmälan">
                            <HBox.margin>
                               <Insets top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="newMalfunctionBtn" mnemonicParsing="false" onAction="#newMalfunction" text="Ny felanmälan">
+                           <HBox.margin>
+                              <Insets left="10.0" top="5.0" />
                            </HBox.margin>
                         </Button>
                      </children>

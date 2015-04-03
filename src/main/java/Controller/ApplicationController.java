@@ -129,6 +129,9 @@ public class ApplicationController implements Initializable {
     private Button newAppointmentBtn;
     
     @FXML
+    private Button editAppointmentBtn;
+    
+    @FXML
     private Button deleteAppointmentBtn;
     
     @FXML
@@ -156,6 +159,9 @@ public class ApplicationController implements Initializable {
     
     @FXML
     private Button deleteBookingBtn;
+    
+    @FXML
+    private Button editBookingBtn;
     
     @FXML
     private TextField bookingSearchField;
@@ -223,7 +229,11 @@ public class ApplicationController implements Initializable {
     
     
     // Statistics tab, methods and data
-
+    @FXML
+    public BorderPane statisticsContent;
+    
+    
+    
     @FXML
     private void searchCustomer() {
         showCustomerbtn.setDisable(false);
@@ -353,6 +363,18 @@ public class ApplicationController implements Initializable {
     }
     
     @FXML
+    private void editBooking(){
+        
+        AppointmentsRecord selected = ApplicationNavigator.listBookingController.getSelected();
+        
+        if(selected != null){
+            ApplicationNavigator.loadTabContent(ApplicationNavigator.editAppointments, bookingContent,
+                                                ApplicationNavigator.editAppointmentController);
+            ApplicationNavigator.editAppointmentController.loadBooking(selected);
+        }
+    }
+    
+    @FXML
     private void deleteBooking(){
         AppointmentCRUDService appService = new AppointmentCRUDService();
         
@@ -392,6 +414,18 @@ public class ApplicationController implements Initializable {
     }
     
     // Appointment methods
+    @FXML
+    private void editAppointment(){
+        
+        AppointmentAppointmentsRecord selected = ApplicationNavigator.listAppointmentController.getSelected();
+        
+        if(selected != null){
+            ApplicationNavigator.loadTabContent(ApplicationNavigator.editAppointments, appointmentContent,
+                                                ApplicationNavigator.editAppointmentController);
+            ApplicationNavigator.editAppointmentController.loadAppointment(selected.getAppointmentRecord());
+        }
+    }
+    
     @FXML
     private void searchAppointment(){
         ApplicationNavigator.loadTabContent(ApplicationNavigator.listAppointments, appointmentContent,
@@ -720,6 +754,9 @@ public class ApplicationController implements Initializable {
             case "appointmentContent":
                 appointmentContent.setCenter(screen);
                 break;
+            case "statisticsContent":
+                statisticsContent.setCenter(screen);
+                break;
             default:
                 System.out.println("Oops setting the tab borked!");
         }
@@ -752,7 +789,7 @@ public class ApplicationController implements Initializable {
         appointmentCb.setItems(FXCollections.observableArrayList("Kundnr", "Nummerplåt"));
         bookingCb.setItems(FXCollections.observableArrayList("Kundnr", "Nummerplåt"));
         employeeCb.setItems(FXCollections.observableArrayList("Anställningsnr", "Telefon"));
-        malfunctionCb.setItems(FXCollections.observableArrayList("Datum", "Kundnr", "Nummerplåt"));
+        malfunctionCb.setItems(FXCollections.observableArrayList("Datum", "Nummerplåt"));
         
         errorupdate.setVisible(false);
     }

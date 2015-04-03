@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -94,6 +93,7 @@ public class OwnershipController implements Initializable{
                 
                 service.create(ownership);
                 listOwnersVehicles.setItems(list);
+                newByName.setText("");
             }else{
                 errorMsg.setVisible(true);
             }
@@ -110,6 +110,7 @@ public class OwnershipController implements Initializable{
                 
                 service.create(ownership);
                 listOwnersVehicles.setItems(list);
+                newByName.setText("");
             }else{
                 errorMsg.setVisible(true);
             }
@@ -121,6 +122,7 @@ public class OwnershipController implements Initializable{
     
     @FXML
     private void remove(){
+        errorMsg.setVisible(false);
         
         OwnershipService service = new OwnershipService();
         OwnershipRecord ownership = new OwnershipRecord();
@@ -131,13 +133,15 @@ public class OwnershipController implements Initializable{
             String s = selected.toString();
             
             if(cars.containsKey(s)){
-                ownership.setCar(cars.get(s).getId());
-                ownership.setOwner(customer.getId());
-                
-                service.delete(ownership);
-                
-                cars.remove(s);
-                list.remove(s);
+                    ownership.setCar(cars.get(s).getId());
+                    ownership.setOwner(customer.getId());
+
+                    service.delete(ownership);
+
+                    cars.remove(s);
+                    list.remove(s);
+                    
+                    getCars();
                 
             }else if(customers.containsKey(s)){
                 ownership.setCar(vehicle.getId());
@@ -147,7 +151,13 @@ public class OwnershipController implements Initializable{
                 
                 customers.remove(s);
                 list.remove(s);
+                
+                getOwners();
+            }else{
+                errorMsg.setVisible(true);
             }
+        }else{
+            errorMsg.setVisible(true);
         }
     }
     
@@ -160,7 +170,7 @@ public class OwnershipController implements Initializable{
             ApplicationNavigator.loadTabContent(ApplicationNavigator.customer,
                     ApplicationNavigator.controller.customerContent,
                     ApplicationNavigator.displayCustomersController);
-//                ApplicationNavigator.displayCustomersController.loadCustomer(this.customer);
+            ApplicationNavigator.displayCustomersController.loadCustomer(this.customer);
             ApplicationNavigator.setActiveTab(ApplicationNavigator.controller.customerTab);
         });
         
@@ -183,8 +193,8 @@ public class OwnershipController implements Initializable{
             ApplicationNavigator.setActiveTab(ApplicationNavigator.controller.vehicleTab);
         });
         
-        carOwner.setText(customer.getFirstName() + " " + customer.getLastName());
-        addRemove.setText("LÃ¤gg till Ã¤gare via kundnr");
+        carOwner.setText(vehicle.getLicensePlate());
+        addRemove.setText("Lägg till ägare via kundnr");
         listOwnersVehicles.setItems(list);
     }
     
@@ -194,6 +204,7 @@ public class OwnershipController implements Initializable{
         List<CarRecord> ownedCars = carS.getAllCarsByOwner(customer.getId());
         
         list.clear();
+        cars.clear();
         
         if(ownedCars != null && !ownedCars.isEmpty()){
             for(CarRecord r : ownedCars){
@@ -214,6 +225,7 @@ public class OwnershipController implements Initializable{
         List<CustomerRecord> ownedCars = carS.getOwnersByCar(vehicle.getId());
         
         list.clear();
+        customers.clear();
         
         if(ownedCars != null && !ownedCars.isEmpty()){
             for(CustomerRecord r : ownedCars){
@@ -221,7 +233,11 @@ public class OwnershipController implements Initializable{
                 customers.put(preview, r);
                 list.add(preview);
             }
-            removeBtn.setDisable(false);
+            if(customers.size() <= 1){
+                removeBtn.setDisable(true);
+            }else{
+                removeBtn.setDisable(false);
+            }
         }else{
             String msg = "Denna bil Ã¤r herrelÃ¶s.";
             list.add(msg);

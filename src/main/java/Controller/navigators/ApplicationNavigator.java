@@ -20,6 +20,7 @@ import Controller.employees.EditEmployeeController;
 import Controller.employees.ListEmployeesController;
 import Controller.malfunctions.AddMalfunctionReportsController;
 import Controller.malfunctions.EditMalfunctionController;
+import Controller.statistics.StatisticsController;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
 import java.io.IOException;
 import java.net.URL;
@@ -42,6 +43,8 @@ public class ApplicationNavigator implements Initializable{
     public static String addCustomers = "/fxml/AddCustomer.fxml";
     
     public static String ownership = "/fxml/EditOwnership.fxml";
+    
+    public static String statistics = "/fxml/ShowStatistics.fxml";
 
     public static String vehicle = "/fxml/DisplayVehicle.fxml";
     public static String listVehicles = "/fxml/ListVehicles.fxml";
@@ -53,17 +56,14 @@ public class ApplicationNavigator implements Initializable{
     public static String editEmployees = "/fxml/EditEmployee.fxml";
     public static String addEmployees = "/fxml/AddEmployee.fxml";
 
-//    public static String malfunction = "";
     public static String listMalfunctions = "/fxml/ListMalfunctions.fxml";
     public static String editMalfunctions = "/fxml/EditMalfunctionReport.fxml";
     public static String addMalfunctions = "/fxml/AddMalfunctionReport.fxml";
 
-//    public static String appointment = "";
     public static String listAppointments = "/fxml/ListAppointments.fxml";
     public static String editAppointments = "/fxml/EditAppointment.fxml";
     public static String addAppointments = "/fxml/AddBooking.fxml";
 
-//    public static String bookings = "";
     public static String listBookings = "/fxml/ListBookings.fxml";
     public static String editBookings = "/fxml/EditAppointment.fxml";
     public static String addBookings = "/fxml/AddBooking.fxml";
@@ -75,6 +75,8 @@ public class ApplicationNavigator implements Initializable{
     public static AddCustomerController addCustomersController;
     
     public static OwnershipController editOwnershipController;
+    
+    public static StatisticsController statisticsController;
 
     public static DisplayCarController displayCarController;
     public static ListCarController listCarController;
@@ -106,6 +108,8 @@ public class ApplicationNavigator implements Initializable{
         ApplicationNavigator.addCustomersController = new AddCustomerController();
         
         ApplicationNavigator.editOwnershipController = new OwnershipController();
+        
+        ApplicationNavigator.statisticsController = new StatisticsController();
 
         ApplicationNavigator.displayCarController = new DisplayCarController();
         ApplicationNavigator.listCarController = new ListCarController();

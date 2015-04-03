@@ -94,6 +94,9 @@ public class LoginController implements Initializable {
         ApplicationNavigator.loadTabContent(ApplicationNavigator.listMalfunctions,
                 ApplicationNavigator.controller.malfunctionsContent,
                 ApplicationNavigator.listMalfunctionController);
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.statistics,
+                ApplicationNavigator.controller.statisticsContent,
+                ApplicationNavigator.statisticsController);
 
         Stage oldStage = (Stage) loginbtn.getScene().getWindow();
         oldStage.close();

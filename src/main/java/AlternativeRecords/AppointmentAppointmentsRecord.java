@@ -9,6 +9,11 @@ import com.gemtastic.carshop.tables.records.CustomerRecord;
  * @author Gemtastic
  */
 public class AppointmentAppointmentsRecord {
+    
+    private AppointmentsRecord appointmentRecord;
+    private CustomerRecord customerRecord;
+    private CarRecord carRecord;
+    
     private int id;
     private int mechanic;
     private String date;
@@ -23,6 +28,33 @@ public class AppointmentAppointmentsRecord {
         this.car = car.getLicensePlate();
         this.customer = customer.getId() + ", " + customer.getFirstName() + " " + customer.getLastName();
         type = appointment.getType();
+        appointmentRecord = appointment;
+        customerRecord = customer;
+        carRecord = car;
+    }
+
+    public AppointmentsRecord getAppointmentRecord() {
+        return appointmentRecord;
+    }
+
+    public void setAppointmentRecord(AppointmentsRecord appointmentRecord) {
+        this.appointmentRecord = appointmentRecord;
+    }
+
+    public CustomerRecord getCustomerRecord() {
+        return customerRecord;
+    }
+
+    public void setCustomerRecord(CustomerRecord customerRecord) {
+        this.customerRecord = customerRecord;
+    }
+
+    public CarRecord getCarRecord() {
+        return carRecord;
+    }
+
+    public void setCarRecord(CarRecord carRecord) {
+        this.carRecord = carRecord;
     }
 
     public int getId() {

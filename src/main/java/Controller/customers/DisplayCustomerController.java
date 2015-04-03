@@ -1,14 +1,18 @@
 package Controller.customers;
 
+import AlternativeRecords.AppointmentBookingRecord;
 import services.AppointmentSearchService;
 import Controller.navigators.ApplicationNavigator;
 import com.gemtastic.carshop.tables.records.AddressRecord;
+import com.gemtastic.carshop.tables.records.AppointmentsRecord;
 import com.gemtastic.carshop.tables.records.CarModelRecord;
 import com.gemtastic.carshop.tables.records.CarRecord;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
 import com.gemtastic.carshop.tables.records.MakeRecord;
 import com.gemtastic.carshop.tables.records.MalfunctionReportsRecord;
 import java.net.URL;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +26,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import org.jooq.Result;
 import services.CRUD.AddressCRUDService;
-import services.CRUD.CarCRUDService;
 import services.CarSearchService;
 import services.CRUD.MakeCRUDService;
 import services.CRUD.ModelCRUDService;
@@ -83,6 +86,9 @@ public class DisplayCustomerController implements Initializable {
     @FXML
     private Button showCar;
     
+    @FXML
+    private Button showBookingsBtn;
+    
 
     public void cleanSlate() {
         this.name.setVisible(false);
@@ -116,7 +122,14 @@ public class DisplayCustomerController implements Initializable {
         this.city.setText(address.getCity());
         this.zip.setText(String.valueOf(address.getZip()));
 
-        // Todo add age
+        Date birthdate = customer.getDateOfBirth();
+        
+        int today = LocalDate.now().getYear();
+        int birthday = birthdate.toLocalDate().getYear();
+        
+        int currentAge = today - birthday;
+        this.age.setText(String.valueOf(currentAge));
+        
         String g = customer.getGender().toLowerCase();
 
         switch (g) {
@@ -132,7 +145,7 @@ public class DisplayCustomerController implements Initializable {
         }
 
         this.name.setVisible(true);
-//        this.age.setVisible(true);
+        this.age.setVisible(true);
         this.gender.setVisible(true);
         this.phone.setVisible(true);
         this.email.setVisible(true);
@@ -142,6 +155,7 @@ public class DisplayCustomerController implements Initializable {
         this.zip.setVisible(true);
 
         getVehicles();
+        loadStatistics();
 
     }
 
@@ -176,6 +190,15 @@ public class DisplayCustomerController implements Initializable {
             
         }
         this.vehicles.setItems(carInfo);
+    }
+    
+    private void loadStatistics(){
+        AppointmentSearchService appS = new AppointmentSearchService();
+        
+        Result<AppointmentsRecord> records = appS.getAllWhere("kundnr", String.valueOf(customer.getId()));
+                
+        appointmentCount.setText(String.valueOf(records.size()));
+        appointmentCount.setVisible(true);
     }
     
     @FXML
@@ -247,6 +270,20 @@ public class DisplayCustomerController implements Initializable {
                                                 ApplicationNavigator.addBookingController);
             ApplicationNavigator.addBookingController.loadBooking(r, this.customer);
             ApplicationNavigator.setActiveTab(ApplicationNavigator.controller.bookingTab);
+    }
+    
+    @FXML
+    private void showBookings(){
+        AppointmentSearchService service = new AppointmentSearchService();
+        
+        Result<AppointmentsRecord> records = service.getAllWhere("kundnr", String.valueOf(customer.getId()));
+        
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listBookings,
+                                                ApplicationNavigator.controller.bookingContent,
+                                                ApplicationNavigator.listBookingController);
+        List<AppointmentBookingRecord> bookings = ApplicationNavigator.listBookingController.getAsBookingList(records);
+        ApplicationNavigator.listBookingController.populateTable(bookings);
+        ApplicationNavigator.setActiveTab(ApplicationNavigator.controller.bookingTab);
     }
 
     @Override

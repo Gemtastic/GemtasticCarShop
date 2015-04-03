@@ -3,7 +3,9 @@ package Controller.cars;
 import Controller.navigators.ApplicationNavigator;
 import com.gemtastic.carshop.tables.records.CarModelRecord;
 import com.gemtastic.carshop.tables.records.CarRecord;
+import com.gemtastic.carshop.tables.records.CustomerRecord;
 import com.gemtastic.carshop.tables.records.MakeRecord;
+import com.gemtastic.carshop.tables.records.OwnershipRecord;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -12,8 +14,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import services.CRUD.CarCRUDService;
+import services.CRUD.CustomerCRUDService;
 import services.CRUD.MakeCRUDService;
 import services.CRUD.ModelCRUDService;
+import services.CRUD.OwnershipService;
 
 /**
  *
@@ -43,6 +47,9 @@ public class AddCarController implements Initializable {
     private TextField fuelType;
     
     @FXML
+    private TextField owner;
+    
+    @FXML
     private Button addBtn;
     
     @FXML
@@ -60,14 +67,20 @@ public class AddCarController implements Initializable {
         errorMsg.setVisible(false);
         
         if(!make.getText().isEmpty() && !model.getText().isEmpty() && !year.getText().isEmpty() &&
-           !plates.getText().isEmpty() && !odometer.getText().isEmpty() && !fuelType.getText().isEmpty()){
+           !plates.getText().isEmpty() && !odometer.getText().isEmpty() && !fuelType.getText().isEmpty()&&
+            !owner.getText().isEmpty()){
             CarCRUDService carCRUD = new CarCRUDService();
             ModelCRUDService modelCRUD = new ModelCRUDService();
             MakeCRUDService makeCRUD = new MakeCRUDService();
+            CustomerCRUDService cusCRUD = new CustomerCRUDService();
+            OwnershipService ownService = new OwnershipService();
+            
             
             CarRecord car = new CarRecord();
             CarModelRecord carModel = new CarModelRecord();
             MakeRecord makeRecord = new MakeRecord();
+            OwnershipRecord ownership = new OwnershipRecord();
+            CustomerRecord customer = null;
             
             makeRecord.setMake(make.getText());
             MakeRecord mr = makeCRUD.create(makeRecord);
@@ -91,17 +104,25 @@ public class AddCarController implements Initializable {
             try{
                 long odo = Integer.parseInt(odometer.getText());
                 car.setOdometer(odo);
-            }catch(NumberFormatException e){
-                e.printStackTrace();
-            }
+                customer = cusCRUD.read(Integer.parseInt(owner.getText()));
+            }catch(NumberFormatException e){}
             
             CarRecord newCar = carCRUD.create(car);
             
-            if(newCar.getId() != null){
+            
+            if(newCar.getId() != null && customer != null){
+                
                 ApplicationNavigator.loadTabContent(ApplicationNavigator.listVehicles, 
                                                     ApplicationNavigator.controller.vehicleContent,
                                                     ApplicationNavigator.listCarController);
+                ownership.setCar(newCar.getId());
+                ownership.setOwner(customer.getId());
+                
+                ownService.create(ownership);
+                
                 errorMsg.setVisible(false);
+            }else{
+                errorMsg.setVisible(true);
             }
         }else{
             errorMsg.setVisible(true);

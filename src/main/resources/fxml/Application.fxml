@@ -150,6 +150,11 @@
                                     </Label>
                                     <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
+                                          <Button fx:id="editBookingBtn" mnemonicParsing="false" onAction="#editBooking" text="Ändra bokning">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Button>
                                           <Button fx:id="newBookingBtn" mnemonicParsing="false" onAction="#newAppointment" text="Skapa ny bokning">
                                              <HBox.margin>
                                                 <Insets right="30.0" />
@@ -206,6 +211,11 @@
                                     </Button>
                                     <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                        <children>
+                                          <Button fx:id="editAppointmentBtn" mnemonicParsing="false" onAction="#editAppointment" text="Ändra bokning">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin>
+                                          </Button>
                                           <Button fx:id="newAppointmentBtn" mnemonicParsing="false" onAction="#newAppointment" text="Skapa nytt servicetillfälle">
                                              <HBox.margin>
                                                 <Insets right="30.0" />
@@ -413,21 +423,6 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" VBox.vgrow="ALWAYS">
                                        <children>
-                                          <TextField prefHeight="25.0" prefWidth="208.0">
-                                             <HBox.margin>
-                                                <Insets left="20.0" />
-                                             </HBox.margin>
-                                          </TextField>
-                                          <ChoiceBox prefWidth="150.0">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </ChoiceBox>
-                                          <Button mnemonicParsing="false" text="Sök">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </Button>
                                           <Label fx:id="errorMessageStatistics" text="Inga matchande resultat" textFill="#a80000" visible="false">
                                              <HBox.margin>
                                                 <Insets left="20.0" />

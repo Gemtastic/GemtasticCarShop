@@ -88,13 +88,14 @@ public class AddBookingController implements Initializable{
             && !hour.getText().isEmpty() && !min.getText().isEmpty()){
             
             CarRecord car = carSearch.getByPlate(plates.getText());
+            Object o = mechanic.getSelectionModel().getSelectedItem();
             
-            if(car != null){
+            if(car != null && o != null){
                 CarModelRecord model = modelCRUD.read(car.getCarModel());
                 MakeRecord make = makeCRUD.read(model.getMake());
                 List<EmployeesRecord> makeMechanics = mechanicSearch.getAllMechanicsOf(make.getId());
                 
-                Object o = mechanic.getSelectionModel().getSelectedItem();
+                
                 int mechanicId = Integer.parseInt(o.toString());
                 
                 EmployeesRecord mech = employeeCRUD.read(mechanicId);
@@ -140,7 +141,7 @@ public class AddBookingController implements Initializable{
                 }
             }else{
                 errorMessage.setVisible(true);
-                errorMessage.setText("Denna bil finns inte registrerad.");
+                errorMessage.setText("Var god fyll i alla fält.");
             }
         }else{
             errorMessage.setVisible(true);

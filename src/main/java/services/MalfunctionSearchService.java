@@ -1,8 +1,10 @@
 package services;
 
 import static com.gemtastic.carshop.tables.MalfunctionReports.MALFUNCTION_REPORTS;
+import com.gemtastic.carshop.tables.records.CarRecord;
 import com.gemtastic.carshop.tables.records.MalfunctionReportsRecord;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import org.jooq.DSLContext;
@@ -34,7 +36,7 @@ public class MalfunctionSearchService implements SearchServices<Result<Malfuncti
     }
 
     /**
-     * This method only needs a constraint. {@code column} may be empty.
+     * This method accepts "nummerplåt" and "datum" in the {@code column}.
      * 
      * @param column
      * @param constraint
@@ -42,22 +44,45 @@ public class MalfunctionSearchService implements SearchServices<Result<Malfuncti
      */
     @Override
     public Result<MalfunctionReportsRecord> getAllWhere(String column, String constraint) {
+        CarSearchService service = new CarSearchService();
         Result<MalfunctionReportsRecord> result = null;
-        
         Integer id = null;
         
         try{
             id = Integer.parseInt(constraint);
         }catch(NumberFormatException e){}
         
-        if(id != null){
+        String search = column.toLowerCase();
+        
             try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
                 DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
-                result = create.selectFrom(MALFUNCTION_REPORTS).where(MALFUNCTION_REPORTS.CAR.eq(id)).fetch();
+                
+                switch(search){
+                    case "nummerplåt":
+                        CarRecord r = service.getByPlate(constraint);
+                        if(r != null){
+                            result = create.selectFrom(MALFUNCTION_REPORTS).where(MALFUNCTION_REPORTS.CAR.eq(r.getId())).fetch();
+                        }
+                        break;
+                    case "datum":
+                        Date date = null;
+                        try{
+                            date = Date.valueOf(constraint);
+                        }catch(Exception e){}
+                        if(date != null){
+                            result = create.selectFrom(MALFUNCTION_REPORTS).where(MALFUNCTION_REPORTS.REPORT_DATE.eq(date)).fetch();
+                        }
+                        break;
+                    case "car":
+                        if(id != null){
+                            result = create.selectFrom(MALFUNCTION_REPORTS).where(MALFUNCTION_REPORTS.CAR.eq(id)).fetch();
+                        }
+                        break;
+                }
+                
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
             
         return result;
     }

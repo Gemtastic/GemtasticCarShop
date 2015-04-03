@@ -56,27 +56,27 @@ public class EditMalfunctionController implements Initializable{
             CarRecord car = carS.getByPlate(vehicle.getText());
             
             if(car != null){
-//                r.setCar(car.getId());
                 editedReport.setCar(car.getId());
-//                r.setMessage(message.getText());
                 editedReport.setMessage(message.getText());
                 if(reportDate.getValue() != null){
-//                    r.setReportDate(Date.valueOf(reportDate.getValue()));
                     editedReport.setReportDate(Date.valueOf(reportDate.getValue()));
                 }
                 
                 
                 boolean success = service.update(editedReport);
-                System.out.println(success);
+                if(success){
+                    errorMessage.setVisible(false);
+                    ApplicationNavigator.loadTabContent(ApplicationNavigator.listMalfunctions, 
+                                                        ApplicationNavigator.controller.malfunctionsContent,
+                                                        ApplicationNavigator.listMalfunctionController);
+                }else{
+                    errorMessage.setVisible(true);
+                }
             }else{
                 errorMessage.setVisible(true);
             }
             errorMessage.setVisible(true);
         }
-        
-        ApplicationNavigator.loadTabContent(ApplicationNavigator.listMalfunctions, 
-                                            ApplicationNavigator.controller.malfunctionsContent,
-                                            ApplicationNavigator.listMalfunctionController);
     }
     
     @FXML
@@ -89,7 +89,7 @@ public class EditMalfunctionController implements Initializable{
     public void loadReport(MalfunctionReportsRecord r){
         editedReport = r;
         CarCRUDService service = new CarCRUDService();
-        CarRecord c = service.read(editedReport.getId());
+        CarRecord c = service.read(editedReport.getCar());
         vehicle.setText(c.getLicensePlate());
         message.setText(editedReport.getMessage());
         reportDate.setValue(editedReport.getReportDate().toLocalDate());

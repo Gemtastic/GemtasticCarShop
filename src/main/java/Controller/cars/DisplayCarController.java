@@ -72,6 +72,12 @@ public class DisplayCarController implements Initializable {
     
     @FXML
     private Button showMalfunction;
+    
+    @FXML
+    private Button addOwnerBtn;
+    
+    @FXML
+    private Button newMalfunctionBtn;
 
     
     public void loadCar(CarRecord r) {
@@ -101,7 +107,7 @@ public class DisplayCarController implements Initializable {
         MalfunctionSearchService malfS = new MalfunctionSearchService();
         
         ObservableList<String> malfInfo = FXCollections.observableArrayList();
-        Result<MalfunctionReportsRecord> results = malfS.getAllWhere("", String.valueOf(displayedCar.getId()));
+        Result<MalfunctionReportsRecord> results = malfS.getAllWhere("car", String.valueOf(displayedCar.getId()));
         
         if(results.isNotEmpty()){
             for(MalfunctionReportsRecord r : results){
@@ -144,6 +150,24 @@ public class DisplayCarController implements Initializable {
             getOwner.setDisable(true);
         }
         this.ownerList.setItems(ownerInfo);
+    }
+    
+    @FXML
+    private void newMalfunction(){
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.addMalfunctions, 
+                                            ApplicationNavigator.controller.malfunctionsContent,
+                                            ApplicationNavigator.addMalfunctionController);
+        ApplicationNavigator.addMalfunctionController.setVehicle(displayedCar);
+        ApplicationNavigator.setActiveTab(ApplicationNavigator.controller.malfunctionTab);
+    }
+    
+    @FXML
+    private void addOwner(){
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.ownership,
+                                            ApplicationNavigator.controller.vehicleContent,
+                                            ApplicationNavigator.editOwnershipController);
+        ApplicationNavigator.editOwnershipController.setCar(this.displayedCar);
+        ApplicationNavigator.setActiveTab(ApplicationNavigator.controller.vehicleTab);
     }
 
     @FXML

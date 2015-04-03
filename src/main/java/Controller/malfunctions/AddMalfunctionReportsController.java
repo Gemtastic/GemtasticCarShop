@@ -20,6 +20,8 @@ import services.CarSearchService;
  */
 public class AddMalfunctionReportsController implements Initializable{
 
+    private CarRecord displayedVehicle;
+    
     @FXML
     private TextField vehicle;
     
@@ -51,15 +53,19 @@ public class AddMalfunctionReportsController implements Initializable{
                 r.setMessage(message.getText());
                 
                 service.create(r);
+                
+                ApplicationNavigator.loadTabContent(ApplicationNavigator.listMalfunctions, 
+                                                    ApplicationNavigator.controller.malfunctionsContent,
+                                                    ApplicationNavigator.listMalfunctionController);
+                ApplicationNavigator.loadTabContent(ApplicationNavigator.vehicle, 
+                                                    ApplicationNavigator.controller.vehicleContent,
+                                                    ApplicationNavigator.displayCarController);
+                ApplicationNavigator.displayCarController.loadCar(this.displayedVehicle);
             }else{
                 errorMessage.setVisible(true);
             }
             errorMessage.setVisible(true);
         }
-        
-        ApplicationNavigator.loadTabContent(ApplicationNavigator.listMalfunctions, 
-                                            ApplicationNavigator.controller.malfunctionsContent,
-                                            ApplicationNavigator.listMalfunctionController);
     }
     
     @FXML
@@ -69,8 +75,16 @@ public class AddMalfunctionReportsController implements Initializable{
                                             ApplicationNavigator.listMalfunctionController);
     }
     
+    public void setVehicle(CarRecord car){
+        this.displayedVehicle = car;
+        
+        vehicle.setText(car.getLicensePlate());
+        vehicle.setDisable(true);
+    }
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        vehicle.setDisable(false);
     }
     
 }
