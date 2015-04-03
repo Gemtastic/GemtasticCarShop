@@ -1,13 +1,13 @@
 # GemtasticCarShop
-My first attempt at a carShop application.
+My first attempt at an application using a database.
 
-This application is still under development and nothing has been set in stones just yet. 
-It's barely even a skeletal app as it is atm.
-
-I'm still working around what frameworks to use, but this project is supposed to have:
+This project is supposed to follow these principles:
 
 - Multilayer architecture
 - DOM oriented design
 - TDD
 - Clean code
 - MVC design pattern
+
+##About CarShop##
+CarShop is a JavaFX desktop application for a car shop where they can store their customers, appointments and lighter statistics.
