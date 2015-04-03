@@ -2,13 +2,18 @@ package Controller.employees;
 
 import Controller.navigators.ApplicationNavigator;
 import com.gemtastic.carshop.tables.records.EmployeesRecord;
+import com.gemtastic.carshop.tables.records.MakeRecord;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import services.MechanicSearchService;
 
 /**
  *
@@ -42,10 +47,31 @@ public class DisplayEmployeeController implements Initializable {
         id.setText(String.valueOf(employee.getId()));
         phone.setText(employee.getPhone());
         email.setText(employee.getEmail());
+        
+        getCertifications();
+    }
+    
+    private void getCertifications(){
+        
+        MechanicSearchService service = new MechanicSearchService();
+        
+        ObservableList<String> makes = FXCollections.observableArrayList();
+        List<MakeRecord> m = service.getAllMakesOf(this.employee.getId());
+        
+        auctorisationList.setItems(makes);
+        
+        if(m != null && !m.isEmpty()){
+            for(MakeRecord r : m){
+                makes.add(r.getMake());
+            }
+        }else{
+            makes.add("Ingen behörighet finns.");
+        }
+        auctorisationList.setItems(makes);
     }
     
     @FXML
-    public void editEmployee(){
+    private void editEmployee(){
         ApplicationNavigator.loadTabContent(ApplicationNavigator.editEmployees, 
                                             ApplicationNavigator.controller.employeeContent, 
                                             ApplicationNavigator.editEmployeeController);

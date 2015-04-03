@@ -319,7 +319,7 @@
                            <bottom>
                               <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="667.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Button fx:id="showMalfunctionBtn" mnemonicParsing="false" onAction="#displayMalfunction" text="Visa vald felanmälan">
+                                    <Button fx:id="editMalfunctionBtn" mnemonicParsing="false" onAction="#editMalfunction" text="Ändra vald felanmälan">
                                        <HBox.margin>
                                           <Insets left="30.0" />
                                        </HBox.margin>

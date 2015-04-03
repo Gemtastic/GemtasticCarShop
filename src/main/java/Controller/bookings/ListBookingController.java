@@ -1,11 +1,11 @@
 package Controller.bookings;
 
+import AlternativeRecords.AppointmentBookingRecord;
 import com.gemtastic.carshop.tables.records.AppointmentsRecord;
 import com.gemtastic.carshop.tables.records.CarRecord;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
-import com.gemtastic.carshop.tables.records.EmployeesRecord;
 import java.net.URL;
-import java.sql.Timestamp;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +14,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.jooq.Result;
+import services.CRUD.AppointmentCRUDService;
 import services.CRUD.CarCRUDService;
+import services.CRUD.CustomerCRUDService;
 import util.JavafxUtils;
 
 /**
@@ -24,41 +26,41 @@ import util.JavafxUtils;
 public class ListBookingController implements Initializable{
 
     @FXML
-    public TableView<AppointmentsRecord> bookings;
+    public TableView<AppointmentBookingRecord> bookings;
 
     @FXML
-    private TableColumn<AppointmentsRecord, Integer> bookingId;
+    private TableColumn<AppointmentBookingRecord, Integer> bookingId;
     
     @FXML
-    private TableColumn<AppointmentsRecord, Timestamp> date;
+    private TableColumn<AppointmentBookingRecord, String> date;
     
     @FXML
-    private TableColumn<AppointmentsRecord, String> type;
+    private TableColumn<AppointmentBookingRecord, String> type;
     
     @FXML
-    private TableColumn<CarRecord, String> vehicle;
+    private TableColumn<AppointmentBookingRecord, String> vehicle;
     
     @FXML
-    private TableColumn<CustomerRecord, String> customer;
+    private TableColumn<AppointmentBookingRecord, String> customer;
     
     @FXML
-    private TableColumn<EmployeesRecord, Integer> mechanic;
+    private TableColumn<AppointmentBookingRecord, Integer> mechanic;
     
-    public void populateTable(Result<AppointmentsRecord> record){
-        if (record == null) {
-            ObservableList<AppointmentsRecord> list = FXCollections.observableArrayList();
+    public void populateTable(List<AppointmentBookingRecord> record){
+        if (record == null || record.isEmpty()) {
+            ObservableList<AppointmentBookingRecord> list = FXCollections.observableArrayList();
             bookings.setItems(list);
         } else {
-            JavafxUtils.setColumnValue(bookingId, AppointmentsRecord::getId);
-            JavafxUtils.setColumnValue(type, AppointmentsRecord::getType);
-            JavafxUtils.setColumnValue(vehicle, CarRecord::getLicensePlate);
-            JavafxUtils.setColumnValue(customer, CustomerRecord::getPhone);
-            JavafxUtils.setColumnValue(mechanic, EmployeesRecord::getId);
-            JavafxUtils.setColumnValue(date, AppointmentsRecord::getScheduledDate);
+            JavafxUtils.setColumnValue(bookingId, AppointmentBookingRecord::getBookingId);
+            JavafxUtils.setColumnValue(type, AppointmentBookingRecord::getType);
+            JavafxUtils.setColumnValue(vehicle, AppointmentBookingRecord::getVehicle);
+            JavafxUtils.setColumnValue(customer, AppointmentBookingRecord::getCustomer);
+            JavafxUtils.setColumnValue(mechanic, AppointmentBookingRecord::getMechanic);
+            JavafxUtils.setColumnValue(date, AppointmentBookingRecord::getDate);
 
-            ObservableList<AppointmentsRecord> list = FXCollections.observableArrayList();
+            ObservableList<AppointmentBookingRecord> list = FXCollections.observableArrayList();
 
-            for (AppointmentsRecord r : record) {
+            for (AppointmentBookingRecord r : record) {
                 list.add(r);
             }
             bookings.setItems(list);
@@ -66,9 +68,37 @@ public class ListBookingController implements Initializable{
     }
     
     public AppointmentsRecord getSelected(){
-        AppointmentsRecord r = bookings.getSelectionModel().getSelectedItem();
+        AppointmentCRUDService service = new AppointmentCRUDService();
+        AppointmentsRecord r = null;
+        
+        AppointmentBookingRecord selected = bookings.getSelectionModel().getSelectedItem();
+        
+        if(selected != null){
+            r = service.read(selected.getBookingId());
+        }
+        
+        
         return r;
     }
+    
+    public List<AppointmentBookingRecord> getAsBookingList(Result<AppointmentsRecord> records){
+        List<AppointmentBookingRecord> b = FXCollections.observableArrayList();
+        
+        CarCRUDService carS = new CarCRUDService();
+        CustomerCRUDService customerS = new CustomerCRUDService();
+        
+        if(records != null && records.isNotEmpty()){
+            for(AppointmentsRecord r : records){
+                CarRecord car = carS.read(r.getCar());
+                CustomerRecord cust = customerS.read(r.getCommissioner());
+
+                AppointmentBookingRecord rec = new AppointmentBookingRecord(r, car, cust);
+                b.add(rec);
+            }
+        }
+        
+        return b;
+    } 
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {

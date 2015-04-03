@@ -64,9 +64,9 @@
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="BOTTOM_LEFT" prefHeight="39.0" prefWidth="317.0">
+            <HBox prefHeight="38.0" prefWidth="340.0">
                <children>
-                  <Label text="Felanmälningar">
+                  <Label text="Snittbesök per månad:">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -74,16 +74,17 @@
                         <Insets left="30.0" />
                      </HBox.margin>
                   </Label>
+                  <Label text="Label">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
                </children>
             </HBox>
-            <ListView fx:id="malfunctions" prefHeight="104.0" prefWidth="334.0">
-               <VBox.margin>
-                  <Insets left="30.0" right="20.0" />
-               </VBox.margin>
-            </ListView>
+            <HBox alignment="BOTTOM_LEFT" prefHeight="39.0" prefWidth="317.0" />
          </children>
       </VBox>
-      <VBox prefHeight="250.0" prefWidth="334.0" GridPane.rowIndex="2">
+      <VBox prefHeight="163.0" prefWidth="344.0" GridPane.rowIndex="2">
          <children>
             <Label text="Fordon">
                <font>
@@ -93,7 +94,7 @@
                   <Insets left="30.0" />
                </VBox.margin>
             </Label>
-            <ListView fx:id="vehicles" prefHeight="104.0" prefWidth="334.0">
+            <ListView fx:id="vehicles" maxWidth="-Infinity" prefHeight="104.0" prefWidth="300.0">
                <VBox.margin>
                   <Insets left="30.0" />
                </VBox.margin>
@@ -103,6 +104,16 @@
                   <Button fx:id="showCar" mnemonicParsing="false" onAction="#displayCar" text="Visa fordon">
                      <HBox.margin>
                         <Insets left="30.0" top="6.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="addVehicleBtn" mnemonicParsing="false" onAction="#addVehicle" text="Lägg till fordon">
+                     <HBox.margin>
+                        <Insets left="10.0" top="6.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="addBooking" mnemonicParsing="false" onAction="#newCustomerBooking" text="Skapa ny bokning">
+                     <HBox.margin>
+                        <Insets left="10.0" top="6.0" />
                      </HBox.margin>
                   </Button>
                </children>
@@ -232,35 +243,13 @@
       </VBox>
       <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="134.0" prefWidth="182.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <HBox prefHeight="42.0" prefWidth="340.0">
-                     <children>
-                        <Button fx:id="showMalfunction" mnemonicParsing="false" onAction="#displayMalfunctions" text="Visa felanmälan">
-                           <HBox.margin>
-                              <Insets left="30.0" top="5.0" />
-                           </HBox.margin>
-                        </Button>
-                        <Button fx:id="newMalfunction" mnemonicParsing="false" onAction="#addMalfunction" text="Ny felanmälan">
-                           <HBox.margin>
-                              <Insets left="20.0" top="5.0" />
-                           </HBox.margin>
-                        </Button>
-                     </children>
-                  </HBox>
-                  <Button fx:id="addRemove" mnemonicParsing="false" onAction="#loadCustomerBookings" text="Lägg till/ta bort bokning">
-                     <VBox.margin>
-                        <Insets left="30.0" top="20.0" />
-                     </VBox.margin>
-                  </Button>
-               </children>
-            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="134.0" prefWidth="182.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </children>
    <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.0" minWidth="10.0" prefWidth="327.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="341.0" minWidth="10.0" prefWidth="340.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.0" minWidth="10.0" prefWidth="342.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="341.0" minWidth="10.0" prefWidth="326.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints maxHeight="107.0" minHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />

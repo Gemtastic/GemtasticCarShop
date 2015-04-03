@@ -7,6 +7,8 @@ import com.gemtastic.carshop.tables.records.MakeRecord;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
+import javafx.collections.FXCollections;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.SQLDialect;
@@ -55,53 +57,61 @@ public class MechanicSearchService implements SearchServices<Result<Certificatio
         Result<CertificationRecord> certifications = null;
         String column = selected.toLowerCase();
 
-        if (column != null && constraint != null) {
-            try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
-                DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
-                
-                switch(column){
-                    case "mechanic":
-                        certifications = create.selectFrom(CERTIFICATION).where(CERTIFICATION.EMPLOYEE.eq(Integer.parseInt(constraint))).fetch();
-                        break;
-                    case "make":
-                        certifications = create.selectFrom(CERTIFICATION).where(CERTIFICATION.MAKE.eq(Integer.parseInt(constraint))).fetch();
-                        break;
-                    default:
-                        System.out.println("Something borked with the column!");
+        Integer id = null;
+        try{
+            id = Integer.parseInt(constraint);
+        }catch(NumberFormatException e){}
+        
+        if(id != null){
+            if (column != null && constraint != null) {
+                try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+                    DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+
+                    switch(column){
+                        case "mechanic":
+                                certifications = create.selectFrom(CERTIFICATION).where(CERTIFICATION.EMPLOYEE.eq(id)).fetch();
+                            break;
+                        case "make":
+                            certifications = create.selectFrom(CERTIFICATION).where(CERTIFICATION.MAKE.eq(id)).fetch();
+                            break;
+                        default:
+                            System.out.println("Something borked with the column!");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            }else{
+                System.out.println("Invalid search!");
             }
-        }else{
-            System.out.println("Invalid search!");
         }
 
         return certifications;
     }
     
-    public Result<MakeRecord> getAllMakesOf(int mechanicId){
-        Result<MakeRecord> makes = null;
+    public List<MakeRecord> getAllMakesOf(int mechanicId){
+        List<MakeRecord> makes = FXCollections.observableArrayList();
         
         MakeCRUDService makeCRUD = new MakeCRUDService();
         
         String mechanic = String.valueOf(mechanicId);
         Result<CertificationRecord> all = getAllWhere("mechanic", mechanic);
-        
-        for(CertificationRecord c : all){
-            MakeRecord m = makeCRUD.read(c.getMake());
-            makes.add(m);
+        if(all != null && all.isNotEmpty()){
+            for(CertificationRecord c : all){
+                MakeRecord m = makeCRUD.read(c.getMake());
+                    makes.add(m);
+            }
         }
         
         return makes;
     }
     
-    public Result<EmployeesRecord> getAllMechanicsOf(int makeId){
-        Result<EmployeesRecord> employees = null;
+    public List<EmployeesRecord> getAllMechanicsOf(int makeId){
+        List<EmployeesRecord> employees = FXCollections.observableArrayList();
         
         EmployeeCRUDService employeeCRUD = new EmployeeCRUDService();
         
         String brand = String.valueOf(makeId);
-        Result<CertificationRecord> all = getAllWhere("mechanic", brand);
+        Result<CertificationRecord> all = getAllWhere("make", brand);
         
         for(CertificationRecord c : all){
             EmployeesRecord e = employeeCRUD.read(c.getEmployee());
@@ -111,9 +121,9 @@ public class MechanicSearchService implements SearchServices<Result<Certificatio
         return employees;
     }
     
-    public Result<EmployeesRecord> getAllMechanics(){
+    public List<EmployeesRecord> getAllMechanics(){
         Result<CertificationRecord> all = getAll();
-        Result<EmployeesRecord> mechanics = null;
+        List<EmployeesRecord> mechanics = FXCollections.observableArrayList();
         
         EmployeeCRUDService service = new EmployeeCRUDService();
         
@@ -121,5 +131,49 @@ public class MechanicSearchService implements SearchServices<Result<Certificatio
             mechanics.add(service.read(c.getEmployee()));
         }
         return mechanics;
+    }
+    
+    public CertificationRecord create(CertificationRecord t) {
+        CertificationRecord newCert = null;
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+            
+            create.insertInto(CERTIFICATION).set(t).execute();
+            newCert = t;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return newCert;
+    }
+    
+    public void delete(CertificationRecord c) {
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+            
+            create.delete(CERTIFICATION)
+                    .where(CERTIFICATION.EMPLOYEE.eq(c.getEmployee()).and(CERTIFICATION.MAKE.eq(c.getMake())))
+                    .execute();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public CertificationRecord getRecord(EmployeesRecord mechanic, MakeRecord make){
+        CertificationRecord c = null;
+        
+        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+            
+            c = create.selectFrom(CERTIFICATION)
+                        .where(CERTIFICATION.EMPLOYEE.eq(mechanic.getId())
+                        .and(CERTIFICATION.MAKE.eq(make.getId())))
+                        .fetchOne();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return c;
     }
 }

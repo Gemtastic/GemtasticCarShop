@@ -1,12 +1,13 @@
 package Controller.customers;
 
-import Controller.appointments.AppointmentSearchService;
+import services.AppointmentSearchService;
 import Controller.navigators.ApplicationNavigator;
 import com.gemtastic.carshop.tables.records.AddressRecord;
 import com.gemtastic.carshop.tables.records.CarModelRecord;
 import com.gemtastic.carshop.tables.records.CarRecord;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
 import com.gemtastic.carshop.tables.records.MakeRecord;
+import com.gemtastic.carshop.tables.records.MalfunctionReportsRecord;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -19,10 +20,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import org.jooq.Result;
 import services.CRUD.AddressCRUDService;
+import services.CRUD.CarCRUDService;
 import services.CarSearchService;
 import services.CRUD.MakeCRUDService;
 import services.CRUD.ModelCRUDService;
+import services.MalfunctionSearchService;
 
 /**
  *
@@ -32,6 +36,7 @@ public class DisplayCustomerController implements Initializable {
 
     private CustomerRecord customer;
     private Map<String, CarRecord> cars = new HashMap<>();
+    private Map<String, MalfunctionReportsRecord> malfunctions = new HashMap<>();
 
     @FXML
     private Label name;
@@ -70,22 +75,14 @@ public class DisplayCustomerController implements Initializable {
     private ListView vehicles;
     
     @FXML
-    private ListView malfunctions;
+    private Button addBooking;
     
     @FXML
-    private Button showMalfunction;
-    
-    @FXML
-    private Button newMalfunction;
-    
-    @FXML
-    private Button addRemove;
+    private Button addVehicleBtn;
 
     @FXML
     private Button showCar;
     
-//    @FXML
-//    private Button showAppointments;
 
     public void cleanSlate() {
         this.name.setVisible(false);
@@ -156,7 +153,6 @@ public class DisplayCustomerController implements Initializable {
         ModelCRUDService modelService = new ModelCRUDService();
 
         List<CarRecord> record = carService.getAllCarsByOwner(customer.getId());
-        System.out.println(record);
 
         if (!record.isEmpty()) {
             for (CarRecord r : record) {
@@ -177,8 +173,18 @@ public class DisplayCustomerController implements Initializable {
             String message = "Denna kund äger inga bilar.";
             carInfo.add(message);
             showCar.setDisable(true);
+            
         }
         this.vehicles.setItems(carInfo);
+    }
+    
+    @FXML
+    private void addVehicle(){
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.ownership,
+                                            ApplicationNavigator.controller.customerContent,
+                                            ApplicationNavigator.editOwnershipController);
+        ApplicationNavigator.editOwnershipController.setOwner(this.customer);
+        
     }
 
     @FXML
@@ -186,33 +192,26 @@ public class DisplayCustomerController implements Initializable {
 
         CarRecord r = null;
         Object selected = vehicles.getSelectionModel().getSelectedItem();
-        String info = selected.toString();
+        
+        if(selected != null){
+            String info = selected.toString();
 
-        for (String s : cars.keySet()) {
-            if (s.equals(info)) {
-                r = cars.get(s);
-                break;
+            for (String s : cars.keySet()) {
+                if (s.equals(info)) {
+                    r = cars.get(s);
+                    break;
+                }
             }
-        }
-        ApplicationNavigator.loadTabContent(ApplicationNavigator.vehicle,
-                ApplicationNavigator.controller.vehicleContent,
-                ApplicationNavigator.displayCarController);
-        ApplicationNavigator.displayCarController.loadCar(r);
-        
-        ApplicationNavigator.setActiveTab(ApplicationNavigator.controller.vehicleTab);
-    }
-    
-    @FXML
-    private void displayMalfunctions(){
-        
-    }
-    
-    @FXML
-    private void addMalfunction(){
-        
-    }
-    
+            ApplicationNavigator.loadTabContent(ApplicationNavigator.vehicle,
+                                                ApplicationNavigator.controller.vehicleContent,
+                                                ApplicationNavigator.displayCarController);
+            ApplicationNavigator.displayCarController.loadCar(r);
 
+            ApplicationNavigator.setActiveTab(ApplicationNavigator.controller.vehicleTab);
+        }
+        
+    }
+    
     @FXML
     private void editCustomer() {
         ApplicationNavigator.loadTabContent(ApplicationNavigator.editCustomers,
@@ -223,8 +222,31 @@ public class DisplayCustomerController implements Initializable {
     }
     
     @FXML
-    private void loadCustomerBookings(){
+    private void newCustomerBooking(){
         
+        
+        CarRecord r = null;
+        Object selected = vehicles.getSelectionModel().getSelectedItem();
+        
+        if(selected != null){
+            try{
+                String info = selected.toString();
+
+                for (String s : cars.keySet()) {
+                    if (s.equals(info)) {
+                        r = cars.get(s);
+                        break;
+                    }
+                }
+            }catch(NullPointerException e){
+                e.printStackTrace();
+            }
+        }
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.addBookings,
+                                                ApplicationNavigator.controller.bookingContent,
+                                                ApplicationNavigator.addBookingController);
+            ApplicationNavigator.addBookingController.loadBooking(r, this.customer);
+            ApplicationNavigator.setActiveTab(ApplicationNavigator.controller.bookingTab);
     }
 
     @Override

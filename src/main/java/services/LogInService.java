@@ -23,8 +23,8 @@ public class LogInService implements LogInServices {
             EmployeesRecord r = employee.get(0);
             
             if(r != null){
-            String password = r.getPassword();
-            success = BCrypt.checkpw(enteredpw, password);
+                String password = r.getPassword();
+                success = BCrypt.checkpw(enteredpw, password);
             }
         }
         

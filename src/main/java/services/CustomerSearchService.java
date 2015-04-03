@@ -40,11 +40,18 @@ public class CustomerSearchService implements SearchServices {
         Result<CustomerRecord> customers = null;
         String column = selected.toLowerCase();
 
+        Integer id = null;
+
+        try {
+            id = Integer.parseInt(constraint);
+        } catch (NumberFormatException e) {
+        }
+
         if (column != null && constraint != null) {
             try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
                 DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
-                
-                switch(column){
+
+                switch (column) {
                     case "namn":
                         customers = create.selectFrom(CUSTOMER).where(CUSTOMER.FIRST_NAME.eq(constraint)).fetch();
                         break;
@@ -58,8 +65,9 @@ public class CustomerSearchService implements SearchServices {
                         customers = create.selectFrom(CUSTOMER).where(CUSTOMER.PHONE.eq(constraint)).fetch();
                         break;
                     case "kundnr":
-                        int id = Integer.parseInt(constraint);
-                        customers = create.selectFrom(CUSTOMER).where(CUSTOMER.ID.eq(id)).fetch();
+                        if (id != null) {
+                            customers = create.selectFrom(CUSTOMER).where(CUSTOMER.ID.eq(id)).fetch();
+                        }
                         break;
                     default:
                         System.out.println("Something borked with the column!");
@@ -67,7 +75,7 @@ public class CustomerSearchService implements SearchServices {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             System.out.println("Invalid search!");
         }
 

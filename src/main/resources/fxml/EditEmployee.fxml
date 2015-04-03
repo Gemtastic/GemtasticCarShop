@@ -93,7 +93,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <ListView fx:id="auctorisationList" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="160.0" />
+                  <ListView fx:id="certificationList" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="160.0" />
                   <Button fx:id="deleteMakeBtn" mnemonicParsing="false" onAction="#deleteMake" text="Ta bort">
                      <VBox.margin>
                         <Insets top="5.0" />
@@ -115,11 +115,20 @@
                      </VBox.margin>
                   </Label>
                   <ListView fx:id="makeList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="65.0" prefWidth="160.0" />
-                  <Button fx:id="addMakeBtn" mnemonicParsing="false" onAction="#addMake" text="Lägg till">
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin>
-                  </Button>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="addMakeBtn" mnemonicParsing="false" onAction="#addMake" text="Lägg till">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Label fx:id="errorAdd" text="Något gick fel!" textFill="#d30000">
+                           <HBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
                </children>
                <HBox.margin>
                   <Insets left="10.0" />

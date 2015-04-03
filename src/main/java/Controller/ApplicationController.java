@@ -1,18 +1,20 @@
 package Controller;
 
-import Controller.appointments.AppointmentSearchService;
+import AlternativeRecords.AppointmentAppointmentsRecord;
+import AlternativeRecords.AppointmentBookingRecord;
+import AlternativeRecords.VehicleRecord;
+import services.AppointmentSearchService;
 import Controller.customers.ListCustomerController;
 import Controller.navigators.ApplicationNavigator;
 import com.gemtastic.carshop.tables.records.AppointmentsRecord;
 import com.gemtastic.carshop.tables.records.CarRecord;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
 import com.gemtastic.carshop.tables.records.EmployeesRecord;
-import java.io.IOException;
+import com.gemtastic.carshop.tables.records.MalfunctionReportsRecord;
 import java.net.URL;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -28,11 +30,14 @@ import javafx.scene.layout.BorderPane;
 import org.jooq.Result;
 import services.CRUD.AddressCRUDService;
 import services.CRUD.AppointmentCRUDService;
+import services.CRUD.CarCRUDService;
 import services.CRUD.CustomerCRUDService;
 import services.CRUD.EmployeeCRUDService;
+import services.CRUD.MalfunctionCRUDService;
 import services.CarSearchService;
 import services.CustomerSearchService;
 import services.EmployeeSearchService;
+import services.MalfunctionSearchService;
 
 /**
  * FXML Controller class
@@ -205,7 +210,7 @@ public class ApplicationController implements Initializable {
     private Button deleteMalfunctionBtn;
     
     @FXML
-    private Button showMalfunctionBtn;
+    private Button editMalfunctionBtn;
     
     @FXML
     private TextField malfunctionSearchField;
@@ -220,7 +225,7 @@ public class ApplicationController implements Initializable {
     // Statistics tab, methods and data
 
     @FXML
-    private void searchCustomer() throws IOException {
+    private void searchCustomer() {
         showCustomerbtn.setDisable(false);
 
         ApplicationNavigator.loadTabContent(ApplicationNavigator.listCustomers, customerContent,
@@ -252,7 +257,7 @@ public class ApplicationController implements Initializable {
         } else {
             customers = service.getAllWhere(column, search);
 
-            if (customers == null) {
+            if (customers == null || customers.isEmpty()) {
                 errorSearchCustomer.setVisible(true);
             } else {
                 errorSearchCustomer.setVisible(false);
@@ -301,12 +306,13 @@ public class ApplicationController implements Initializable {
     private void searchBookings(){
 
         ApplicationNavigator.loadTabContent(ApplicationNavigator.listBookings, bookingContent,
-                ApplicationNavigator.listBookingController);
+                                            ApplicationNavigator.listBookingController);
 
         AppointmentSearchService service = new AppointmentSearchService();
         CarSearchService carService = new CarSearchService();
         
         Result<AppointmentsRecord> appointments = null;
+        List<AppointmentBookingRecord> bookings = FXCollections.observableArrayList();
         String search = bookingSearchField.getText();
 
         // Ugly fix; customerCb returns an object and adding the toString() 
@@ -318,32 +324,29 @@ public class ApplicationController implements Initializable {
         }
 
         // Search and display result or error message
-        if (appointmentSearchField.getText().isEmpty() && column == null) {
-            appointments = service.getAll();
-            errorSearchAppointment.setVisible(false);
-            ApplicationNavigator.listAppointmentController.populateTable(appointments);
-        } else if (!customerSearchField.getText().isEmpty() && column == null) {
-            errorSearchCustomer.setVisible(true);
-            ApplicationNavigator.listAppointmentController.populateTable(appointments);
-        } else if (customerSearchField.getText().isEmpty() && column != null) {
-            errorSearchCustomer.setVisible(true);
-            ApplicationNavigator.listAppointmentController.populateTable(appointments);
+        if (bookingSearchField.getText().isEmpty() && column == null) {
+            appointments = service.getAllWhere("booking", "0");
+            errorSearchBooking.setVisible(false);
+            bookings = ApplicationNavigator.listBookingController.getAsBookingList(appointments);
+            ApplicationNavigator.listBookingController.populateTable(bookings);
+        } else if (!bookingSearchField.getText().isEmpty() && column == null) {
+            errorSearchBooking.setVisible(true);
+            ApplicationNavigator.listBookingController.populateTable(bookings);
+        } else if (bookingSearchField.getText().isEmpty() && column != null) {
+            errorSearchBooking.setVisible(true);
+            ApplicationNavigator.listBookingController.populateTable(bookings);
         } else {
             
-            CarRecord car = carService.getByPlate(search);
-            String id = String.valueOf(car.getId());
-            appointments = service.getAllWhere(column, id);
+            appointments = service.getAllWhere(column, search);
 
-            if (appointments == null) {
-                errorSearchCustomer.setVisible(true);
+            if (appointments == null || appointments.isEmpty()) {
+                errorSearchBooking.setVisible(true);
             } else {
-                errorSearchCustomer.setVisible(false);
-
+                errorSearchBooking.setVisible(false);
             }
             
-            Result<AppointmentsRecord> bookings = service.getAllWhere("booking", column);
-            
-            ApplicationNavigator.listAppointmentController.populateTable(bookings);
+            bookings = ApplicationNavigator.listBookingController.getAsBookingList(appointments);
+            ApplicationNavigator.listBookingController.populateTable(bookings);
         }
         
         bookingCb.setValue(null);
@@ -351,7 +354,16 @@ public class ApplicationController implements Initializable {
     
     @FXML
     private void deleteBooking(){
+        AppointmentCRUDService appService = new AppointmentCRUDService();
         
+        AppointmentsRecord app = ApplicationNavigator.listBookingController.getSelected();
+        
+        if (app != null) {
+            appService.delete(app.getId());
+            
+            ApplicationNavigator.loadTabContent(ApplicationNavigator.listBookings, bookingContent, 
+                                                ApplicationNavigator.listBookingController);
+        }
     }
     
     @FXML
@@ -361,11 +373,13 @@ public class ApplicationController implements Initializable {
         AppointmentCRUDService service = new AppointmentCRUDService();
         
         AppointmentsRecord r = ApplicationNavigator.listBookingController.getSelected();
-        r.setPerformedDate(Timestamp.valueOf(LocalDateTime.now()));
-        boolean updated = service.update(r);
-        
-        if(!updated){
-            errorupdate.setVisible(true);
+        if(r != null){
+            r.setPerformedDate(Timestamp.valueOf(LocalDateTime.now()));
+            boolean updated = service.update(r);
+
+            if(!updated){
+                errorupdate.setVisible(true);
+            }
         }
     }
     
@@ -374,17 +388,72 @@ public class ApplicationController implements Initializable {
     private void newAppointment(){
         ApplicationNavigator.loadTabContent(ApplicationNavigator.addBookings, bookingContent,
                                             ApplicationNavigator.addBookingController);
+        ApplicationNavigator.setActiveTab(bookingTab);
     }
     
     // Appointment methods
     @FXML
     private void searchAppointment(){
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listAppointments, appointmentContent,
+                                            ApplicationNavigator.listAppointmentController);
+
+        AppointmentSearchService service = new AppointmentSearchService();
+        CarSearchService carService = new CarSearchService();
         
+        Result<AppointmentsRecord> appointments = null;
+        List<AppointmentAppointmentsRecord> app = FXCollections.observableArrayList();
+        String search = appointmentSearchField.getText();
+
+        // Ugly fix; customerCb returns an object and adding the toString() 
+        // method didn't work, but this does
+        Object cb = appointmentCb.getSelectionModel().getSelectedItem();
+        String column = null;
+        if (cb != null) {
+            column = cb.toString();
+        }
+
+        // Search and display result or error message
+        if (appointmentSearchField.getText().isEmpty() && column == null) {
+            appointments = service.getAllWhere("appointment", "0");
+            errorSearchAppointment.setVisible(false);
+            app = ApplicationNavigator.listAppointmentController.getAsAppointment(appointments);
+            ApplicationNavigator.listAppointmentController.populateTable(app);
+        } else if (!appointmentSearchField.getText().isEmpty() && column == null) {
+            errorSearchAppointment.setVisible(true);
+            ApplicationNavigator.listAppointmentController.populateTable(app);
+        } else if (appointmentSearchField.getText().isEmpty() && column != null) {
+            errorSearchAppointment.setVisible(true);
+            ApplicationNavigator.listAppointmentController.populateTable(app);
+        } else {
+            
+            appointments = service.getAllWhere(column, search);
+
+            if (appointments == null || appointments.isEmpty()) {
+                errorSearchAppointment.setVisible(true);
+            } else {
+                errorSearchAppointment.setVisible(false);
+            }
+            
+            app = ApplicationNavigator.listAppointmentController.getAsAppointment(appointments);
+            ApplicationNavigator.listAppointmentController.populateTable(app);
+        }
+        
+        appointmentCb.setValue(null);
     }
     
     @FXML
     private void deleteAppointment(){
+        AppointmentCRUDService appService = new AppointmentCRUDService();
         
+        AppointmentAppointmentsRecord app = ApplicationNavigator.listAppointmentController.getSelected();
+        
+        if (app != null) {
+            AppointmentsRecord record = appService.read(app.getId());
+            appService.delete(record.getId());
+            
+            ApplicationNavigator.loadTabContent(ApplicationNavigator.listAppointments, appointmentContent, 
+                                                ApplicationNavigator.listAppointmentController);
+        }
     }
     
     
@@ -422,7 +491,7 @@ public class ApplicationController implements Initializable {
         } else {
             employees = service.getAllWhere(column, search);
 
-            if (employees == null) {
+            if (employees == null || employees.isEmpty()) {
                 errorSearchEmployee.setVisible(true);
             } else {
                 errorSearchEmployee.setVisible(false);
@@ -436,10 +505,15 @@ public class ApplicationController implements Initializable {
     
     @FXML
     private void displayEmployee(){
-        ApplicationNavigator.loadTabContent(ApplicationNavigator.employee, employeeContent, 
-                                                ApplicationNavigator.displayEmployeeController);
         EmployeesRecord employee = ApplicationNavigator.listEmployeesController.getSelected();
-        ApplicationNavigator.displayEmployeeController.loadEmployee(employee);
+        if(employee != null){
+            showEmployeeBtn.setDisable(true);
+            ApplicationNavigator.loadTabContent(ApplicationNavigator.employee, employeeContent, 
+                                                ApplicationNavigator.displayEmployeeController);
+        
+            ApplicationNavigator.displayEmployeeController.loadEmployee(employee);
+        }
+        
     }
     
     @FXML
@@ -454,19 +528,74 @@ public class ApplicationController implements Initializable {
         EmployeeCRUDService delete = new EmployeeCRUDService();
         
         EmployeesRecord employee = ApplicationNavigator.listEmployeesController.getSelected();
-        delete.delete(employee.getId());
+        if(employee != null){
+            delete.delete(employee.getId());
+            ApplicationNavigator.loadTabContent(ApplicationNavigator.listEmployees, employeeContent,
+                                                ApplicationNavigator.listEmployeesController);
+        }
     }
     
     
     // Vehicle Methods
     @FXML
     private void searchVehicle(){
+        showCarBtn.setDisable(false);
+
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listVehicles, vehicleContent,
+                                            ApplicationNavigator.listCarController);
+
+        CarSearchService service = new CarSearchService();
+        Result<CarRecord> vehicles = null;
+        List<VehicleRecord> cars = FXCollections.observableArrayList();
+        String search = vehicleSearchField.getText();
+
+        // Ugly fix; customerCb returns an object and adding the toString() 
+        // method didn't work, but this does
+        Object cb = vehicleCb.getSelectionModel().getSelectedItem();
+        String column = null;
+        if (cb != null) {
+            column = cb.toString();
+        }
+
+        // Search and display result or error message
+        if (vehicleSearchField.getText().isEmpty() && column == null) {
+            vehicles = service.getAll();
+            errorSearchVehicle.setVisible(false);
+            cars = ApplicationNavigator.listCarController.getAsVehicleRecord(vehicles);
+            ApplicationNavigator.listCarController.populateTable(cars);
+        } else if (!vehicleSearchField.getText().isEmpty() && column == null) {
+            errorSearchVehicle.setVisible(true);
+            ApplicationNavigator.listCarController.populateTable(cars);
+        } else if (vehicleSearchField.getText().isEmpty() && column != null) {
+            errorSearchVehicle.setVisible(true);
+            ApplicationNavigator.listCarController.populateTable(cars);
+        } else {
+            vehicles = service.getAllWhere(column, search);
+            
+            if (vehicles == null || vehicles.isEmpty()) {
+                errorSearchVehicle.setVisible(true);
+            } else {
+                errorSearchVehicle.setVisible(false);
+
+            }
+            cars = ApplicationNavigator.listCarController.getAsVehicleRecord(vehicles);
+            ApplicationNavigator.listCarController.populateTable(cars);
+        }
         
+        vehicleCb.setValue(null);
     }
     
     @FXML
     private void displayVehicle(){
+        CarRecord car = ApplicationNavigator.listCarController.getSelected();
         
+        if(car != null){
+            showCarBtn.setDisable(true);
+            ApplicationNavigator.loadTabContent(ApplicationNavigator.vehicle,
+                                            ApplicationNavigator.controller.vehicleContent,
+                                            ApplicationNavigator.displayCarController);
+            ApplicationNavigator.displayCarController.loadCar(car);
+        }
     }
     
     @FXML
@@ -477,29 +606,87 @@ public class ApplicationController implements Initializable {
     
     @FXML
     private void deleteVehicle(){
+        CarCRUDService delete = new CarCRUDService();
         
+        CarRecord vehicle = ApplicationNavigator.listCarController.getSelected();
+        
+        if(vehicle != null){
+            delete.delete(vehicle.getId());
+            ApplicationNavigator.loadTabContent(ApplicationNavigator.listVehicles, vehicleContent,
+                                                ApplicationNavigator.listCarController);
+        }
     }
     
     
     // Malfunction methods
     @FXML
     private void searchMalfunction(){
+        editMalfunctionBtn.setDisable(false);
+
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listMalfunctions, malfunctionsContent,
+                                            ApplicationNavigator.listMalfunctionController);
+
+        MalfunctionSearchService service = new MalfunctionSearchService();
+        Result<MalfunctionReportsRecord> malfunctions = null;
+        String search = customerSearchField.getText();
+
+        // Ugly fix; customerCb returns an object and adding the toString() 
+        // method didn't work, but this does
+        Object cb = malfunctionCb.getSelectionModel().getSelectedItem();
+        String column = null;
+        if (cb != null) {
+            column = cb.toString();
+        }
+
+        // Search and display result or error message
+        if (malfunctionSearchField.getText().isEmpty() && column == null) {
+            malfunctions = service.getAll();
+            errorSearchMalfunction.setVisible(false);
+            ApplicationNavigator.listMalfunctionController.populateTable(malfunctions);
+        } else if (!malfunctionSearchField.getText().isEmpty() && column == null) {
+            errorSearchMalfunction.setVisible(true);
+            ApplicationNavigator.listMalfunctionController.populateTable(malfunctions);
+        } else if (malfunctionSearchField.getText().isEmpty() && column != null) {
+            errorSearchMalfunction.setVisible(true);
+            ApplicationNavigator.listMalfunctionController.populateTable(malfunctions);
+        } else {
+            malfunctions = service.getAllWhere(column, search);
+
+            if (malfunctions == null || malfunctions.isEmpty()) {
+                errorSearchMalfunction.setVisible(true);
+            } else {
+                errorSearchMalfunction.setVisible(false);
+
+            }
+            ApplicationNavigator.listMalfunctionController.populateTable(malfunctions);
+        }
         
+        malfunctionCb.setValue(null);
     }
     
     @FXML
-    private void displayMalfunction(){
-        
+    private void editMalfunction(){
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.editMalfunctions, malfunctionsContent,
+                                            ApplicationNavigator.editMalfunctionController);
+         ApplicationNavigator.editMalfunctionController.loadReport(ApplicationNavigator.listMalfunctionController.getSelected());
     }
     
     @FXML
     private void newMalfunction(){
-        
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.addMalfunctions, malfunctionsContent,
+                                            ApplicationNavigator.addMalfunctionController);
     }
     
     @FXML
     private void deleteMalfunction(){
+        MalfunctionCRUDService delete = new MalfunctionCRUDService();
         
+        MalfunctionReportsRecord malfunction = ApplicationNavigator.listMalfunctionController.getSelected();
+        if(malfunction != null){
+            delete.delete(malfunction.getId());
+            ApplicationNavigator.loadTabContent(ApplicationNavigator.listMalfunctions, malfunctionsContent,
+                                                ApplicationNavigator.listMalfunctionController);
+        }
     }
     
 
@@ -536,7 +723,23 @@ public class ApplicationController implements Initializable {
             default:
                 System.out.println("Oops setting the tab borked!");
         }
-
+    }
+    
+    public void cleanSlate(){
+        errorSearchAppointment.setVisible(false);
+        errorSearchBooking.setVisible(false);
+        errorSearchCustomer.setVisible(false);
+        errorSearchEmployee.setVisible(false);
+        errorSearchMalfunction.setVisible(false);
+        errorSearchVehicle.setVisible(false);
+        errorupdate.setVisible(false);
+        
+        appointmentSearchField.setText("");
+        employeeSearchField.setText("");
+        vehicleSearchField.setText("");
+        bookingSearchField.setText("");
+        customerSearchField.setText("");
+        malfunctionSearchField.setText("");
     }
 
     /**

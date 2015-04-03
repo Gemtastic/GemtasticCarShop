@@ -1,9 +1,6 @@
 package services.CRUD;
 
-import static Controller.navigators.ApplicationNavigator.customer;
-import static com.gemtastic.carshop.tables.Customer.CUSTOMER;
 import static com.gemtastic.carshop.tables.Employees.EMPLOYEES;
-import com.gemtastic.carshop.tables.records.CarRecord;
 import com.gemtastic.carshop.tables.records.EmployeesRecord;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -35,11 +32,6 @@ public class EmployeeCRUDService implements CRUDServices<EmployeesRecord>{
             r.setPassword(t.getPassword());
             r.setUsername(t.getUsername());
             r.setPhone(t.getPhone());
-            r.store();
-            
-            // Get the (possibly) auto-generated ID from the record
-            Integer id = r.getId();
-            r.setId(id);
             r.store();
             
         } catch (SQLException e) {

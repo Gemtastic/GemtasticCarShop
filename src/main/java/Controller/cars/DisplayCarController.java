@@ -1,6 +1,8 @@
 package Controller.cars;
 
+import AlternativeRecords.AppointmentAppointmentsRecord;
 import Controller.navigators.ApplicationNavigator;
+import com.gemtastic.carshop.tables.records.AppointmentsRecord;
 import com.gemtastic.carshop.tables.records.CarModelRecord;
 import com.gemtastic.carshop.tables.records.CarRecord;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
@@ -18,9 +20,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import org.jooq.Result;
+import services.AppointmentSearchService;
 import services.CRUD.MakeCRUDService;
 import services.CRUD.ModelCRUDService;
 import services.CarSearchService;
+import services.MalfunctionSearchService;
 
 /**
  *
@@ -68,29 +73,50 @@ public class DisplayCarController implements Initializable {
     @FXML
     private Button showMalfunction;
 
+    
     public void loadCar(CarRecord r) {
-
+        
         ModelCRUDService modelCRUD = new ModelCRUDService();
         MakeCRUDService makeCRUD = new MakeCRUDService();
 
         this.displayedCar = r;
-        displayedModel = modelCRUD.read(r.getCarModel());
+        displayedModel = modelCRUD.read(displayedCar.getCarModel());
         displayedMake = makeCRUD.read(displayedModel.getMake());
-
-        plates.setText(r.getLicensePlate());
-        odometer.setText(String.valueOf(r.getOdometer()));
-        fuelType.setText(displayedModel.getFuelType());
-        make.setText(displayedMake.getMake());
-        model.setText(displayedModel.getModel());
-        year.setText(String.valueOf(displayedModel.getModelYear()));
+        
+        this.plates.setText(displayedCar.getLicensePlate());
+        this.odometer.setText(String.valueOf(displayedCar.getOdometer()));
+        this.fuelType.setText(displayedModel.getFuelType());
+        this.make.setText(displayedMake.getMake());
+        this.model.setText(displayedModel.getModel());
+        this.year.setText(String.valueOf(displayedModel.getModelYear()));
 
         getOwner.setDisable(false);
 
         getOwners();
+        getMalfunctions();
     }
 
     private void getMalfunctions() {
 
+        MalfunctionSearchService malfS = new MalfunctionSearchService();
+        
+        ObservableList<String> malfInfo = FXCollections.observableArrayList();
+        Result<MalfunctionReportsRecord> results = malfS.getAllWhere("", String.valueOf(displayedCar.getId()));
+        
+        if(results.isNotEmpty()){
+            for(MalfunctionReportsRecord r : results){
+                String preview = r.getId() + ", " + r.getReportDate().toString();
+                malfunctions.put(preview, r);
+                
+                malfInfo.add(preview);
+            }
+            showMalfunction.setDisable(false);
+        }else{
+            String message = "Denna bil har ingen felanmälan.";
+            malfInfo.add(message);
+            showMalfunction.setDisable(true);
+        }
+        this.malfunctionsList.setItems(malfInfo);
     }
 
     private void getOwners() {
@@ -125,31 +151,65 @@ public class DisplayCarController implements Initializable {
 
         CustomerRecord r = null;
         Object selected = ownerList.getSelectionModel().getSelectedItem();
-        String info = selected.toString();
+        
 
-        for (String s : ownerMap.keySet()) {
-            if (s.equals(info)) {
-                r = ownerMap.get(s);
-                break;
+        if(selected != null){
+            String info = selected.toString();
+            
+            for (String s : ownerMap.keySet()) {
+                if (s.equals(info)) {
+                    r = ownerMap.get(s);
+                    break;
+                }
             }
-        }
-
-        if (r != null) {
+            if (r != null) {
             ApplicationNavigator.loadTabContent(ApplicationNavigator.customer,
                                                 ApplicationNavigator.controller.customerContent,
                                                 ApplicationNavigator.displayCustomersController);
             ApplicationNavigator.displayCustomersController.loadCustomer(r);
+            ApplicationNavigator.controller.cleanSlate();
+            ApplicationNavigator.setActiveTab(ApplicationNavigator.controller.customerTab);
+            }
         }
     }
     
     @FXML
     private void displayMalfunction(){
         
+        MalfunctionReportsRecord r = null;
+        Object selected = malfunctionsList.getSelectionModel().getSelectedItem();
+        
+        if (selected != null){
+            String info = selected.toString();
+            for(String s : malfunctions.keySet()){
+                if(s.equals(info)){
+                    r = malfunctions.get(info);
+                    break;
+                }
+            }
+        
+            if(r != null){
+                ApplicationNavigator.loadTabContent(ApplicationNavigator.listMalfunctions,
+                                                    ApplicationNavigator.controller.malfunctionsContent,
+                                                    ApplicationNavigator.listMalfunctionController);
+                ApplicationNavigator.listMalfunctionController.displayOne(r);
+                ApplicationNavigator.controller.cleanSlate();
+                ApplicationNavigator.setActiveTab(ApplicationNavigator.controller.malfunctionTab);
+            }
+        }
     }
     
     @FXML
     private void displayAppointments(){
-        
+        AppointmentSearchService service = new AppointmentSearchService();
+        Result<AppointmentsRecord> records = service.getAllWhere("carid", String.valueOf(displayedCar.getId()));
+        ApplicationNavigator.loadTabContent(ApplicationNavigator.listAppointments,
+                                                ApplicationNavigator.controller.appointmentContent,
+                                                ApplicationNavigator.listAppointmentController);
+        List<AppointmentAppointmentsRecord> app = ApplicationNavigator.listAppointmentController.getAsAppointment(records);
+        ApplicationNavigator.listAppointmentController.populateTable(app);
+        ApplicationNavigator.controller.cleanSlate();
+        ApplicationNavigator.setActiveTab(ApplicationNavigator.controller.appointmentTab);
     }
     
 

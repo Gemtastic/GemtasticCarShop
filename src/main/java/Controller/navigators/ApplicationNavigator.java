@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller.navigators;
 
 import Controller.ApplicationController;
+import Controller.appointments.EditAppointmentController;
 import Controller.malfunctions.ListMalfunctionController;
 import Controller.appointments.ListAppointmentController;
 import Controller.bookings.AddBookingController;
@@ -13,6 +9,7 @@ import Controller.bookings.ListBookingController;
 import Controller.cars.AddCarController;
 import Controller.cars.DisplayCarController;
 import Controller.cars.ListCarController;
+import Controller.cars.OwnershipController;
 import Controller.customers.AddCustomerController;
 import Controller.customers.DisplayCustomerController;
 import Controller.customers.EditCustomerController;
@@ -21,6 +18,8 @@ import Controller.employees.AddEmployeeController;
 import Controller.employees.DisplayEmployeeController;
 import Controller.employees.EditEmployeeController;
 import Controller.employees.ListEmployeesController;
+import Controller.malfunctions.AddMalfunctionReportsController;
+import Controller.malfunctions.EditMalfunctionController;
 import com.gemtastic.carshop.tables.records.CustomerRecord;
 import java.io.IOException;
 import java.net.URL;
@@ -41,6 +40,8 @@ public class ApplicationNavigator implements Initializable{
     public static String listCustomers = "/fxml/ListCustomers.fxml";
     public static String editCustomers = "/fxml/EditCustomer.fxml";
     public static String addCustomers = "/fxml/AddCustomer.fxml";
+    
+    public static String ownership = "/fxml/EditOwnership.fxml";
 
     public static String vehicle = "/fxml/DisplayVehicle.fxml";
     public static String listVehicles = "/fxml/ListVehicles.fxml";
@@ -52,19 +53,19 @@ public class ApplicationNavigator implements Initializable{
     public static String editEmployees = "/fxml/EditEmployee.fxml";
     public static String addEmployees = "/fxml/AddEmployee.fxml";
 
-    public static String malfunction = "";
+//    public static String malfunction = "";
     public static String listMalfunctions = "/fxml/ListMalfunctions.fxml";
-    public static String editMalfunctions = "";
-    public static String addMalfunctions = "";
+    public static String editMalfunctions = "/fxml/EditMalfunctionReport.fxml";
+    public static String addMalfunctions = "/fxml/AddMalfunctionReport.fxml";
 
-    public static String appointment = "";
+//    public static String appointment = "";
     public static String listAppointments = "/fxml/ListAppointments.fxml";
-    public static String editAppointments = "";
-    public static String addAppointments = "";
+    public static String editAppointments = "/fxml/EditAppointment.fxml";
+    public static String addAppointments = "/fxml/AddBooking.fxml";
 
-    public static String bookings = "";
+//    public static String bookings = "";
     public static String listBookings = "/fxml/ListBookings.fxml";
-    public static String editBookings = "";
+    public static String editBookings = "/fxml/EditAppointment.fxml";
     public static String addBookings = "/fxml/AddBooking.fxml";
 
     // Attempting to store the controllers for mediating use
@@ -72,12 +73,15 @@ public class ApplicationNavigator implements Initializable{
     public static DisplayCustomerController displayCustomersController;
     public static EditCustomerController editCustomersController;
     public static AddCustomerController addCustomersController;
+    
+    public static OwnershipController editOwnershipController;
 
     public static DisplayCarController displayCarController;
     public static ListCarController listCarController;
     public static AddCarController addCarController;
 
     public static ListAppointmentController listAppointmentController;
+    public static EditAppointmentController editAppointmentController;
 
     public static ListBookingController listBookingController;
     public static AddBookingController addBookingController;
@@ -88,6 +92,8 @@ public class ApplicationNavigator implements Initializable{
     public static EditEmployeeController editEmployeeController;
 
     public static ListMalfunctionController listMalfunctionController;
+    public static AddMalfunctionReportsController addMalfunctionController;
+    public static EditMalfunctionController editMalfunctionController;
 
     public static ApplicationController controller;
 
@@ -98,12 +104,15 @@ public class ApplicationNavigator implements Initializable{
         ApplicationNavigator.displayCustomersController = new DisplayCustomerController();
         ApplicationNavigator.editCustomersController = new EditCustomerController();
         ApplicationNavigator.addCustomersController = new AddCustomerController();
+        
+        ApplicationNavigator.editOwnershipController = new OwnershipController();
 
         ApplicationNavigator.displayCarController = new DisplayCarController();
         ApplicationNavigator.listCarController = new ListCarController();
         ApplicationNavigator.addCarController = new AddCarController();
 
         ApplicationNavigator.listAppointmentController = new ListAppointmentController();
+        ApplicationNavigator.editAppointmentController = new EditAppointmentController();
 
         ApplicationNavigator.listBookingController = new ListBookingController();
         ApplicationNavigator.addBookingController = new AddBookingController();
@@ -114,6 +123,8 @@ public class ApplicationNavigator implements Initializable{
         ApplicationNavigator.editEmployeeController = new EditEmployeeController();
 
         ApplicationNavigator.listMalfunctionController = new ListMalfunctionController();
+        ApplicationNavigator.addMalfunctionController = new AddMalfunctionReportsController();
+        ApplicationNavigator.editMalfunctionController = new EditMalfunctionController(); 
     }
 
     /**

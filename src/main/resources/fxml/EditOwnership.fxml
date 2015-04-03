@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="311.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="BOTTOM_LEFT" maxWidth="-Infinity" prefHeight="44.0" prefWidth="600.0">
+         <children>
+            <Label text="Redigera ägandeskap">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="30.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox maxWidth="-Infinity" prefHeight="242.0" prefWidth="600.0">
+         <children>
+            <VBox prefHeight="250.0" prefWidth="570.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="carOwner" text="Label" />
+                  <Label fx:id="addRemove" text="Label">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="newByName" maxWidth="-Infinity" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <ListView fx:id="listOwnersVehicles" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="125.0" prefWidth="250.0">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </ListView>
+                  <HBox prefHeight="28.0" prefWidth="570.0">
+                     <children>
+                        <Button fx:id="addBtn" mnemonicParsing="false" onAction="#add" text="Lägg till" />
+                        <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#remove" text="Ta bort">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Label fx:id="errorMsg" text="Något gick fel, kontrollera fälten!" textFill="#d30000">
+                           <HBox.margin>
+                              <Insets left="10.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" maxWidth="-Infinity" prefHeight="30.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="BackBtn" mnemonicParsing="false" onAction="#back" text="Tillbaka">
+               <HBox.margin>
+                  <Insets right="50.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>

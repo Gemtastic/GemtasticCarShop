@@ -1,7 +1,7 @@
 package services;
 
-import static com.gemtastic.carshop.tables.Address.ADDRESS;
-import com.gemtastic.carshop.tables.records.AddressRecord;
+import static com.gemtastic.carshop.tables.MalfunctionReports.MALFUNCTION_REPORTS;
+import com.gemtastic.carshop.tables.records.MalfunctionReportsRecord;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,59 +13,53 @@ import services.interfaces.SearchServices;
 
 /**
  *
- * @author Aizic Moisen
+ * @author Gemtastic
  */
-public class AddressSearchService implements SearchServices{
-    
+public class MalfunctionSearchService implements SearchServices<Result<MalfunctionReportsRecord>>{
+
     private final String dbusername = "postgres";
     private final String dbpassword = "g3mt45t1c";
     private final String url = "jdbc:postgresql:postgres";
     
-    
     @Override
-    public Result<AddressRecord> getAll() {
-        
-        Result<AddressRecord> addresses = null;
-
+    public Result<MalfunctionReportsRecord> getAll() {
+        Result<MalfunctionReportsRecord> result = null;
         try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
             DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
-            addresses = create.fetch(ADDRESS);
+            result = create.fetch(MALFUNCTION_REPORTS);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return addresses;
-        
+        return result;
     }
 
     /**
+     * This method only needs a constraint. {@code column} may be empty.
      * 
      * @param column
-     * @param searchVar
+     * @param constraint
      * @return 
      */
     @Override
-    public AddressRecord getAllWhere(String column, String searchVar) {
-        AddressRecord address = null;
+    public Result<MalfunctionReportsRecord> getAllWhere(String column, String constraint) {
+        Result<MalfunctionReportsRecord> result = null;
         
-        Integer customerId = null;
+        Integer id = null;
         
         try{
-            customerId = Integer.parseInt(searchVar);
-        }catch(NullPointerException e){}
-
+            id = Integer.parseInt(constraint);
+        }catch(NumberFormatException e){}
+        
+        if(id != null){
             try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
                 DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
-                
-                if(customerId != null){
-                    address = create.selectFrom(ADDRESS).where(ADDRESS.ID.eq(customerId)).fetchOne();
-                }
-                
+                result = create.selectFrom(MALFUNCTION_REPORTS).where(MALFUNCTION_REPORTS.CAR.eq(id)).fetch();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
-        return address;
+        }
+            
+        return result;
     }
     
 }

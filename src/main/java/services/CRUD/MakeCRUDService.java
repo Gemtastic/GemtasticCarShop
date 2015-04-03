@@ -1,7 +1,5 @@
 package services.CRUD;
 
-import static Controller.navigators.ApplicationNavigator.customer;
-import static com.gemtastic.carshop.tables.Customer.CUSTOMER;
 import static com.gemtastic.carshop.tables.Make.MAKE;
 import com.gemtastic.carshop.tables.records.MakeRecord;
 import java.sql.Connection;

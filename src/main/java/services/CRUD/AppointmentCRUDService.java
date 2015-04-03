@@ -1,7 +1,6 @@
 package services.CRUD;
 
 import static com.gemtastic.carshop.tables.Appointments.APPOINTMENTS;
-import static com.gemtastic.carshop.tables.Customer.CUSTOMER;
 import com.gemtastic.carshop.tables.records.AppointmentsRecord;
 import java.sql.Connection;
 import java.sql.DriverManager;

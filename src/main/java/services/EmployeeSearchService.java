@@ -39,35 +39,41 @@ public class EmployeeSearchService implements SearchServices<Result<EmployeesRec
     public Result<EmployeesRecord> getAllWhere(String selected, String constraint) {
         
         String column = selected.toLowerCase();
-        
+        Integer id = null;
         Result<EmployeesRecord> employee = null;
         
-        try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
-            DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
-            
-            switch(column){
-                case "anställningsnr":
-                    employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.ID.eq(Integer.parseInt(constraint))).fetch();
-                    break;
-                case "telefon":
-                    employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.PHONE.eq(constraint)).fetch();
-                    break;
-                case "epost":
-                    employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.EMAIL.eq(constraint)).fetch();
-                    break;
-                case "username":
-                    employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.USERNAME.eq(constraint)).fetch();
-                    break;
-                case "password":
-                    employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.PASSWORD.eq(constraint)).fetch();
-                    break;
-                default:
-                    System.out.println("Illegal search!");
-                    break;
+        try{
+            id = Integer.parseInt(constraint);
+        }catch(NumberFormatException e){}
+        
+            try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
+                DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
+
+                switch(column){
+                    case "anställningsnr":
+                        if(id != null){
+                            employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.ID.eq(id)).fetch();
+                        }
+                        break;
+                    case "telefon":
+                        employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.PHONE.eq(constraint)).fetch();
+                        break;
+                    case "epost":
+                        employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.EMAIL.eq(constraint)).fetch();
+                        break;
+                    case "username":
+                        employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.USERNAME.eq(constraint)).fetch();
+                        break;
+                    case "password":
+                        employee = create.selectFrom(EMPLOYEES).where(EMPLOYEES.PASSWORD.eq(constraint)).fetch();
+                        break;
+                    default:
+                        System.out.println("Illegal search!");
+                        break;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         
         return employee;
     }

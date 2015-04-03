@@ -71,7 +71,6 @@ public class AddCarController implements Initializable {
             
             makeRecord.setMake(make.getText());
             MakeRecord mr = makeCRUD.create(makeRecord);
-            System.out.println("Created make:\n" + mr); // Remove
             
             carModel.setFuelType(fuelType.getText());
             carModel.setMake(mr.getId());
@@ -85,7 +84,6 @@ public class AddCarController implements Initializable {
             }
             
             CarModelRecord cmr = modelCRUD.create(carModel);
-            System.out.println("Model:\n" + cmr);
             
             car.setCarModel(cmr.getId());
             car.setLicensePlate(plates.getText());

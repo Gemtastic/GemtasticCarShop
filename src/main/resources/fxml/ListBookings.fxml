@@ -11,7 +11,7 @@
       <TableColumn fx:id="bookingId" prefWidth="72.0" text="BokningsID" />
       <TableColumn fx:id="date" prefWidth="88.0" text="Datum" />
       <TableColumn fx:id="type" minWidth="9.0" prefWidth="70.0" text="Typ" />
-      <TableColumn fx:id="bookedCar" prefWidth="97.0" text="Fordon" />
+      <TableColumn fx:id="vehicle" prefWidth="97.0" text="Fordon" />
       <TableColumn fx:id="customer" prefWidth="97.0" text="Beställare" />
       <TableColumn fx:id="mechanic" prefWidth="97.0" text="Mekaniker" />
    </columns>

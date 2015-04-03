@@ -1,12 +1,11 @@
-package Controller.appointments;
+package services;
 
 import static com.gemtastic.carshop.tables.Appointments.APPOINTMENTS;
 import com.gemtastic.carshop.tables.records.AppointmentsRecord;
+import com.gemtastic.carshop.tables.records.CarRecord;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.SQLDialect;
@@ -22,10 +21,10 @@ public class AppointmentSearchService implements SearchServices<Result<Appointme
     private final String dbusername = "postgres";
     private final String dbpassword = "g3mt45t1c";
     private final String url = "jdbc:postgresql:postgres";
-    
+
     @Override
     public Result<AppointmentsRecord> getAll() {
-         Result<AppointmentsRecord> appointments = null;
+        Result<AppointmentsRecord> appointments = null;
 
         try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
             DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
@@ -40,24 +39,43 @@ public class AppointmentSearchService implements SearchServices<Result<Appointme
     @Override
     public Result<AppointmentsRecord> getAllWhere(String selected, String constraint) {
         Result<AppointmentsRecord> appointment = null;
+
+        CarSearchService service = new CarSearchService();
+
         String column = selected.toLowerCase();
-        int carId = Integer.parseInt(constraint);
+        Integer id = null;
+
+        try {
+            id = Integer.parseInt(constraint);
+        } catch (NumberFormatException e) {
+        }
 
         if (column != null && constraint != null) {
             try (Connection connection = DriverManager.getConnection(url, dbusername, dbpassword)) {
                 DSLContext create = DSL.using(connection, SQLDialect.POSTGRES);
-                
-                switch(column){
+
+                switch (column) {
                     case "kundnr":
-                        appointment = create.selectFrom(APPOINTMENTS).where(APPOINTMENTS.COMMISSIONER.eq(carId)).fetch();
+                        if(id != null){
+                            appointment = create.selectFrom(APPOINTMENTS).where(APPOINTMENTS.COMMISSIONER.eq(id)).fetch();
+                        }
+                        break;
+                    case "carid":
+                        if(id != null){
+                        appointment = create.selectFrom(APPOINTMENTS).where(APPOINTMENTS.CAR.eq(id)).fetch();
+                        }
                         break;
                     case "nummerplåt":
-                        appointment = create.selectFrom(APPOINTMENTS).where(APPOINTMENTS.CAR.eq(carId)).fetch();
+                        CarRecord car = service.getByPlate(constraint);
+                        if (car != null) {
+                            appointment = create.selectFrom(APPOINTMENTS).where(APPOINTMENTS.CAR.eq(car.getId())).fetch();
+                        }
                         break;
                     case "booking":
-                        LocalDate getDate = LocalDate.now();
-                        Date today = Date.valueOf(getDate);
                         appointment = create.selectFrom(APPOINTMENTS).where(APPOINTMENTS.SCHEDULED_DATE.ge(DSL.currentTimestamp())).fetch();
+                        break;
+                    case "appointment":
+                        appointment = create.selectFrom(APPOINTMENTS).where(APPOINTMENTS.PERFORMED_DATE.isNotNull()).fetch();
                         break;
                     default:
                         System.out.println("Something borked with the column!");
@@ -65,11 +83,11 @@ public class AppointmentSearchService implements SearchServices<Result<Appointme
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             System.out.println("Invalid search!");
         }
 
         return appointment;
     }
-    
+
 }
